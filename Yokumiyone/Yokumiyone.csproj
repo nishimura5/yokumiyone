@@ -12,7 +12,9 @@
     <Product>Yokumiyone</Product>
     <Authors>EigoNishimura</Authors>
     <PublishSingleFile Condition="'$(Configuration)' == 'Release'">true</PublishSingleFile>
+    <SelfContained>true</SelfContained>
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <PublishReadyToRun>true</PublishReadyToRun>
   </PropertyGroup>
 
   <ItemGroup>
@@ -34,5 +36,9 @@
       <PackagePath>\</PackagePath>
     </None>
   </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="if not exist &quot;$(OutDir)\3rd&quot; mkdir &quot;$(OutDir)\3rd&quot;&#xD;&#xA;robocopy &quot;$(ProjectDir)\3rd&quot; &quot;$(OutDir)\3rd&quot; *.exe /xo /E /COPY:DT" />
+  </Target>
 
 </Project>
