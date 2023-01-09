@@ -49,7 +49,7 @@ namespace Yokumiyone
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message, this.GetType().Name);
             }
             return ret;
         }
@@ -99,7 +99,7 @@ namespace Yokumiyone
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message, this.GetType().Name);
             }
         }
 

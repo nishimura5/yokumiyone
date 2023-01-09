@@ -72,27 +72,34 @@ namespace Yokumiyone
 
         public MainWindow()
         {
-            InitializeComponent();
-            _Bind = new Bind();
-            this.DataContext = _Bind;
-            _Bind.VideoProps = new ObservableCollection<VideoProp>();
-            _Bind.Scenes = new ObservableCollection<SceneProp>();
-            SceneStarts.Value = new DoubleCollection() { 0, 500, 1000};
-            this.progressSlider.Ticks = SceneStarts.Value;
+            try
+            {
+                InitializeComponent();
+                _Bind = new Bind();
+                this.DataContext = _Bind;
+                _Bind.VideoProps = new ObservableCollection<VideoProp>();
+                _Bind.Scenes = new ObservableCollection<SceneProp>();
+                SceneStarts.Value = new DoubleCollection() { 0, 500, 1000 };
+                this.progressSlider.Ticks = SceneStarts.Value;
 
-            skipPlayControl.SetControls(this.SkipSpans, this.SkipPlays, this.IsSkipMode);
-            cruisePlayControl.SetControls(this.IsCruiseMode, this.IsFastMode);
-            tweak.SetControls(TweakSlider, TweakRangeCombo);
+                skipPlayControl.SetControls(this.SkipSpans, this.SkipPlays, this.IsSkipMode);
+                cruisePlayControl.SetControls(this.IsCruiseMode, this.IsFastMode);
+                tweak.SetControls(TweakSlider, TweakRangeCombo);
 
-            videoList.SetProgressBar(this.loadProgressBar);
-            videoList.SetExpander(this.videoPropExpander);
+                videoList.SetProgressBar(this.loadProgressBar);
+                videoList.SetExpander(this.videoPropExpander);
 
-            targetVideo.SetControl(
-                progressSlider,
-                playPauseButton,
-                progressButton,
-                skipPlayControl,
-                cruisePlayControl);
+                targetVideo.SetControl(
+                    progressSlider,
+                    playPauseButton,
+                    progressButton,
+                    skipPlayControl,
+                    cruisePlayControl);
+            }
+            catch(Exception ex)
+            {
+                System.Windows.MessageBox.Show(ex.Message, this.GetType().Name);
+            }
         }
 
         private async void LoadButton_Click(object sender, RoutedEventArgs e) {
