@@ -1,0 +1,265 @@
+﻿<mah:MetroWindow x:Class="Yokumiyone.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+        Title="Yokumiyone"
+        Width="1280" Height="600">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="600"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0">
+                <DockPanel>
+                    <MediaElement x:Name="movieWindowMediaElement"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Top"
+                              MinHeight="400"
+                              Stretch="Uniform"
+                              Source=""
+                              UnloadedBehavior="Manual"
+                              LoadedBehavior="Manual"
+                              ScrubbingEnabled="True"
+                              MediaOpened="MovieOpened"
+                              PreviewMouseWheel="Movie_PreviewMouseWheel"
+                />
+                </DockPanel>
+                <Grid Margin="4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Slider Name="progressSlider" Grid.Column="1" Margin="4,10" HorizontalAlignment="Stretch" TickPlacement="TopLeft" Ticks="{Binding SceneStarts.Value}" />
+                    <Button Grid.Column="2" Name="progressButton" Width="120" Content="" Margin="4" Padding="1" Click="ProgressButton_Click" Cursor="Hand" />
+                </Grid>
+                <Grid Margin="4">
+                    <materialDesign:PackIcon Kind="Tortoise" Margin="4,0" />
+                    <Slider Name="TweakSlider" Margin="4,10" HorizontalAlignment="Stretch" PreviewMouseDown="Tweak_MouseDown" ValueChanged="Tweak_ValueChanged" PreviewMouseUp="Tweak_MouseUp" />
+                </Grid>
+            </StackPanel>
+        </Grid>
+
+        <StackPanel Orientation="Vertical" Grid.Column="1">
+            <Button Style="{StaticResource MaterialDesignFlatButton}" Content="{materialDesign:PackIcon Kind=Folder}" Click="LoadButton_Click" Cursor="Hand"/>
+            <ProgressBar VerticalAlignment="Center" Margin="5" Height="10" IsIndeterminate="True" x:Name="loadProgressBar" Visibility="Hidden"/>
+            <StackPanel>
+                <Expander Name="videoPropExpander" Header="{materialDesign:PackIcon Kind=PlaylistPlay}" IsEnabled="True">
+                    <DataGrid Name="videoPropDataGrid"
+                              ItemsSource="{Binding VideoProps}"
+                              SelectedItem="" 
+                              AutoGenerateColumns="False"
+                              CanUserAddRows="False"
+                              MaxHeight="250">
+                        <DataGrid.ColumnHeaderStyle>
+                            <Style TargetType="{x:Type DataGridColumnHeader}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
+                                            <TextBlock x:Name="ContentHeader" Text="{TemplateBinding Content}" Padding="5" Width="{TemplateBinding Width}" TextAlignment="Center" />
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </DataGrid.ColumnHeaderStyle>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="状態" IsReadOnly="True" Binding="{Binding VideoStatus.Value}" Width="60"/>
+                            <DataGridTextColumn Header="ファイル名" IsReadOnly="True" Binding="{Binding FileName}" Width="*"/>
+                            <DataGridTextColumn Header="fps" IsReadOnly="True" Binding="{Binding FpsFormat}" Width="60"/>
+                            <DataGridTextColumn Header="時間" IsReadOnly="True" Binding="{Binding DurationStr}" Width="70"/>
+                            <DataGridTextColumn Header="解像度" IsReadOnly="True" Binding="{Binding WidthHeight}" Width="100"/>
+                            <DataGridTextColumn Header="シーン数" IsReadOnly="True" Binding="{Binding NumOfScene.Value}" Width="80"/>
+                        </DataGrid.Columns>
+                        <DataGrid.Resources>
+                            <Style TargetType="{x:Type DataGridRow}">
+                                <EventSetter Event="MouseLeftButtonUp" Handler="VideoItem_Click"/>
+                                <EventSetter Event="PreviewMouseDown" Handler="VideoItem_Unselected" />
+                                <Setter Property="IsEnabled" Value="True"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsEnabled.Value}" Value="False">
+                                        <Setter Property="IsEnabled" Value="False"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                            <Style TargetType="{x:Type DataGridCell}">
+                                <Setter Property="Padding" Value="3"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                            <Border Padding="{TemplateBinding Padding}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                                                <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#c7890f"/>
+                        </DataGrid.Resources>
+                    </DataGrid>
+                </Expander>
+            </StackPanel>
+            <DockPanel Margin="4,6,4,4" >
+                <Button Style="{StaticResource MaterialDesignFlatButton}" Name="playPauseButton" Content="{materialDesign:PackIcon Kind=PlayPause}" Width="40" HorizontalContentAlignment="Center" Click="PlayPauseButton_Click" Margin="4" Padding="1" Cursor="Hand" Foreground="#c7890f"/>
+                <ToggleButton Name="IsFastMode"
+                              Width="34" Height="34" Margin="4" HorizontalAlignment="Left"
+                              IsChecked="False" Cursor="Hand">
+                    <ToggleButton.Style>
+                        <Style TargetType="ToggleButton" BasedOn="{StaticResource MahApps.Styles.ToggleButton.Circle}">
+                            <Style.Triggers>
+                                <Trigger Property="IsChecked" Value="True">
+                                    <Setter Property="Content">
+                                        <Setter.Value>
+                                            <materialDesign:PackIcon Kind="FastForward" Foreground="WhiteSmoke"/>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+                                <Trigger Property="IsChecked" Value="False">
+                                    <Setter Property="Background" Value="#252525" />
+                                    <Setter Property="Content">
+                                        <Setter.Value>
+                                            <materialDesign:PackIcon Kind="FastForward" Foreground="WhiteSmoke"/>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Setter Property="BorderThickness" Value="1"/>
+                                    <Setter Property="BorderBrush" Value="White"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ToggleButton.Style>
+                </ToggleButton>
+                <ToggleButton Name="IsCruiseMode"
+                              Width="34" Height="34" Margin="4" HorizontalAlignment="Left"
+                              IsChecked="False" Cursor="Hand">
+                    <ToggleButton.Style>
+                        <Style TargetType="ToggleButton" BasedOn="{StaticResource MahApps.Styles.ToggleButton.Circle}">
+                            <Style.Triggers>
+                                <Trigger Property="IsChecked" Value="True">
+                                    <Setter Property="Content">
+                                        <Setter.Value>
+                                            <materialDesign:PackIcon Kind="Bird" Foreground="WhiteSmoke"/>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+                                <Trigger Property="IsChecked" Value="False">
+                                    <Setter Property="Background" Value="#252525" />
+                                    <Setter Property="Content">
+                                        <Setter.Value>
+                                            <materialDesign:PackIcon Kind="Bird" Foreground="WhiteSmoke"/>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Setter Property="BorderThickness" Value="1"/>
+                                    <Setter Property="BorderBrush" Value="White"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ToggleButton.Style>
+                </ToggleButton>
+                <ToggleButton Name="IsSkipMode"
+                              Width="34" Height="34" Margin="15,4,4,4"
+                              IsChecked="False" Cursor="Hand" >
+                    <ToggleButton.Style>
+
+                        <Style TargetType="ToggleButton" BasedOn="{StaticResource MahApps.Styles.ToggleButton.Circle}">
+                            <Style.Triggers>
+                                <Trigger Property="IsChecked" Value="True">
+                                    <Setter Property="Content">
+                                        <Setter.Value>
+                                            <materialDesign:PackIcon Kind="Rabbit" Foreground="WhiteSmoke"/>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+                                <Trigger Property="IsChecked" Value="False">
+                                    <Setter Property="Background" Value="#252525" />
+                                    <Setter Property="Content">
+                                        <Setter.Value>
+                                            <materialDesign:PackIcon Kind="Rabbit" Foreground="WhiteSmoke"/>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Setter Property="BorderThickness" Value="1"/>
+                                    <Setter Property="BorderBrush" Value="White"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ToggleButton.Style>
+                </ToggleButton>
+
+                <ComboBox Name="SkipSpans"
+                          materialDesign:HintAssist.Hint="{materialDesign:PackIcon Kind=Redo}"
+                          Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                          Margin="4" Padding="8,10,10,6" Width="70" Height="34"
+                          DisplayMemberPath="Name"/>
+                <ComboBox Name="SkipPlays"
+                          materialDesign:HintAssist.Hint="{materialDesign:PackIcon Kind=Play}"
+                          Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                          Margin="4" Padding="8,10,10,6" Width="70" Height="34"
+                          DisplayMemberPath="Name"/>
+                <ComboBox Name="TweakRangeCombo"
+                          materialDesign:HintAssist.Hint="{materialDesign:PackIcon Kind=Tortoise}"
+                          Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                          Margin="4" Padding="8,10,10,6" Width="70" Height="34" HorizontalAlignment="Right"
+                          DisplayMemberPath="Name"/>
+            </DockPanel>
+            <StackPanel>
+                <DataGrid Name="sceneGrid" 
+                      ItemsSource="{Binding Scenes}" 
+                      SelectedItem="" 
+                      AutoGenerateColumns="False"
+                      CanUserAddRows="False">
+                    <DataGrid.ColumnHeaderStyle>
+                        <Style TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
+                                        <TextBlock x:Name="ContentHeader" Text="{TemplateBinding Content}" Padding="5" Width="{TemplateBinding Width}" TextAlignment="Center" />
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </DataGrid.ColumnHeaderStyle>
+                    <DataGrid.Columns>
+                        <materialDesign:DataGridTextColumn IsReadOnly="True" Header="開始時刻" Binding="{Binding StartTimeStr}" Width="90"/>
+                        <DataGridTextColumn IsReadOnly="True" Header="終了時刻" Binding="{Binding EndTimeStr}" Width="90"/>
+                        <DataGridTextColumn IsReadOnly="True" Header="時間" Binding="{Binding SceneDuration}" Width="90"/>
+                        <DataGridTextColumn Header="タイトル" Binding="{Binding TitleView}" Width="*"/>
+                    </DataGrid.Columns>
+                    <DataGrid.Resources>
+                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#c7890f"/>
+                        <Style TargetType="{x:Type DataGridRow}">
+                            <EventSetter Event="MouseLeftButtonUp" Handler="SelectChapter_Click"/>
+                        </Style>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Setter Property="Padding" Value="3"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                        <Border Padding="{TemplateBinding Padding}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                                            <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </DataGrid.Resources>
+                    <DataGrid.ContextMenu>
+                        <ContextMenu IsVisibleChanged="SceneMenu_Opening">
+                            <MenuItem Name="editSceneTitle" Header="タイトルを編集" Click="EditSceneTitle_Click" />
+                            <MenuItem Name="removeScene" Header="削除" Click="RemoveScene_Click" />
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
+                </DataGrid>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</mah:MetroWindow>
