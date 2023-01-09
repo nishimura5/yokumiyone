@@ -55,6 +55,7 @@ namespace Yokumiyone
         internal Bind _Bind;
         #endregion
 
+        private string targetFolderPath = "";
         private string targetVideoPath = "";
         private TargetVideo targetVideo = new TargetVideo();
         private TweakSliderManager tweak = new TweakSliderManager();
@@ -103,26 +104,37 @@ namespace Yokumiyone
         }
 
         private async void LoadButton_Click(object sender, RoutedEventArgs e) {
-            string targetFolderPath = "C:/";
-            var dialog = new CommonOpenFileDialog()
+            try
             {
-                Title = "フォルダを選択してください",
-                IsFolderPicker = true,
-                InitialDirectory=@"E:/",
-            };
-            // ダイアログを表示
-            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
-            {
-                if (Directory.Exists(dialog.FileName) == true)
+                if (targetFolderPath == "")
                 {
-                    targetFolderPath = dialog.FileName;
-                }
-            }
+                    targetFolderPath = System.Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
 
-            _Bind.VideoProps.Clear();
-            await videoList.Load(targetFolderPath);
-            _Bind.VideoProps = videoList.VideoProps;
-            videoList.OpenExpander();
+                }
+                var dialog = new CommonOpenFileDialog()
+                {
+                    Title = "フォルダを選択してください",
+                    IsFolderPicker = true,
+                    InitialDirectory = System.Environment.GetFolderPath(Environment.SpecialFolder.MyVideos),
+                };
+                // ダイアログを表示
+                if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+                {
+                    if (Directory.Exists(dialog.FileName) == true)
+                    {
+                        targetFolderPath = dialog.FileName;
+                    }
+                }
+
+                _Bind.VideoProps.Clear();
+                await videoList.Load(targetFolderPath);
+                _Bind.VideoProps = videoList.VideoProps;
+                videoList.OpenExpander();
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show(ex.Message, this.GetType().Name);
+            }
         }
 
         private void VideoItem_Click(object sender, MouseButtonEventArgs e)
