@@ -29,9 +29,9 @@ SolidCompression=yes
 WizardStyle=modern
 ArchitecturesInstallIn64BitMode=x64
 ArchitecturesAllowed=x64
-SourceDir=Yokumiyone\bin\Release\net6.0-windows\win-x64\publish
+SourceDir=.
 VersionInfoVersion={#MyAppVersion}
-OutputDir=userdocs:Output
+SetupIconFile=Yokumiyone/icon.ico
 
 [Languages]
 ;Name: "english"; MessagesFile: "compiler:Default.isl"
@@ -41,7 +41,7 @@ Name: "japanese"; MessagesFile: "compiler:Languages\Japanese.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}";
 
 [Files]
-Source: "*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "Yokumiyone\bin\Release\net6.0-windows\win-x64\publish\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Icons]
 Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppName}"
