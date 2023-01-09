@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -17,11 +18,17 @@ namespace Yokumiyone
     public partial class TitleEditDialog : Window
     {
         private SceneTitles ctrl = new SceneTitles();
-        public string SceneTitle { get { return ctrl.Title; } }
+
+        private string sceneTitle;
+        public string SceneTitle {
+            get { return sceneTitle; }
+            set { sceneTitle = value; }
+        }
 
         public TitleEditDialog(Window owner, string title)
         {
             InitializeComponent();
+            this.DataContext = this;
             this.SizeToContent = SizeToContent.Height;
 
             this.Owner = owner;
@@ -37,6 +44,7 @@ namespace Yokumiyone
         private void SceneTitle_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
             ctrl.Title = ctrl.SceneTitleSelected;
+            sceneTitle = ctrl.Title;
         }
 
         private void titleOk_Click(object sender, RoutedEventArgs e)

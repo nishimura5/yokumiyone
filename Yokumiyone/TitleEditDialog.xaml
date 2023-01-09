@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Validation"
         mc:Ignorable="d"
         FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
@@ -20,7 +21,15 @@
             <TextBox Name="titleText"
                      Margin="4,8"
                      Style="{StaticResource MaterialDesignTextBox}"
-                     Foreground="White"/>
+                     Foreground="White">
+                <TextBox.Text>
+                    <Binding Path="SceneTitle" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <local:SceneNameValidationRule ValidatesOnTargetUpdated="True" />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
             <DockPanel>
                 <Button Name="titleCancel" HorizontalAlignment="Right" 
         			VerticalAlignment="Center" Margin="4,8" Width="100"
