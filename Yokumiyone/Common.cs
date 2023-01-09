@@ -9,6 +9,18 @@ using System.Windows;
 
 namespace Common
 {
+    public static class YokumiyoneFolder
+    {
+        public static void CreateLocalFolder()
+        {
+            string localFolderPath = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.LocalApplicationData), "Yokumiyone");
+            if (Directory.Exists(localFolderPath) == false)
+            {
+                Directory.CreateDirectory(localFolderPath);
+            }
+        }
+
+    }
     public static class CopyHelper
     {
         /// <summary>
@@ -27,6 +39,7 @@ namespace Common
         {
             get
             {
+                YokumiyoneFolder.CreateLocalFolder();
                 return System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.LocalApplicationData), "Yokumiyone", "yokumiyone.sqlite3");
             }
         }
