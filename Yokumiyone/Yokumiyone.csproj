@@ -11,7 +11,7 @@
     <Title>Yokumiyone</Title>
     <Product>Yokumiyone</Product>
     <Authors>EigoNishimura</Authors>
-    <PublishSingleFile>true</PublishSingleFile>
+    <PublishSingleFile Condition="'$(Configuration)' == 'Release'">true</PublishSingleFile>
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
   </PropertyGroup>
 
