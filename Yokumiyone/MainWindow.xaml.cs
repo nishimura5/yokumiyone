@@ -109,7 +109,6 @@ namespace Yokumiyone
                 if (targetFolderPath == "")
                 {
                     targetFolderPath = System.Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
-
                 }
                 var dialog = new CommonOpenFileDialog()
                 {
@@ -157,7 +156,7 @@ namespace Yokumiyone
             movieWindowMediaElement.Source = new System.Uri(targetVideoPath, UriKind.Absolute);
             targetVideo.SetMediaElement(movieWindowMediaElement);
 
-            // metadataを動画ファイルから読み込み
+            // metadataをxmpファイルから読み込み
             metadata.LoadMetaDataFile(targetVideoPath);
             foreach(var chapter in metadata.ScenePropOc)
             {

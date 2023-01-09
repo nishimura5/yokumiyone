@@ -104,7 +104,7 @@ namespace Yokumiyone
                 }
                 else if (msg.StartsWith("Warning") == true)
                 {
-                    MessageBox.Show(msg);
+                    MessageBox.Show(msg, this.GetType().Name);
                 }
             }
 
