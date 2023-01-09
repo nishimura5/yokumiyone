@@ -8,9 +8,11 @@
     <ApplicationIcon>icon.ico</ApplicationIcon>
     <PackageIcon>icon128.png</PackageIcon>
     <PackageId>a5.Yokumiyoone</PackageId>
-    <Title>Yokumiyoone</Title>
-    <Product>Yokumiyoone</Product>
+    <Title>Yokumiyone</Title>
+    <Product>Yokumiyone</Product>
     <Authors>EigoNishimura</Authors>
+    <PublishSingleFile>true</PublishSingleFile>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,11 +21,11 @@
 
   <ItemGroup>
     <PackageReference Include="MahApps.Metro" Version="2.4.9" />
-    <PackageReference Include="MaterialDesignThemes.MahApps" Version="0.2.5" />
+    <PackageReference Include="MaterialDesignThemes.MahApps" Version="0.2.6" />
     <PackageReference Include="Microsoft-WindowsAPICodePack-Shell" Version="1.1.4" />
     <PackageReference Include="ReactiveProperty" Version="8.2.0" />
     <PackageReference Include="ReactiveProperty.WPF" Version="8.2.0" />
-    <PackageReference Include="Stub.System.Data.SQLite.Core.NetFramework" Version="1.0.117" />
+    <PackageReference Include="Stub.System.Data.SQLite.Core.NetStandard" Version="1.0.117" />
   </ItemGroup>
 
   <ItemGroup>
