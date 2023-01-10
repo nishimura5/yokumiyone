@@ -15,7 +15,7 @@ using ControlzEx.Standard;
 namespace Yokumiyone
 {
     [Serializable]
-    class SceneProp
+    public class SceneProp
     {
         private TimeSpan startTime;
         private TimeSpan endTime;

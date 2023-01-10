@@ -318,11 +318,13 @@ namespace Yokumiyone
             if(selectedRow == null)
             {
                 editSceneTitle.IsEnabled = false;
+                sceneOutput.IsEnabled = false;
                 removeScene.IsEnabled = false;
             }
             else
             {
                 editSceneTitle.IsEnabled = true;
+                sceneOutput.IsEnabled = true;
                 removeScene.IsEnabled = true;
             }
         }
@@ -336,6 +338,14 @@ namespace Yokumiyone
                 selectedRow.Title = titleEditDialog.SceneTitle;
             }
             _Bind.Scenes = new ObservableCollection<SceneProp>(_Bind.Scenes.OrderBy(n => n.StartTime));
+        }
+
+        private void SceneOutput_Click(object sender, RoutedEventArgs e)
+        {
+            SceneProp selectedRow = (SceneProp)this.sceneGrid.SelectedItem;
+            SceneOutputDialog sceneOutputDialog = new SceneOutputDialog(this, selectedRow);
+            var res = sceneOutputDialog.ShowDialog();
+
         }
         private void RemoveScene_Click(object sender, RoutedEventArgs e)
         {
