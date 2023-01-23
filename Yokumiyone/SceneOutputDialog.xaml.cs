@@ -19,13 +19,20 @@ namespace Yokumiyone
     /// </summary>
     public partial class SceneOutputDialog : Window
     {
-        private SceneProp sceneProp = new SceneProp();
+        private SceneProp scene = new SceneProp();
+        private string srcVideoPath;
+
         public SceneOutputDialog(Window owner, SceneProp scene, string srcVideoPath)
         {
             InitializeComponent();
+            this.srcVideoPath = srcVideoPath;
+            this.scene = scene;
         }
         private void ExecOutput_Click(object sender, RoutedEventArgs e)
         {
+            var ffmpeg = new Ffmpeg(srcVideoPath);
+            ffmpeg.ExportPng(scene.StartTimeStr, scene.EndTimeStr);
+
             return;
         }
     }
