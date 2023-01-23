@@ -20,9 +20,13 @@ namespace Yokumiyone
     public partial class SceneOutputDialog : Window
     {
         private SceneProp sceneProp = new SceneProp();
-        public SceneOutputDialog(Window owner, SceneProp scene)
+        public SceneOutputDialog(Window owner, SceneProp scene, string srcVideoPath)
         {
             InitializeComponent();
+        }
+        private void ExecOutput_Click(object sender, RoutedEventArgs e)
+        {
+            return;
         }
     }
 }

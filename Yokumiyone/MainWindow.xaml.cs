@@ -343,7 +343,7 @@ namespace Yokumiyone
         private void SceneOutput_Click(object sender, RoutedEventArgs e)
         {
             SceneProp selectedRow = (SceneProp)this.sceneGrid.SelectedItem;
-            SceneOutputDialog sceneOutputDialog = new SceneOutputDialog(this, selectedRow);
+            SceneOutputDialog sceneOutputDialog = new SceneOutputDialog(this, selectedRow, targetVideoPath);
             var res = sceneOutputDialog.ShowDialog();
 
         }

@@ -5,8 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Yokumiyone"
         mc:Ignorable="d"
-        Title="SceneOutputDialog" Height="450" Width="800">
+        Title="SceneOutputDialog" Width="800">
     <Grid>
-        
+        <StackPanel Margin="10,4">
+            <Button Name="ExecOutput" HorizontalAlignment="Right" 
+        			VerticalAlignment="Center" Margin="4,8" Width="100"
+                    Click="ExecOutput_Click" Cursor="Hand"
+                    >
+                出力
+            </Button>
+        </StackPanel>
     </Grid>
 </Window>
