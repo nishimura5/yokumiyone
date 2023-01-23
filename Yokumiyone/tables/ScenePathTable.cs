@@ -5,7 +5,7 @@ using System.Linq;
 using System.Windows;
 using Common;
 
-namespace Yokumiyone
+namespace Yokumiyone.tables
 {
     internal class ScenePathTable
     {
@@ -15,7 +15,7 @@ namespace Yokumiyone
         public ScenePathTable()
         {
             db.CreateDb();
-            this.path = "";
+            path = "";
         }
         public ScenePathTable(string path)
         {
@@ -49,7 +49,7 @@ namespace Yokumiyone
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, this.GetType().Name);
+                MessageBox.Show(ex.Message, GetType().Name);
             }
             return ret;
         }
@@ -99,7 +99,7 @@ namespace Yokumiyone
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, this.GetType().Name);
+                MessageBox.Show(ex.Message, GetType().Name);
             }
         }
 

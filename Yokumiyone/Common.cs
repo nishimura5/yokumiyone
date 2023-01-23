@@ -5,6 +5,7 @@ using System.Drawing;
 using System.IO;
 using System.Runtime.Intrinsics.Arm;
 using System.Windows;
+using static System.Net.Mime.MediaTypeNames;
 
 
 namespace Common
@@ -70,8 +71,9 @@ namespace Common
             if (System.IO.File.Exists(dbPath) == false)
             {
                 List<SQLiteParameter> sql_params = new List<SQLiteParameter>();
-                ExecNonQuery("CREATE TABLE \"scene_path\" (\r\n\t\"scene\"\tTEXT,\r\n\t\"path\"\tTEXT,\r\n\t\"status\"\tINTEGER DEFAULT 1,\r\n\tPRIMARY KEY(\"scene\",\"path\")\r\n)", sql_params);
-                ExecNonQuery("CREATE TABLE \"video_prop\" (\r\n\t\"path\"\tTEXT,\r\n\t\"fps\"\tTEXT,\r\n\t\"duration\"\tTEXT,\r\n\t\"width\"\tINTEGER,\r\n\t\"height\"\tINTEGER,\r\n\t\"scene_cnt\"\tTEXT,\r\n\tPRIMARY KEY(\"path\")\r\n)", sql_params);
+                ExecNonQuery("CREATE TABLE \"scene_path\" (\"scene\" TEXT, \"path\" TEXT, \"status\" INTEGER DEFAULT 1, PRIMARY KEY(\"scene\",\"path\"))", sql_params);
+                ExecNonQuery("CREATE TABLE \"video_prop\" (\"path\" TEXT, \"fps\" TEXT, \"duration\" TEXT, \"width\" INTEGER, \"height\"\tINTEGER, \"scene_cnt\" TEXT, PRIMARY KEY(\"path\"))", sql_params);
+                ExecNonQuery("CREATE TABLE \"preferences\" (\"key\" TEXT, \"value\" TEXT, PRIMARY KEY(\"key\"))", sql_params);
             }
         }
     }

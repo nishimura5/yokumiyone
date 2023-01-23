@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Windows;
 
-namespace Yokumiyone
+namespace Yokumiyone.tables
 {
     internal class VideoPropTable
     {
@@ -51,7 +51,7 @@ namespace Yokumiyone
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, this.GetType().Name);
+                MessageBox.Show(ex.Message, GetType().Name);
             }
             return ret;
         }
