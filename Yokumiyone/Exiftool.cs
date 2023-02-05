@@ -117,7 +117,7 @@ namespace Yokumiyone
          public void LoadMetaDataFile() {
             if (File.Exists(xmp.xmpPath) == false)
             {
-                return;
+                xmp.CreateBlankXmp();
             }
             // AppdataLocalに保存されているxmpファイルを読み込んでParse
             XElement xmpElem = XElement.Load(xmp.xmpPath);
