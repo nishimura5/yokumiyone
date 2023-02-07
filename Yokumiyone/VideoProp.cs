@@ -20,6 +20,7 @@ namespace Yokumiyone
         public string WidthHeight { get; }
         public string DurationStr { get; }
         public TimeSpan Duration { get; }
+        public DateTime ModifiedDatetime { get; }
         public string AvgBitrate { get; }
 
         private ReactivePropertySlim<string> numOfScene = new ReactivePropertySlim<string>("");
@@ -57,9 +58,10 @@ namespace Yokumiyone
             NumOfScene.Value = exiftool.CountNumOfScene().ToString();
             isEnabled.Value = true;
             Duration = StringToTimeSpan(DurationStr);
+            ModifiedDatetime = File.GetLastWriteTime(targetFilePath);
         }
 
-        public VideoProp(string filePath, string fpsFormat, string durationStr, int width, int height, string scene_cnt)
+        public VideoProp(string filePath, string fpsFormat, string durationStr, int width, int height, DateTime modified, string scene_cnt)
         {
             FilePath = filePath;
             FileName = Path.GetFileNameWithoutExtension(filePath);
@@ -68,6 +70,7 @@ namespace Yokumiyone
             Height = height;
             WidthHeight = $"{width}x{height}";
             DurationStr = durationStr;
+            ModifiedDatetime = modified;
             NumOfScene.Value = scene_cnt.ToString();
             isEnabled.Value = true;
             Duration = StringToTimeSpan(DurationStr);

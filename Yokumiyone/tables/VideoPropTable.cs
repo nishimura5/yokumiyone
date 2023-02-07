@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Windows;
+using System.IO;
 
 namespace Yokumiyone.tables
 {
@@ -41,10 +42,10 @@ namespace Yokumiyone.tables
                         // 1行ずつデータを取得
                         while (reader.Read())
                         {
-                            var w = reader["width"];
                             int width = Convert.ToInt32((long)reader["width"]);
                             int height = Convert.ToInt32(reader["height"]);
-                            ret.Add(new VideoProp(reader["path"].ToString(), reader["fps"].ToString(), reader["duration"].ToString(), width, height, reader["scene_cnt"].ToString()));
+                            DateTime modified = DateTime.Parse((reader["modified"] == null) ? "2000/1/1 0:0:0" : reader["modified"].ToString());
+                            ret.Add(new VideoProp(reader["path"].ToString(), reader["fps"].ToString(), reader["duration"].ToString(), width, height, modified, reader["scene_cnt"].ToString()));
                         }
                     }
                 }
@@ -64,10 +65,11 @@ namespace Yokumiyone.tables
                 new SQLiteParameter("@duration", prop.DurationStr),
                 new SQLiteParameter("@width", Convert.ToInt64(prop.Width)),
                 new SQLiteParameter("@height", Convert.ToInt64(prop.Height)),
+                new SQLiteParameter("@modified", prop.ModifiedDatetime.ToString()),
                 new SQLiteParameter("@scene_cnt", prop.NumOfScene)
             };
 
-            db.ExecNonQuery($"INSERT INTO video_prop (path, fps, duration, width, height, scene_cnt) VALUES (@path, @fps, @duration, @width, @height, @scene_cnt)", sql_params);
+            db.ExecNonQuery($"INSERT INTO video_prop (path, fps, duration, width, height, modified, scene_cnt) VALUES (@path, @fps, @duration, @width, @height, @modified, @scene_cnt)", sql_params);
         }
         public void Delete(string filePath)
         {
@@ -91,11 +93,13 @@ namespace Yokumiyone.tables
 
         public void UpdateSceneCnt(string filePath, string newCnt)
         {
+            DateTime writeTime = File.GetLastWriteTime(filePath);
             List<SQLiteParameter> sql_params = new List<SQLiteParameter>() {
                 new SQLiteParameter("@path", filePath),
+                new SQLiteParameter("@modified", writeTime),
                 new SQLiteParameter("@scene_cnt", newCnt)
             };
-            db.ExecNonQuery($"UPDATE video_prop SET scene_cnt = @scene_cnt WHERE path = @path", sql_params);
+            db.ExecNonQuery($"UPDATE video_prop SET scene_cnt = @scene_cnt, modified = @modified WHERE path = @path", sql_params);
         }
     }
 }

@@ -183,11 +183,6 @@ namespace Yokumiyone
             int NumOfScene = _Bind.Scenes.Count();
             selectedRow.SetNumOfScene(NumOfScene);
 
-            // DB更新用データ
-            targetVideoPath = selectedRow.FilePath;
-            VideoPropTable videoPropDb = new VideoPropTable();
-            videoPropDb.UpdateSceneCnt(targetVideoPath, NumOfScene.ToString());
-
             List<string> sceneList = new List<string>();
             foreach (var chapter in _Bind.Scenes)
             {
@@ -200,6 +195,11 @@ namespace Yokumiyone
             selectedRow.SetState("updating");
             await metadata.UpdateMetaData(_Bind.Scenes);
             selectedRow.SetState("unselected");
+
+            // DB更新
+            targetVideoPath = selectedRow.FilePath;
+            VideoPropTable videoPropDb = new VideoPropTable();
+            videoPropDb.UpdateSceneCnt(targetVideoPath, NumOfScene.ToString());
         }
 
         private void PlayPauseButton_Click(object sender, RoutedEventArgs e)

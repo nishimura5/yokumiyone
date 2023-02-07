@@ -55,14 +55,25 @@ namespace Yokumiyone
                 ScenePathTable scenePathDb = new ScenePathTable();
                 videoPropDb.SelectFolder(targetFolderPath);
 
-                // DBにあって実際にはないデータをDELETE
                 List<VideoProp> videoPropsDbPre = new List<VideoProp>(videoPropDb.VideoPropList);
                 foreach (VideoProp prop in videoPropsDbPre)
                 {
+                    // DBにあって実際にはないデータをDELETE
                     if (fileList.Contains(prop.FilePath) == false)
                     {
                         videoPropDb.Delete(prop.FilePath);
                         scenePathDb.DeletePath(prop.FilePath);
+                    }
+                    else
+                    {
+                        // 更新日が変わっている(外部で変更された可能性のある)データをDELETE
+                        DateTime writeTimeFile = File.GetLastWriteTime(prop.FilePath);
+                        DateTime writeTimeDb = prop.ModifiedDatetime;
+                        if (Math.Abs((writeTimeFile - writeTimeDb).TotalSeconds) > 1)
+                        {
+                            videoPropDb.Delete(prop.FilePath);
+                            scenePathDb.DeletePath(prop.FilePath);
+                        }
                     }
                 }
 
