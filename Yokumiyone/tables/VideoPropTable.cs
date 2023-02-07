@@ -77,6 +77,7 @@ namespace Yokumiyone.tables
                 new SQLiteParameter("@path", filePath)
             };
             db.ExecNonQuery($"DELETE FROM video_prop WHERE path = @path", sql_params);
+            videoPathList.Remove(filePath);
         }
 
         public void SelectFolder(string folderPath)

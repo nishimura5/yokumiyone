@@ -119,5 +119,9 @@ namespace Yokumiyone
             this.expander.IsExpanded = true;
         }
 
+        public void CloseExpander()
+        {
+            this.expander.IsExpanded = false;
+        }
     }
 }

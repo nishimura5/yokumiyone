@@ -115,7 +115,7 @@ namespace Yokumiyone
                 {
                     Title = "フォルダを選択してください",
                     IsFolderPicker = true,
-                    InitialDirectory = System.Environment.GetFolderPath(Environment.SpecialFolder.MyVideos),
+                    InitialDirectory = targetFolderPath,
                 };
                 // ダイアログを表示
                 if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
@@ -126,6 +126,7 @@ namespace Yokumiyone
                     }
                 }
 
+                videoList.CloseExpander();
                 _Bind.VideoProps.Clear();
                 await videoList.Load(targetFolderPath);
                 _Bind.VideoProps = videoList.VideoProps;
