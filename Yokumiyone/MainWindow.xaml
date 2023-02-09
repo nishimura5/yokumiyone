@@ -47,13 +47,13 @@
                 </Grid>
                 <Grid Margin="4">
                     <materialDesign:PackIcon Kind="Tortoise" Margin="4,0" />
-                    <Slider Name="TweakSlider" Margin="4,10" HorizontalAlignment="Stretch" PreviewMouseDown="Tweak_MouseDown" ValueChanged="Tweak_ValueChanged" PreviewMouseUp="Tweak_MouseUp" />
+                    <Slider Name="tweakSlider" Margin="4,10" HorizontalAlignment="Stretch" PreviewMouseDown="Tweak_MouseDown" ValueChanged="Tweak_ValueChanged" PreviewMouseUp="Tweak_MouseUp" />
                 </Grid>
             </StackPanel>
         </Grid>
 
         <StackPanel Orientation="Vertical" Grid.Column="1">
-            <Button Style="{StaticResource MaterialDesignFlatButton}" Content="{materialDesign:PackIcon Kind=Folder}" Click="LoadButton_Click" Cursor="Hand"/>
+            <Button Name="folderLoadButton"  Style="{StaticResource MaterialDesignFlatButton}" Content="{materialDesign:PackIcon Kind=Folder}" Click="LoadButton_Click" Cursor="Hand"/>
             <ProgressBar VerticalAlignment="Center" Margin="5" Height="10" IsIndeterminate="True" x:Name="loadProgressBar" Visibility="Hidden"/>
             <StackPanel>
                 <Expander Name="videoPropExpander" Header="{materialDesign:PackIcon Kind=PlaylistPlay}" IsEnabled="True">
@@ -112,7 +112,7 @@
             </StackPanel>
             <DockPanel Margin="4,6,4,4" >
                 <Button Style="{StaticResource MaterialDesignFlatButton}" Name="playPauseButton" Content="{materialDesign:PackIcon Kind=PlayPause}" Width="40" HorizontalContentAlignment="Center" Click="PlayPauseButton_Click" Margin="4" Padding="1" Cursor="Hand" Foreground="#c7890f"/>
-                <ToggleButton Name="IsFastMode"
+                <ToggleButton Name="isFastMode"
                               Width="34" Height="34" Margin="4" HorizontalAlignment="Left"
                               IsChecked="False" Cursor="Hand">
                     <ToggleButton.Style>
@@ -139,7 +139,7 @@
                         </Style>
                     </ToggleButton.Style>
                 </ToggleButton>
-                <ToggleButton Name="IsCruiseMode"
+                <ToggleButton Name="isCruiseMode"
                               Width="34" Height="34" Margin="4" HorizontalAlignment="Left"
                               IsChecked="False" Cursor="Hand">
                     <ToggleButton.Style>
@@ -166,7 +166,7 @@
                         </Style>
                     </ToggleButton.Style>
                 </ToggleButton>
-                <ToggleButton Name="IsSkipMode"
+                <ToggleButton Name="isSkipMode"
                               Width="34" Height="34" Margin="15,4,4,4"
                               IsChecked="False" Cursor="Hand" >
                     <ToggleButton.Style>
@@ -195,17 +195,17 @@
                     </ToggleButton.Style>
                 </ToggleButton>
 
-                <ComboBox Name="SkipSpans"
+                <ComboBox Name="skipSpans"
                           materialDesign:HintAssist.Hint="{materialDesign:PackIcon Kind=Redo}"
                           Style="{StaticResource MaterialDesignOutlinedComboBox}"
                           Margin="4" Padding="8,10,10,6" Width="70" Height="34"
                           DisplayMemberPath="Name"/>
-                <ComboBox Name="SkipPlays"
+                <ComboBox Name="skipPlays"
                           materialDesign:HintAssist.Hint="{materialDesign:PackIcon Kind=Play}"
                           Style="{StaticResource MaterialDesignOutlinedComboBox}"
                           Margin="4" Padding="8,10,10,6" Width="70" Height="34"
                           DisplayMemberPath="Name"/>
-                <ComboBox Name="TweakRangeCombo"
+                <ComboBox Name="tweakRangeCombo"
                           materialDesign:HintAssist.Hint="{materialDesign:PackIcon Kind=Tortoise}"
                           Style="{StaticResource MaterialDesignOutlinedComboBox}"
                           Margin="4" Padding="8,10,10,6" Width="70" Height="34" HorizontalAlignment="Right"

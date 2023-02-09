@@ -84,9 +84,9 @@ namespace Yokumiyone
                 SceneStarts.Value = new DoubleCollection() { 0, 500, 1000 };
                 this.progressSlider.Ticks = SceneStarts.Value;
 
-                skipPlayControl.SetControls(this.SkipSpans, this.SkipPlays, this.IsSkipMode);
-                cruisePlayControl.SetControls(this.IsCruiseMode, this.IsFastMode);
-                tweak.SetControls(TweakSlider, TweakRangeCombo);
+                skipPlayControl.SetControls(this.skipSpans, this.skipPlays, this.isSkipMode);
+                cruisePlayControl.SetControls(this.isCruiseMode, this.isFastMode);
+                tweak.SetControls(tweakSlider, tweakRangeCombo);
 
                 videoList.SetProgressBar(this.loadProgressBar);
                 videoList.SetExpander(this.videoPropExpander);
@@ -297,7 +297,7 @@ namespace Yokumiyone
         }
         private void Tweak_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            TweakSlider.Value = 0;
+            tweakSlider.Value = 0;
         }
 
         private void SelectChapter_Click(object sender, MouseButtonEventArgs e)
