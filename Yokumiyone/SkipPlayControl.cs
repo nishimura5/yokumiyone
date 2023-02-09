@@ -67,7 +67,6 @@ namespace Yokumiyone
                 return play.Sec;
             }
         }
-
         public void SetControls(ComboBox skip, ComboBox play, ToggleButton isSkip) {
             skipCombo = skip;
             playCombo = play;

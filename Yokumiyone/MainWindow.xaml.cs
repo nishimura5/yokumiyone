@@ -253,8 +253,10 @@ namespace Yokumiyone
                 _Bind.Scenes.Add(chapter);
             }
             _Bind.Scenes = new ObservableCollection<SceneProp>(_Bind.Scenes.OrderBy(n => n.StartTime));
-            // チャプター選択を解除、終了時刻の誤上書き防止
+            // シーン選択を解除、終了時刻の誤上書き防止
             this.sceneGrid.SelectedItem = null;
+
+            cruisePlayControl.SetScenes(_Bind.Scenes);
         }
 
         private void Movie_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
@@ -371,6 +373,8 @@ namespace Yokumiyone
                 return;
             }
             _Bind.Scenes.RemoveAt(idx);
+
+            cruisePlayControl.SetScenes(_Bind.Scenes);
         }
     }
 }

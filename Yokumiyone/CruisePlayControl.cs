@@ -19,8 +19,6 @@ namespace Yokumiyone
             get { return isFast.IsChecked; }
             set { isFast.IsChecked = value; }
         }
-
-
         public void SetControls(ToggleButton isCruise, ToggleButton isFast)
         {
             this.isCruise = isCruise;
@@ -29,6 +27,19 @@ namespace Yokumiyone
         public void SetScenes(ObservableCollection<SceneProp> chapters)
         {
             this.chapters = chapters.ToList();
+            SwitchCruiseEnable();
+        }
+
+        public void SwitchCruiseEnable() {
+            if (this.chapters.Count == 0)
+            {
+                isCruise.IsChecked = false;
+                isCruise.IsEnabled = false;
+            }
+            else
+            {
+                isCruise.IsEnabled = true;
+            }
         }
 
         public bool IsInScene(TimeSpan now)
@@ -43,7 +54,6 @@ namespace Yokumiyone
             }
             return ret;
         }
-
         public TimeSpan NextScene(TimeSpan now)
         {
             if (chapters.Count == 0)
