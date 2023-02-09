@@ -58,6 +58,7 @@ namespace Yokumiyone
 
         private string targetFolderPath = "";
         private string targetVideoPath = "";
+        private int writingVideoNum = 0;
         private TargetVideo targetVideo = new TargetVideo();
         private TweakSliderManager tweak = new TweakSliderManager();
         private VideoMetaData metadata = new VideoMetaData();
@@ -201,6 +202,10 @@ namespace Yokumiyone
             ScenePathTable scenePathDb = new ScenePathTable(targetVideoPath);
             scenePathDb.Update(sceneList);
 
+            // mp4の上書き中はフォルダ選択をdisableにする
+            folderLoadButton.IsEnabled = false;
+            writingVideoNum++;
+
             // localAppPathにあるtxtを上書きしてmp4に埋め込み
             selectedRow.SetState("updating");
             await metadata.UpdateMetaData(_Bind.Scenes);
@@ -210,6 +215,13 @@ namespace Yokumiyone
             targetVideoPath = selectedRow.FilePath;
             VideoPropTable videoPropDb = new VideoPropTable();
             videoPropDb.UpdateSceneCnt(targetVideoPath, NumOfScene.ToString());
+
+            // mp4上書きが終わったらフォルダ選択をenableにする
+            writingVideoNum--;
+            if(writingVideoNum < 1)
+            {
+                folderLoadButton.IsEnabled = true;
+            }
         }
 
         private void PlayPauseButton_Click(object sender, RoutedEventArgs e)
