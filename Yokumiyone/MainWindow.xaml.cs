@@ -126,6 +126,15 @@ namespace Yokumiyone
                     }
                 }
 
+                // チャプター情報をクリア
+                SceneStarts.Value.Clear();
+                SceneStarts.Value.Add(0);
+                _Bind.Scenes.Clear();
+                this.sceneGrid.IsReadOnly = true;
+
+                targetVideo.Release();
+
+                // ファイルリストをクリア
                 videoList.CloseExpander();
                 _Bind.VideoProps.Clear();
                 await videoList.Load(targetFolderPath);

@@ -258,7 +258,7 @@ namespace Yokumiyone
 
         public void Pause()
         {
-            if (movie == null || movie.NaturalDuration.HasTimeSpan == false)
+            if (IsMovieEnable() == false)
             {
                 return;
             }
@@ -277,19 +277,15 @@ namespace Yokumiyone
                 m_stateCurrent = MediaState.Play;
         }
 
-        public void ChangeSpeed(double ratio)
+        public void Release()
         {
-            if (m_stateCurrent == MediaState.Play)
+            if (movie == null || movie.Source == null)
             {
-                if (ratio > 100)
-                {
-                    movie.SpeedRatio = 1.0f;
-                }
-                else
-                {
-                    movie.SpeedRatio = ratio;
-                }
+                return;
             }
+            ProgressLabel.Content = "";
+            ProgressSlider.Value = 0;
+            movie.Source = null;
         }
 
         public bool IsMovieEnable()
