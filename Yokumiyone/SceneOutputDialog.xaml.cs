@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.IO;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Yokumiyone
 {
@@ -31,7 +31,8 @@ namespace Yokumiyone
         private void ExecOutput_Click(object sender, RoutedEventArgs e)
         {
             var ffmpeg = new Ffmpeg(srcVideoPath);
-            ffmpeg.ExportPng(scene.StartTimeStr, scene.EndTimeStr);
+            string dstDir = Path.GetDirectoryName(srcVideoPath);
+            ffmpeg.ExportPng(scene.StartTimeStr, scene.SceneDuration, "1", dstDir);
 
             return;
         }
