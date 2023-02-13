@@ -370,9 +370,7 @@ namespace Yokumiyone
         {
             SceneProp selectedRow = (SceneProp)this.sceneGrid.SelectedItem;
             SceneOutputDialog sceneOutputDialog = new SceneOutputDialog(this, selectedRow, targetVideoPath);
-            sceneOutputDialog.Topmost = true;
             var res = sceneOutputDialog.ShowDialog();
-
         }
         private void RemoveScene_Click(object sender, RoutedEventArgs e)
         {

@@ -49,6 +49,8 @@ namespace Yokumiyone
                     dstFolderPath = dialog.FileName;
                 }
             }
+            this.Topmost = true;
+            this.Topmost = false;
         }
 
         private void ExecOutput_Click(object sender, RoutedEventArgs e)
