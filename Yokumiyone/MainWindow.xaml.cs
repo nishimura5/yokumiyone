@@ -202,6 +202,8 @@ namespace Yokumiyone
             ScenePathTable scenePathDb = new ScenePathTable(targetVideoPath);
             scenePathDb.Update(sceneList);
 
+            targetVideoPath = selectedRow.FilePath;
+
             // mp4の上書き中はフォルダ選択をdisableにする
             folderLoadButton.IsEnabled = false;
             writingVideoNum++;
@@ -212,7 +214,6 @@ namespace Yokumiyone
             selectedRow.SetState("unselected");
 
             // DB更新
-            targetVideoPath = selectedRow.FilePath;
             VideoPropTable videoPropDb = new VideoPropTable();
             videoPropDb.UpdateSceneCnt(targetVideoPath, NumOfScene.ToString());
 
@@ -369,6 +370,7 @@ namespace Yokumiyone
         {
             SceneProp selectedRow = (SceneProp)this.sceneGrid.SelectedItem;
             SceneOutputDialog sceneOutputDialog = new SceneOutputDialog(this, selectedRow, targetVideoPath);
+            sceneOutputDialog.Topmost = true;
             var res = sceneOutputDialog.ShowDialog();
 
         }

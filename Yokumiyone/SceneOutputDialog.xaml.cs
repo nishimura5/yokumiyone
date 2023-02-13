@@ -11,6 +11,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace Yokumiyone
 {
@@ -21,6 +22,7 @@ namespace Yokumiyone
     {
         private SceneProp scene = new SceneProp();
         private string srcVideoPath;
+        private string dstFolderPath = "";
 
         public SceneOutputDialog(Window owner, SceneProp scene, string srcVideoPath)
         {
@@ -28,11 +30,35 @@ namespace Yokumiyone
             this.srcVideoPath = srcVideoPath;
             this.scene = scene;
         }
+        private void DstSelectButton_Click(object sender, RoutedEventArgs e){
+            if (dstFolderPath == "")
+            {
+                dstFolderPath = Path.GetDirectoryName(srcVideoPath);
+            }
+            var dialog = new CommonOpenFileDialog()
+            {
+                Title = "出力先フォルダを選択してください",
+                IsFolderPicker = true,
+                InitialDirectory = dstFolderPath,
+            };
+            // ダイアログを表示
+            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                if (Directory.Exists(dialog.FileName) == true)
+                {
+                    dstFolderPath = dialog.FileName;
+                }
+            }
+        }
+
         private void ExecOutput_Click(object sender, RoutedEventArgs e)
         {
+            if (dstFolderPath == "")
+            {
+                dstFolderPath = Path.GetDirectoryName(srcVideoPath);
+            }
             var ffmpeg = new Ffmpeg(srcVideoPath);
-            string dstDir = Path.GetDirectoryName(srcVideoPath);
-            ffmpeg.ExportPng(scene.StartTimeStr, scene.SceneDuration, "1", dstDir);
+            ffmpeg.ExportPng(scene.StartTimeStr, scene.SceneDuration, "1", dstFolderPath);
 
             return;
         }

@@ -5,11 +5,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Yokumiyone"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         Title="SceneOutputDialog" Width="800">
     <Grid>
         <StackPanel Margin="10,4">
-            <Button Name="ExecOutput" HorizontalAlignment="Right" 
+            <Button Name="dstSelectButton"  Style="{StaticResource MaterialDesignFlatButton}" Content="{materialDesign:PackIcon Kind=Folder}" Click="DstSelectButton_Click" Cursor="Hand"/>
+            <Button Name="execOutput" HorizontalAlignment="Right" 
         			VerticalAlignment="Center" Margin="4,8" Width="100"
                     Click="ExecOutput_Click" Cursor="Hand"
                     >
