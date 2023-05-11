@@ -21,6 +21,7 @@ namespace Yokumiyone
     public partial class SceneOutputDialog : Window
     {
         private SceneProp scene = new SceneProp();
+        private TimeSpan duration;
         private string srcVideoPath;
         private string dstFolderPath = "";
 
@@ -29,6 +30,7 @@ namespace Yokumiyone
             InitializeComponent();
             this.srcVideoPath = srcVideoPath;
             this.scene = scene;
+            this.duration = scene.CalcMidTime();
         }
         private void DstSelectButton_Click(object sender, RoutedEventArgs e){
             if (dstFolderPath == "")

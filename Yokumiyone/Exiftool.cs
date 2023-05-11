@@ -45,7 +45,7 @@ namespace Yokumiyone
         {
             var proc = new Process();
             proc.StartInfo.FileName = this.exiftoolPath;
-            proc.StartInfo.Arguments = $"\"{xmp.targetVideoPath}\" -s -Duration -ImageHeight -ImageWidth -VideoFrameRate -AvgBitrate -j -b";
+            proc.StartInfo.Arguments = $"\"{xmp.targetVideoPath}\" -charset filename=\"\" -s -Duration -ImageHeight -ImageWidth -VideoFrameRate -AvgBitrate -j -b";
             proc.StartInfo.CreateNoWindow = true;
             proc.StartInfo.RedirectStandardOutput = true;
             proc.StartInfo.UseShellExecute = false;
@@ -88,7 +88,7 @@ namespace Yokumiyone
         {
             var proc = new Process();
             proc.StartInfo.FileName = this.exiftoolPath;
-            proc.StartInfo.Arguments = $"-tagsfromfile \"{xmp.targetVideoPath}\" \"{xmp.xmpPath}\" -overwrite_original_in_place -all:all -xmp:all -exif:all -composite:all -quicktime:all -iptc:all -gps:all -ee -api largefilesupport=1";
+            proc.StartInfo.Arguments = $"-tagsfromfile \"{xmp.targetVideoPath}\" \"{xmp.xmpPath}\" -charset filename=\"\" -overwrite_original_in_place -all:all -xmp:all -exif:all -composite:all -quicktime:all -iptc:all -gps:all -ee -api largefilesupport=1";
             proc.StartInfo.CreateNoWindow = true;
             proc.StartInfo.RedirectStandardOutput = false;
             proc.StartInfo.RedirectStandardError = true;
