@@ -104,6 +104,12 @@
                                         </ControlTemplate>
                                     </Setter.Value>
                                 </Setter>
+                                <Setter Property="ToolTip">
+                                    <Setter.Value>
+                                        <TextBlock Text="{Binding FileName}" ToolTipService.ShowOnDisabled="True"/>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="ToolTipService.ShowOnDisabled" Value="True" />
                             </Style>
                             <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#c7890f"/>
                         </DataGrid.Resources>
