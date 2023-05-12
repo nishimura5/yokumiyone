@@ -23,10 +23,10 @@
 
   <ItemGroup>
     <PackageReference Include="MahApps.Metro" Version="2.4.9" />
-    <PackageReference Include="MaterialDesignThemes.MahApps" Version="0.2.6" />
+    <PackageReference Include="MaterialDesignThemes.MahApps" Version="0.3.0" />
     <PackageReference Include="Microsoft-WindowsAPICodePack-Shell" Version="1.1.4" />
-    <PackageReference Include="ReactiveProperty" Version="8.2.0" />
-    <PackageReference Include="ReactiveProperty.WPF" Version="8.2.0" />
+    <PackageReference Include="ReactiveProperty" Version="9.198.2" />
+    <PackageReference Include="ReactiveProperty.WPF" Version="9.19.12" />
     <PackageReference Include="Stub.System.Data.SQLite.Core.NetStandard" Version="1.0.117" />
   </ItemGroup>
 
