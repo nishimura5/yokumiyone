@@ -53,7 +53,12 @@
         </Grid>
 
         <StackPanel Orientation="Vertical" Grid.Column="1">
-            <Button Name="folderLoadButton"  Style="{StaticResource MaterialDesignFlatButton}" Content="{materialDesign:PackIcon Kind=Folder}" Click="LoadButton_Click" Cursor="Hand"/>
+            <Button Name="folderLoadButton"  Style="{StaticResource MaterialDesignFlatButton}" Click="LoadButton_Click" Cursor="Hand">
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon Kind="FolderArrowRightOutline" Width="20" Height="20"/>
+                    <TextBlock Text="読込先" Height="20" Padding="2.2"/>
+                </StackPanel>
+            </Button>
             <ProgressBar VerticalAlignment="Center" Margin="5" Height="10" IsIndeterminate="True" x:Name="loadProgressBar" Visibility="Hidden"/>
             <StackPanel>
                 <Expander Name="videoPropExpander" Header="{materialDesign:PackIcon Kind=PlaylistPlay}" IsEnabled="True">
@@ -142,6 +147,11 @@
                                     <Setter Property="BorderBrush" Value="White"/>
                                 </Trigger>
                             </Style.Triggers>
+                            <Setter Property="ToolTip">
+                                <Setter.Value>
+                                    <TextBlock Text="3倍速再生" ToolTipService.ShowOnDisabled="True"/>
+                                </Setter.Value>
+                            </Setter>
                         </Style>
                     </ToggleButton.Style>
                 </ToggleButton>
@@ -169,6 +179,11 @@
                                     <Setter Property="BorderBrush" Value="White"/>
                                 </Trigger>
                             </Style.Triggers>
+                            <Setter Property="ToolTip">
+                                <Setter.Value>
+                                    <TextBlock Text="鳥モード：登録済みのシーンだけを再生" ToolTipService.ShowOnDisabled="True"/>
+                                </Setter.Value>
+                            </Setter>
                         </Style>
                     </ToggleButton.Style>
                 </ToggleButton>
@@ -197,6 +212,11 @@
                                     <Setter Property="BorderBrush" Value="White"/>
                                 </Trigger>
                             </Style.Triggers>
+                            <Setter Property="ToolTip">
+                                <Setter.Value>
+                                    <TextBlock Text="兎モード：設定した間隔でスキップしながら再生" ToolTipService.ShowOnDisabled="True"/>
+                                </Setter.Value>
+                            </Setter>
                         </Style>
                     </ToggleButton.Style>
                 </ToggleButton>

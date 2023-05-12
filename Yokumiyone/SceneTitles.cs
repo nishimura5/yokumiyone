@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Windows.Controls;
-using System.Threading.Tasks;
-using System.Windows.Controls.Primitives;
 using System.Collections.ObjectModel;
 
 namespace Yokumiyone
@@ -33,7 +28,6 @@ namespace Yokumiyone
             sceneTitleBox = titleTextBox;
             sceneTitleBox.Focus();
             sceneTitleBox.SelectAll();
-            Title = currentTitle;
 
             ObservableCollection<SceneTitleCombo> SceneTitleCombos = new ObservableCollection<SceneTitleCombo>();
 

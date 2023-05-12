@@ -21,7 +21,15 @@ namespace Yokumiyone
     public partial class SceneOutputDialog : Window
     {
         private SceneProp scene = new SceneProp();
-        private TimeSpan duration;
+        private SceneOutput ctrl = new SceneOutput();
+
+        private string framerateOut = "1";
+        public string Framerate
+        {
+            get { return framerateOut; }
+            set { framerateOut = value; }
+        }
+
         private string srcVideoPath;
         private string dstFolderPath = "";
 
@@ -30,9 +38,17 @@ namespace Yokumiyone
             InitializeComponent();
             this.srcVideoPath = srcVideoPath;
             this.scene = scene;
-            this.duration = scene.CalcMidTime();
+
+            this.DataContext = this;
+            this.SizeToContent = SizeToContent.Height;
+
+            this.Owner = owner;
+            this.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+
+            ctrl.SetControls(framerate);
         }
-        private void DstSelectButton_Click(object sender, RoutedEventArgs e){
+
+        private void titleOk_Click(object sender, RoutedEventArgs e){
             if (dstFolderPath == "")
             {
                 dstFolderPath = Path.GetDirectoryName(srcVideoPath);
@@ -53,18 +69,14 @@ namespace Yokumiyone
             }
             this.Topmost = true;
             this.Topmost = false;
-        }
 
-        private void ExecOutput_Click(object sender, RoutedEventArgs e)
-        {
-            if (dstFolderPath == "")
-            {
-                dstFolderPath = Path.GetDirectoryName(srcVideoPath);
-            }
             var ffmpeg = new Ffmpeg(srcVideoPath);
-            ffmpeg.ExportPng(scene.StartTimeStr, scene.SceneDuration, "1", dstFolderPath);
-
-            return;
+            ffmpeg.ExportPng(scene.StartTimeStr, scene.SceneDuration, ctrl.Framerate.ToString(), dstFolderPath);
+            this.DialogResult = true;
+        }
+        private void titleCancel_Click(object sender, RoutedEventArgs e)
+        {
+            this.DialogResult = false;
         }
     }
 }
