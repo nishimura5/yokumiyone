@@ -44,8 +44,9 @@ namespace Yokumiyone.tables
                         {
                             int width = Convert.ToInt32((long)reader["width"]);
                             int height = Convert.ToInt32(reader["height"]);
+                            int rotation = Convert.ToInt32(reader["rotation"]);
                             DateTime modified = DateTime.Parse((reader["modified"] == null) ? "2000/1/1 0:0:0" : reader["modified"].ToString());
-                            ret.Add(new VideoProp(reader["path"].ToString(), reader["fps"].ToString(), reader["duration"].ToString(), width, height, modified, reader["scene_cnt"].ToString()));
+                            ret.Add(new VideoProp(reader["path"].ToString(), reader["fps"].ToString(), reader["duration"].ToString(), width, height, rotation, modified, reader["scene_cnt"].ToString()));
                         }
                     }
                 }
@@ -65,11 +66,12 @@ namespace Yokumiyone.tables
                 new SQLiteParameter("@duration", prop.DurationStr),
                 new SQLiteParameter("@width", Convert.ToInt64(prop.Width)),
                 new SQLiteParameter("@height", Convert.ToInt64(prop.Height)),
+                new SQLiteParameter("@rotation", Convert.ToInt64(prop.Rotation)),
                 new SQLiteParameter("@modified", prop.ModifiedDatetime.ToString()),
                 new SQLiteParameter("@scene_cnt", prop.NumOfScene)
             };
 
-            db.ExecNonQuery($"INSERT INTO video_prop (path, fps, duration, width, height, modified, scene_cnt) VALUES (@path, @fps, @duration, @width, @height, @modified, @scene_cnt)", sql_params);
+            db.ExecNonQuery($"INSERT INTO video_prop (path, fps, duration, width, height, rotation, modified, scene_cnt) VALUES (@path, @fps, @duration, @width, @height, @rotation, @modified, @scene_cnt)", sql_params);
         }
         public void Delete(string filePath)
         {

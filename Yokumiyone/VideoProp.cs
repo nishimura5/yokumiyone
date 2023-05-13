@@ -1,8 +1,6 @@
 ﻿using System.IO;
 using Reactive.Bindings;
 using System;
-using System.ComponentModel;
-using System.Reflection.Metadata.Ecma335;
 
 namespace Yokumiyone
 {
@@ -17,6 +15,7 @@ namespace Yokumiyone
         public string FpsFormat { get; }
         public int Width { get; }
         public int Height { get; }
+        public int Rotation { get; }
         public string WidthHeight { get; }
         public string DurationStr { get; }
         public TimeSpan Duration { get; }
@@ -53,6 +52,7 @@ namespace Yokumiyone
             FpsFormat = exiftool.MetaData.VideoFrameRate.ToString();
             Width = exiftool.MetaData.ImageWidth;
             Height = exiftool.MetaData.ImageHeight;
+            Rotation = exiftool.MetaData.Rotation;
             WidthHeight = $"{Width}x{Height}";
             DurationStr = exiftool.MetaData.Duration;
             NumOfScene.Value = exiftool.CountNumOfScene().ToString();
@@ -61,13 +61,14 @@ namespace Yokumiyone
             ModifiedDatetime = File.GetLastWriteTime(targetFilePath);
         }
 
-        public VideoProp(string filePath, string fpsFormat, string durationStr, int width, int height, DateTime modified, string scene_cnt)
+        public VideoProp(string filePath, string fpsFormat, string durationStr, int width, int height, int rotation, DateTime modified, string scene_cnt)
         {
             FilePath = filePath;
             FileName = Path.GetFileNameWithoutExtension(filePath);
             FpsFormat = fpsFormat;
             Width = width;
             Height = height;
+            Rotation = rotation;
             WidthHeight = $"{width}x{height}";
             DurationStr = durationStr;
             ModifiedDatetime = modified;

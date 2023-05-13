@@ -177,6 +177,8 @@ namespace Yokumiyone
             }
             _Bind.Scenes = new ObservableCollection<SceneProp>(_Bind.Scenes.OrderBy(n => n.StartTime));
 
+            targetVideo.Rotate(selectedRow.Rotation);
+
             cruisePlayControl.SetScenes(_Bind.Scenes);
 
             targetVideo.Play();

@@ -34,7 +34,7 @@
                               ScrubbingEnabled="True"
                               MediaOpened="MovieOpened"
                               PreviewMouseWheel="Movie_PreviewMouseWheel"
-                />
+                    />
                 </DockPanel>
                 <Grid Margin="4">
                     <Grid.ColumnDefinitions>

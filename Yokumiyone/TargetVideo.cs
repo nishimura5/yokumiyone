@@ -56,6 +56,11 @@ namespace Yokumiyone
             this.skipPlayControl.IsSkipMode = false;
         }
 
+        public void Rotate(double angle)
+        {
+            movie.LayoutTransform = new RotateTransform(angle);
+        }
+
         public void TimerStart()
         {
             if (m_timer != null)
