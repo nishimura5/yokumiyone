@@ -98,6 +98,16 @@ namespace Yokumiyone
                     progressButton,
                     skipPlayControl,
                     cruisePlayControl);
+
+                // コマンドライン引数
+                string[] args = Environment.GetCommandLineArgs();
+                if (args.Length > 1)
+                {
+                    targetVideoPath = args[1];
+                    targetFolderPath = new FileInfo(targetVideoPath).Directory.FullName;
+                    VideoProp tarProp = new VideoProp(targetVideoPath);
+                    LoadVideo(tarProp);
+                }
             }
             catch(Exception ex)
             {
@@ -151,34 +161,37 @@ namespace Yokumiyone
         private void VideoItem_Click(object sender, MouseButtonEventArgs e)
         {
             VideoProp selectedRow = (VideoProp)this.videoPropDataGrid.SelectedItem;
+            LoadVideo(selectedRow);
+        }
 
+        private void LoadVideo(VideoProp targetProp)
+        {
+            if (targetProp == null)
+            {
+                return;
+            }
             // チャプター情報をクリア
             SceneStarts.Value.Clear();
             SceneStarts.Value.Add(0);
             _Bind.Scenes.Clear();
             this.sceneGrid.IsReadOnly = true;
+            targetProp.SetState("selected");
 
-            selectedRow.SetState("selected");
-            if (selectedRow == null)
-            {
-                return;
-            }
             // 動画を読み込み
-            targetVideoPath = selectedRow.FilePath;
+            targetVideoPath = targetProp.FilePath;
             movieWindowMediaElement.Source = new System.Uri(targetVideoPath, UriKind.Absolute);
             targetVideo.SetMediaElement(movieWindowMediaElement);
 
             // metadataをxmpファイルから読み込み
             metadata.LoadMetaDataFile(targetVideoPath);
-            foreach(var chapter in metadata.ScenePropOc)
+            foreach (var chapter in metadata.ScenePropOc)
             {
-                SceneStarts.Value.Add(chapter.StartTime.TotalSeconds / selectedRow.Duration.TotalSeconds * 1000);
+                SceneStarts.Value.Add(chapter.StartTime.TotalSeconds / targetProp.Duration.TotalSeconds * 1000);
                 _Bind.Scenes.Add(chapter.DeepCopy());
             }
             _Bind.Scenes = new ObservableCollection<SceneProp>(_Bind.Scenes.OrderBy(n => n.StartTime));
 
-            targetVideo.Rotate(selectedRow.Rotation);
-
+            targetVideo.Rotate(targetProp.Rotation);
             cruisePlayControl.SetScenes(_Bind.Scenes);
 
             targetVideo.Play();
