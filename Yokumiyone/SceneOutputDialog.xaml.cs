@@ -31,7 +31,7 @@ namespace Yokumiyone
         }
 
         private string srcVideoPath;
-        private string dstFolderPath = "";
+        private string? dstFolderPath;
 
         public SceneOutputDialog(Window owner, SceneProp scene, string srcVideoPath)
         {
@@ -49,7 +49,7 @@ namespace Yokumiyone
         }
 
         private void titleOk_Click(object sender, RoutedEventArgs e){
-            if (dstFolderPath == "")
+            if (string.IsNullOrEmpty(dstFolderPath) == true)
             {
                 dstFolderPath = Path.GetDirectoryName(srcVideoPath);
             }
@@ -70,8 +70,8 @@ namespace Yokumiyone
             this.Topmost = true;
             this.Topmost = false;
 
-            var ffmpeg = new Ffmpeg(srcVideoPath);
-            ffmpeg.ExportPng(scene.StartTimeStr, scene.SceneDuration, ctrl.Framerate.ToString(), dstFolderPath);
+            var ffmpeg = new Ffmpeg(srcVideoPath, scene.Title, scene.StartTimeStr, scene.SceneDuration);
+            ffmpeg.ExportPng(ctrl.Framerate.ToString(), dstFolderPath);
             this.DialogResult = true;
         }
         private void titleCancel_Click(object sender, RoutedEventArgs e)

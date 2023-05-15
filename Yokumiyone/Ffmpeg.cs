@@ -21,16 +21,22 @@ namespace Yokumiyone
         }
 
         private string targetVideoPath;
+        private string sceneTitle;
+        private string start;
+        private string duration;
 
-        public Ffmpeg(string targetVideoPath)
+        public Ffmpeg(string targetVideoPath, string sceneTitle, string start, string duration)
         {
             this.targetVideoPath = targetVideoPath;
+            this.sceneTitle = sceneTitle;
+            this.start = start;
+            this.duration = duration;
         }
 
-        public void ExportPng(string start, string duration, string frameRate, string dstDir)
+        public void ExportPng(string frameRate, string? dstDir)
         {
             string fileName = Path.GetFileNameWithoutExtension(targetVideoPath);
-            string dstBaseDir = Path.Combine(dstDir, fileName);
+            string dstBaseDir = Path.Combine(dstDir, fileName +"_"+ sceneTitle);
             if (Directory.Exists(dstBaseDir) == false)
             {
                 Directory.CreateDirectory(dstBaseDir);
