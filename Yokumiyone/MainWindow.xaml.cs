@@ -14,6 +14,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Forms;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 using Yokumiyone.tables;
 
@@ -109,7 +110,7 @@ namespace Yokumiyone
                     LoadVideo(tarProp);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 System.Windows.MessageBox.Show(ex.Message, this.GetType().Name);
             }
@@ -157,7 +158,7 @@ namespace Yokumiyone
                 System.Windows.MessageBox.Show(ex.Message, this.GetType().Name);
             }
         }
-        
+
         private async void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
             SettingsDialog settingsDialog = new SettingsDialog(this);
@@ -203,10 +204,25 @@ namespace Yokumiyone
             targetVideo.Play();
         }
 
+        private async void WriteMetadataButton_Click(object sender, EventArgs e)
+        {
+            if (this.videoPropDataGrid.SelectedItems.Count > 0)
+            {
+                VideoProp selectedRow = (VideoProp)this.videoPropDataGrid.SelectedItem;
+                this.videoPropDataGrid.SelectedItem = null;
+                await WriteMetadata(selectedRow);
+            }
+        }
+
         // 選択が外れたときにMP4への埋め込みとDBの更新を行う
         private async void VideoItem_Unselected(object sender, EventArgs e)
         {
             VideoProp selectedRow = (VideoProp)this.videoPropDataGrid.SelectedItem;
+            await WriteMetadata(selectedRow);
+        }
+
+        private async Task WriteMetadata(VideoProp selectedRow)
+        {
             if (selectedRow == null)
             {
                 return;
@@ -240,7 +256,7 @@ namespace Yokumiyone
 
             // mp4上書きが終わったらフォルダ選択をenableにする
             writingVideoNum--;
-            if(writingVideoNum < 1)
+            if (writingVideoNum < 1)
             {
                 folderLoadButton.IsEnabled = true;
             }
