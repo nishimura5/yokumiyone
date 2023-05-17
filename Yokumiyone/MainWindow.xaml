@@ -53,13 +53,20 @@
         </Grid>
 
         <StackPanel Orientation="Vertical" Grid.Column="1">
-            <Button Name="folderLoadButton"  Style="{StaticResource MaterialDesignFlatButton}" Click="LoadButton_Click" Cursor="Hand">
-                <StackPanel Orientation="Horizontal">
-                    <materialDesign:PackIcon Kind="FolderArrowRightOutline" Width="20" Height="20"/>
-                    <TextBlock Text="読込先" Height="20" Padding="2.2"/>
-                </StackPanel>
-            </Button>
-            <ProgressBar VerticalAlignment="Center" Margin="5" Height="10" IsIndeterminate="True" x:Name="loadProgressBar" Visibility="Hidden"/>
+            <DockPanel>
+                <Button Name="folderLoadButton" Style="{StaticResource MaterialDesignFlatButton}" Click="LoadButton_Click" Cursor="Hand">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="FolderArrowRightOutline" Width="20" Height="20"/>
+                        <TextBlock Text="読み込み" Height="20" Padding="2.2"/>
+                    </StackPanel>
+                </Button>
+                <Button Name="cashClearButton" Style="{StaticResource MaterialDesignFlatButton}" HorizontalAlignment="Right" Click="SettingsButton_Click" Width="50" Cursor="Hand">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="Gear" Width="20" Height="20"/>
+                    </StackPanel>
+                </Button>
+            </DockPanel>
+            <ProgressBar VerticalAlignment="Center" Margin="0" Height="10" IsIndeterminate="True" x:Name="loadProgressBar" Visibility="Hidden"/>
             <StackPanel>
                 <Expander Name="videoPropExpander" Header="{materialDesign:PackIcon Kind=PlaylistPlay}" IsEnabled="True">
                     <DataGrid Name="videoPropDataGrid"

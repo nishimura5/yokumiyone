@@ -157,6 +157,12 @@ namespace Yokumiyone
                 System.Windows.MessageBox.Show(ex.Message, this.GetType().Name);
             }
         }
+        
+        private async void SettingsButton_Click(object sender, RoutedEventArgs e)
+        {
+            SettingsDialog settingsDialog = new SettingsDialog(this);
+            var res = settingsDialog.ShowDialog();
+        }
 
         private void VideoItem_Click(object sender, MouseButtonEventArgs e)
         {
