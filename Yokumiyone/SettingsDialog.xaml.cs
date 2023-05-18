@@ -1,7 +1,8 @@
 ﻿using System.Windows;
 using System.IO;
-using Microsoft.WindowsAPICodePack.Dialogs;
 using System.Reflection;
+using Common;
+
 
 namespace Yokumiyone
 {
@@ -33,12 +34,15 @@ namespace Yokumiyone
                 Directory.Delete(targetXmpFolderPath, true);
             }
 
-            // SQLiteファイルの削除
             string targetSqlitePath = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.LocalApplicationData), "Yokumiyone", "yokumiyone.sqlite3");
             // ファイルが存在しているか判断する
             if (File.Exists(targetSqlitePath))
             {
+                // SQLiteファイルの削除
                 File.Delete(targetSqlitePath);
+                // SQLiteファイルの再生成
+                YokumiyoneDb db = new YokumiyoneDb();
+                db.CreateDb();
             }
         }
         private void CloseButton_Click(object sender, RoutedEventArgs e)
