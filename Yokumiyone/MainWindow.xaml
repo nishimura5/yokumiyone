@@ -54,18 +54,18 @@
 
         <StackPanel Orientation="Vertical" Grid.Column="1">
             <DockPanel>
-                <Button Name="folderLoadButton" Style="{StaticResource MaterialDesignFlatButton}" Click="LoadButton_Click" Width="500" Cursor="Hand">
+                <Button Name="folderLoadButton" Style="{StaticResource MaterialDesignFlatButton}" Click="LoadButton_Click" Width="530" Cursor="Hand">
                     <StackPanel Orientation="Horizontal">
                         <materialDesign:PackIcon Kind="FolderArrowRightOutline" Width="20" Height="20"/>
                         <TextBlock Text="読み込み" Height="20" Padding="2.2"/>
                     </StackPanel>
                 </Button>
-                <Button Name="cashClearButton" Style="{StaticResource MaterialDesignFlatButton}" DockPanel.Dock="Right" Click="SettingsButton_Click" Width="50" Cursor="Hand">
+                <Button Name="cashClearButton" Style="{StaticResource MaterialDesignFlatButton}" DockPanel.Dock="Right" Click="SettingsButton_Click" Width="30" Padding="0" Cursor="Hand">
                     <StackPanel Orientation="Horizontal">
                         <materialDesign:PackIcon Kind="Gear" Width="20" Height="20"/>
                     </StackPanel>
                 </Button>
-                <Button Name="writeMetadataButton" Style="{StaticResource MaterialDesignFlatButton}" DockPanel.Dock="Right" Click="WriteMetadataButton_Click" Width="50" Cursor="Hand">
+                <Button Name="writeMetadataButton" Style="{StaticResource MaterialDesignFlatButton}" DockPanel.Dock="Right" Click="WriteMetadataButton_Click" Width="30" Padding="0" Cursor="Hand">
                     <StackPanel Orientation="Horizontal">
                         <materialDesign:PackIcon Kind="Edit" Width="20" Height="20"/>
                     </StackPanel>
