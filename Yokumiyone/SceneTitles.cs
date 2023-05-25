@@ -6,53 +6,54 @@ namespace Yokumiyone
 {
     internal class SceneTitles
     {
-        private TextBox sceneTitleBox = new TextBox();
+        private TextBox titleTextBox = new TextBox();
         public string Title
         {
-            get { return sceneTitleBox.Text; }
-            set { sceneTitleBox.Text = value; }
+            get { return titleTextBox.Text; }
+            set { titleTextBox.Text = value; }
         }
 
-        private ComboBox sceneTitleCombo = new ComboBox();
+        private ComboBox titleCbx = new ComboBox();
         public string SceneTitleSelected
         {
             get
             {
-                var scene = (SceneTitleCombo)sceneTitleCombo.SelectedItem;
+                var scene = (TitleCbxItem)titleCbx.SelectedItem;
                 return scene.Name;
             }
         }
 
-        public void SetControls(TextBox titleTextBox, ComboBox sceneTitles, string currentTitle, List<string> sceneTitleList)
+        public void SetControls(TextBox titleTextBox, ComboBox sceneTitleCbx, string currentTitle, List<string> sceneTitleList)
         {
-            sceneTitleBox = titleTextBox;
-            sceneTitleBox.Focus();
-            sceneTitleBox.SelectAll();
+            this.titleTextBox = titleTextBox;
+            this.titleTextBox.Focus();
+            this.titleTextBox.SelectAll();
 
-            ObservableCollection<SceneTitleCombo> SceneTitleCombos = new ObservableCollection<SceneTitleCombo>();
+            ObservableCollection<TitleCbxItem> SceneTitles = new ObservableCollection<TitleCbxItem>();
 
             // 今のタイトルがリストの中にあったらそれをselectedに、なかったらComboboxの先頭に追加
             int idx = sceneTitleList.IndexOf(currentTitle);
             if (idx < 0)
             {
-                SceneTitleCombos.Add(new SceneTitleCombo(currentTitle));
+                SceneTitles.Add(new TitleCbxItem(currentTitle));
                 idx = 0;
             }
 
             foreach (string SceneTitle in sceneTitleList)
             {
-                SceneTitleCombos.Add(new SceneTitleCombo(SceneTitle));
+                SceneTitles.Add(new TitleCbxItem(SceneTitle));
             }
 
-            sceneTitleCombo = sceneTitles;
-            sceneTitleCombo.ItemsSource = SceneTitleCombos;
-            sceneTitleCombo.SelectedIndex = idx;
+            this.titleCbx = sceneTitleCbx;
+            this.titleCbx.ItemsSource = SceneTitles;
+            this.titleCbx.SelectedIndex = idx;
         }
 
-        public class SceneTitleCombo
+        // コンボボックスの中身
+        public class TitleCbxItem
         {
             public string Name { get; set; }
-            public SceneTitleCombo(string name)
+            public TitleCbxItem(string name)
             {
                 Name = name;
             }

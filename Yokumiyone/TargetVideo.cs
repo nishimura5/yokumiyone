@@ -11,9 +11,9 @@ namespace Yokumiyone
     {
         private MediaState m_stateCurrent;
         private MediaElement movie = new MediaElement();
-        private Slider ProgressSlider = new Slider();
+        private Slider progressSlider = new Slider();
         private Button playPause = new Button();
-        private Button ProgressLabel = new Button();
+        private Button progressLabel = new Button();
         private double lastSliderValue;
         private DispatcherTimer m_timer = new DispatcherTimer();
         private SkipPlayControl skipPlayControl = new SkipPlayControl();
@@ -28,9 +28,9 @@ namespace Yokumiyone
 
         public void SetControl(Slider progressSlider, Button playPauseButton, Button progressButton, SkipPlayControl skipPlayControl, CruisePlayControl cruisePlayControl)
         {
-            ProgressSlider = progressSlider;
-            ProgressSlider.Maximum = 1000;
-            ProgressLabel = progressButton;
+            this.progressSlider = progressSlider;
+            this.progressSlider.Maximum = 1000;
+            this.progressLabel = progressButton;
             playPause = playPauseButton;
             this.skipPlayControl = skipPlayControl;
             this.cruisePlayControl = cruisePlayControl;
@@ -81,7 +81,7 @@ namespace Yokumiyone
             {
                 position = position.Substring(0, 12);
             }
-            ProgressLabel.Content = position;
+            progressLabel.Content = position;
 
             // Rabbitモード
             if (this.skipPlayControl.IsSkipMode.Value == true)
@@ -137,12 +137,12 @@ namespace Yokumiyone
                 {
                     return;
                 }
-                if (lastSliderValue == ProgressSlider.Value)
+                if (lastSliderValue == this.progressSlider.Value)
                 {
                     // 動画経過時間に合わせてスライダーを動かす
                     double dbPrg = GetMovieProgressPercent();
-                    ProgressSlider.Value = dbPrg * ProgressSlider.Maximum;
-                    lastSliderValue = ProgressSlider.Value;
+                    this.progressSlider.Value = dbPrg * this.progressSlider.Maximum;
+                    lastSliderValue = this.progressSlider.Value;
                     if (GetMediaState() == MediaState.Pause && m_stateCurrent == MediaState.Play)
                     {
                         movie.Play();
@@ -160,11 +160,11 @@ namespace Yokumiyone
                     {
                         return;
                     }
-                    double dbSliderValue = ProgressSlider.Value;
+                    double dbSliderValue = this.progressSlider.Value;
                     double dbDurationMS = movie.NaturalDuration.TimeSpan.TotalMilliseconds;
-                    int nSetMS = (int)(dbSliderValue * dbDurationMS / ProgressSlider.Maximum);
+                    int nSetMS = (int)(dbSliderValue * dbDurationMS / this.progressSlider.Maximum);
                     movie.Position = TimeSpan.FromMilliseconds(nSetMS);
-                    lastSliderValue = ProgressSlider.Value;
+                    lastSliderValue = this.progressSlider.Value;
                 }
             }
             catch (Exception ex)
@@ -175,7 +175,7 @@ namespace Yokumiyone
 
         public void Step(int msec)
         {
-            double dbSliderValue = ProgressSlider.Value;
+            double dbSliderValue = this.progressSlider.Value;
             if (IsMovieEnable() == false)
             {
                 return;
@@ -207,9 +207,9 @@ namespace Yokumiyone
             }
 
             double dbDurationMs = movie.NaturalDuration.TimeSpan.TotalMilliseconds;
-            ProgressSlider.Value = (int)(mseconds / dbDurationMs * ProgressSlider.Maximum);
+            this.progressSlider.Value = (int)(mseconds / dbDurationMs * this.progressSlider.Maximum);
             movie.Position = TimeSpan.FromMilliseconds(mseconds);
-            lastSliderValue = ProgressSlider.Value;
+            lastSliderValue = this.progressSlider.Value;
         }
 
         // ステータス取得
@@ -282,8 +282,8 @@ namespace Yokumiyone
             {
                 return;
             }
-            ProgressLabel.Content = "";
-            ProgressSlider.Value = 0;
+            progressLabel.Content = "";
+            this.progressSlider.Value = 0;
             movie.Source = null;
         }
 

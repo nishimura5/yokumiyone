@@ -13,18 +13,19 @@ namespace Yokumiyone
     {
         public double NowMs { set; get; }
         private double preMs = 0.0f;
-        private Slider TweakSlider = new Slider();
-        public ComboBox RangeCombo = new ComboBox();
+        private Slider tweakSlider = new Slider();
+        private ComboBox rangeCbx = new ComboBox();
         private int sliderRange = 500;
 
-        public void SetControls(Slider tweakSlider, ComboBox rangeCombo) {
-            TweakSlider = tweakSlider;
-            TweakSlider.Maximum = sliderRange;
-            TweakSlider.Minimum = -sliderRange;
-            TweakSlider.Value = 0;
-            RangeCombo = rangeCombo;
-            RangeCombo.ItemsSource = RangeCombos;
-            RangeCombo.SelectedIndex = 2;
+        public void SetControls(Slider tweakSlider, ComboBox rangeCbx) {
+            this.tweakSlider = tweakSlider;
+            this.tweakSlider = tweakSlider;
+            this.tweakSlider.Maximum = sliderRange;
+            this.tweakSlider.Minimum = -sliderRange;
+            this.tweakSlider.Value = 0;
+            this.rangeCbx = rangeCbx;
+            this.rangeCbx.ItemsSource = RangeCombos;
+            this.rangeCbx.SelectedIndex = 2;
         }
 
         public void SetPreMs(double msecond) {
@@ -33,32 +34,32 @@ namespace Yokumiyone
 
         public double GetPostMs()
         {
-            if(TweakSlider == null)
+            if(tweakSlider == null)
             {
                 return 0;
             }
-            SecCombo range = (SecCombo)RangeCombo.SelectedItem;
-            return preMs + TweakSlider.Value / sliderRange * range.Sec * 1000;
+            SecCbxItem range = (SecCbxItem)rangeCbx.SelectedItem;
+            return preMs + this.tweakSlider.Value / sliderRange * range.Sec * 1000;
         }
-        private ObservableCollection<SecCombo> RangeCombos
+        private ObservableCollection<SecCbxItem> RangeCombos
         {
             get
             {
                 return
-                new ObservableCollection<SecCombo> {
-                new SecCombo(5, "±5秒"),
-                new SecCombo(10, "±10秒"),
-                new SecCombo(60, "±1分"),
-                new SecCombo(180, "±3分"),
-                new SecCombo(300, "±5分"),
+                new ObservableCollection<SecCbxItem> {
+                new SecCbxItem(5, "±5秒"),
+                new SecCbxItem(10, "±10秒"),
+                new SecCbxItem(60, "±1分"),
+                new SecCbxItem(180, "±3分"),
+                new SecCbxItem(300, "±5分"),
                 };
             }
         }
-        private class SecCombo
+        private class SecCbxItem
         {
             public int Sec { get; set; }
             public string Name { get; set; }
-            public SecCombo(int sec, string name)
+            public SecCbxItem(int sec, string name)
             {
                 Sec = sec;
                 Name = name;
