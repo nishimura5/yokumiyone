@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
-using System.Drawing;
 using System.IO;
-using System.Runtime.Intrinsics.Arm;
 using System.Windows;
-using static System.Net.Mime.MediaTypeNames;
 
 
 namespace Common

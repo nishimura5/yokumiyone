@@ -1,19 +1,15 @@
-﻿using MaterialDesignThemes.Wpf;
-using Reactive.Bindings;
+﻿using Reactive.Bindings;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Reactive.Linq;
-using System.Reflection.Emit;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using Yokumiyone.tables;
-using static Yokumiyone.MainWindow;
 
 namespace Yokumiyone
 {

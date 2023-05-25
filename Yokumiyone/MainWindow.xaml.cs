@@ -3,19 +3,16 @@ using Common;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using Reactive.Bindings;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Data.SQLite;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Forms;
-using System.Threading.Tasks;
-using System.Collections.Generic;
 using Yokumiyone.tables;
 
 namespace Yokumiyone
@@ -116,7 +113,8 @@ namespace Yokumiyone
             }
         }
 
-        private async void LoadButton_Click(object sender, RoutedEventArgs e) {
+        private async void LoadButton_Click(object sender, RoutedEventArgs e)
+        {
             try
             {
                 if (targetFolderPath == "")
@@ -191,10 +189,10 @@ namespace Yokumiyone
 
             // metadataをxmpファイルから読み込み
             metadata.LoadMetaDataFile(targetVideoPath);
-            foreach (var chapter in metadata.ScenePropOc)
+            foreach (var sceneProp in metadata.ScenePropOc)
             {
-                SceneStarts.Value.Add(chapter.StartTime.TotalSeconds / targetProp.Duration.TotalSeconds * 1000);
-                _Bind.Scenes.Add(chapter.DeepCopy());
+                SceneStarts.Value.Add(sceneProp.StartTime.TotalSeconds / targetProp.Duration.TotalSeconds * 1000);
+                _Bind.Scenes.Add(sceneProp.DeepCopy());
             }
             _Bind.Scenes = new ObservableCollection<SceneProp>(_Bind.Scenes.OrderBy(n => n.StartTime));
 
@@ -232,9 +230,9 @@ namespace Yokumiyone
             selectedRow.SetNumOfScene(NumOfScene);
 
             List<string> sceneList = new List<string>();
-            foreach (var chapter in _Bind.Scenes)
+            foreach (var sceneProp in _Bind.Scenes)
             {
-                sceneList.Add(chapter.Title);
+                sceneList.Add(sceneProp.Title);
             }
             ScenePathTable scenePathDb = new ScenePathTable(targetVideoPath);
             scenePathDb.Update(sceneList);
@@ -298,9 +296,9 @@ namespace Yokumiyone
             else
             {
                 string default_scene_title = "Untitled";
-                SceneProp chapter = new SceneProp(progressButtonTime, "", default_scene_title);
-                SceneStarts.Value.Add(chapter.StartTime.TotalSeconds / targetVideo.TotalSec * 1000);
-                _Bind.Scenes.Add(chapter);
+                SceneProp sceneProp = new SceneProp(progressButtonTime, "", default_scene_title);
+                SceneStarts.Value.Add(sceneProp.StartTime.TotalSeconds / targetVideo.TotalSec * 1000);
+                _Bind.Scenes.Add(sceneProp);
             }
             _Bind.Scenes = new ObservableCollection<SceneProp>(_Bind.Scenes.OrderBy(n => n.StartTime));
             // シーン選択を解除、終了時刻の誤上書き防止
@@ -330,7 +328,7 @@ namespace Yokumiyone
 
         private void Tweak_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if(targetVideo.IsMovieEnable() == false)
+            if (targetVideo.IsMovieEnable() == false)
             {
                 return;
             }
@@ -352,7 +350,7 @@ namespace Yokumiyone
             tweakSlider.Value = 0;
         }
 
-        private void SelectChapter_Click(object sender, MouseButtonEventArgs e)
+        private void SceneRow_Click(object sender, MouseButtonEventArgs e)
         {
             if (this.sceneGrid.CurrentColumn == null)
             {
@@ -362,12 +360,12 @@ namespace Yokumiyone
             SceneProp selectedRow = (SceneProp)this.sceneGrid.SelectedItem;
 
             // タイトル列クリックではJumpしない
-            if(selectedColNum == 0)
+            if (selectedColNum == 0)
             {
                 targetVideo.Jump(selectedRow.StartTime);
                 this.sceneGrid.SelectedItem = null;
             }
-            else if(selectedColNum == 1 && selectedRow.EndTimeStr != "")
+            else if (selectedColNum == 1 && selectedRow.EndTimeStr != "")
             {
                 targetVideo.Jump(selectedRow.EndTime);
                 this.sceneGrid.SelectedItem = null;
@@ -378,7 +376,7 @@ namespace Yokumiyone
         private void SceneMenu_Opening(object sender, DependencyPropertyChangedEventArgs e)
         {
             var selectedRow = this.sceneGrid.SelectedItem;
-            if(selectedRow == null)
+            if (selectedRow == null)
             {
                 editSceneTitle.IsEnabled = false;
                 sceneOutput.IsEnabled = false;
@@ -396,7 +394,7 @@ namespace Yokumiyone
             SceneProp selectedRow = (SceneProp)this.sceneGrid.SelectedItem;
             TitleEditDialog titleEditDialog = new TitleEditDialog(this, selectedRow.Title);
             var res = titleEditDialog.ShowDialog();
-            if(res == true)
+            if (res == true)
             {
                 selectedRow.Title = titleEditDialog.SceneTitle;
             }
@@ -411,7 +409,7 @@ namespace Yokumiyone
         }
         private void RemoveScene_Click(object sender, RoutedEventArgs e)
         {
-            
+
             SceneProp selectedRow = (SceneProp)this.sceneGrid.SelectedItem;
             string title = selectedRow.Title;
 

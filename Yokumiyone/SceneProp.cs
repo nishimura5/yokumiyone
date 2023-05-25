@@ -1,16 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.DirectoryServices.ActiveDirectory;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Timers;
-using Common;
-using ControlzEx.Standard;
 
 namespace Yokumiyone
 {
@@ -23,7 +11,8 @@ namespace Yokumiyone
         public TimeSpan StartTime { get { return startTime; } }
         public TimeSpan EndTime { get { return endTime; } }
         public string StartTimeStr
-        { get
+        {
+            get
             {
                 return TimeSpanToString(startTime);
             }
@@ -75,7 +64,7 @@ namespace Yokumiyone
             private set { SceneDuration = value; }
         }
 
-        public SceneProp(){}
+        public SceneProp() { }
 
         public SceneProp(string start, string end, string title)
         {
@@ -90,9 +79,9 @@ namespace Yokumiyone
             // H:mm:ss の文字列を戻す
             if (diff.TotalSeconds < 0)
             {
-                return "-" + diff.ToString().Substring(1,8);
+                return "-" + diff.ToString().Substring(1, 8);
             }
-            return diff.ToString().Substring(0,8);
+            return diff.ToString().Substring(0, 8);
         }
 
         public TimeSpan CalcMidTime()
@@ -105,13 +94,15 @@ namespace Yokumiyone
         {
             TimeSpan dst;
             bool res = TimeSpan.TryParseExact(hmmss, @"h\:mm\:ss\.fff", System.Globalization.CultureInfo.InvariantCulture, out dst);
-            if (res == false) {
+            if (res == false)
+            {
                 dst = TimeSpan.Parse("0:0");
             }
             return dst;
         }
 
-        private string TimeSpanToString(TimeSpan timeSpan) {
+        private string TimeSpanToString(TimeSpan timeSpan)
+        {
             string dst = timeSpan.ToString();
             if (dst.Length < 12)
             {

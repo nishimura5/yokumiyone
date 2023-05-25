@@ -1,6 +1,6 @@
-﻿using System.IO;
-using Reactive.Bindings;
+﻿using Reactive.Bindings;
 using System;
+using System.IO;
 
 namespace Yokumiyone
 {
@@ -36,7 +36,7 @@ namespace Yokumiyone
 
         private ReactivePropertySlim<string> videoStatus = new ReactivePropertySlim<string>("");
         public ReactivePropertySlim<string> VideoStatus
-        { 
+        {
             get { return videoStatus; }
         }
 
@@ -79,15 +79,17 @@ namespace Yokumiyone
 
         public void SetState(string state)
         {
-            if(state == "selected")
+            if (state == "selected")
             {
                 videoStatus.Value = "選択中";
                 isEnabled.Value = false;
-            }else if(state == "unselected")
+            }
+            else if (state == "unselected")
             {
                 videoStatus.Value = "";
                 isEnabled.Value = true;
-            }else if(state == "updating")
+            }
+            else if (state == "updating")
             {
                 videoStatus.Value = "更新中";
                 isEnabled.Value = false;

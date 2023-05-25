@@ -275,7 +275,7 @@
                     <DataGrid.Resources>
                         <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#c7890f"/>
                         <Style TargetType="{x:Type DataGridRow}">
-                            <EventSetter Event="MouseLeftButtonUp" Handler="SelectChapter_Click"/>
+                            <EventSetter Event="MouseLeftButtonUp" Handler="SceneRow_Click"/>
                         </Style>
                         <Style TargetType="{x:Type DataGridCell}">
                             <Setter Property="Padding" Value="3"/>

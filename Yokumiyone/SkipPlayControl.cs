@@ -1,10 +1,4 @@
-﻿using Reactive.Bindings;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 
@@ -16,7 +10,8 @@ namespace Yokumiyone
         private ComboBox playCombo = new ComboBox();
         private ToggleButton isSkip = new ToggleButton();
 
-        public bool? IsSkipMode { 
+        public bool? IsSkipMode
+        {
             get { return isSkip.IsChecked; }
             set { isSkip.IsChecked = value; }
         }
@@ -67,7 +62,8 @@ namespace Yokumiyone
                 return play.Sec;
             }
         }
-        public void SetControls(ComboBox skip, ComboBox play, ToggleButton isSkip) {
+        public void SetControls(ComboBox skip, ComboBox play, ToggleButton isSkip)
+        {
             skipCombo = skip;
             playCombo = play;
             this.isSkip = isSkip;

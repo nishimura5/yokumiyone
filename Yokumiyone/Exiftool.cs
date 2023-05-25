@@ -1,20 +1,12 @@
 ﻿using Common;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.Design.Serialization;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Reflection.Metadata.Ecma335;
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
 using System.Text.Json;
-using System.Text.Json.Nodes;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Xml.Linq;
-using System.Xml.XPath;
 
 namespace Yokumiyone
 {
@@ -59,7 +51,7 @@ namespace Yokumiyone
                 return;
             }
             Meta[]? metadata = JsonSerializer.Deserialize<Meta[]>(rawResults);
-            if(metadata != null && metadata.Length == 1)
+            if (metadata != null && metadata.Length == 1)
             {
                 MetaData = metadata[0];
             }
@@ -79,9 +71,10 @@ namespace Yokumiyone
             public int ImageWidth { get; set; }
             public int Rotation { get; set; }
             public float VideoFrameRate { get; set; }
-            public string AvgBitrate {
-                    get{ return avgBitrate ?? "EEE"; }
-                    set{ avgBitrate = value; }
+            public string AvgBitrate
+            {
+                get { return avgBitrate ?? "EEE"; }
+                set { avgBitrate = value; }
             }
         }
         // 動画ファイルからメタデータを抽出
@@ -115,18 +108,19 @@ namespace Yokumiyone
             return stderr;
         }
 
-         public void LoadMetaDataFile() {
+        public void LoadMetaDataFile()
+        {
             if (File.Exists(xmp.xmpPath) == false)
             {
                 xmp.CreateBlankXmp();
             }
             // AppdataLocalに保存されているxmpファイルを読み込んでParse
             XElement xmpElem = XElement.Load(xmp.xmpPath);
-            IEnumerable<XElement> stream = from el in xmpElem.Descendants(Iptc4xmpCore + "Scene").Elements(Rdf+"Bag").Elements(Rdf+"li") select el;
-            foreach(XElement el in stream)
+            IEnumerable<XElement> stream = from el in xmpElem.Descendants(Iptc4xmpCore + "Scene").Elements(Rdf + "Bag").Elements(Rdf + "li") select el;
+            foreach (XElement el in stream)
             {
                 var ScenePropCsv = el.Value.ToString().Split(",");
-                if(ScenePropCsv.Length < 3)
+                if (ScenePropCsv.Length < 3)
                 {
                     continue;
                 }
@@ -136,7 +130,7 @@ namespace Yokumiyone
 
         public int CountNumOfScene()
         {
-            if(File.Exists(xmp.xmpPath) == false)
+            if (File.Exists(xmp.xmpPath) == false)
             {
                 return 0;
             }
@@ -169,13 +163,13 @@ namespace Yokumiyone
                 xmpElem.Descendants(Rdf + "RDF").First().AddFirst(
                     new XElement(Rdf + "Description",
                     new XAttribute(XNamespace.Xmlns + "Iptc4xmpCore", "http://iptc.org/std/Iptc4xmpCore/1.0/xmlns/"),
-                    new XElement(Iptc4xmpCore + "Scene", 
-                    new XElement(Rdf+"Bag"))));
+                    new XElement(Iptc4xmpCore + "Scene",
+                    new XElement(Rdf + "Bag"))));
             }
 
             foreach (SceneProp scene in SceneList)
             {
-                xmpElem.Descendants(Iptc4xmpCore + "Scene").Elements(Rdf + "Bag").First().Add(new XElement(Rdf+"li", scene.ScenePropCsv));
+                xmpElem.Descendants(Iptc4xmpCore + "Scene").Elements(Rdf + "Bag").First().Add(new XElement(Rdf + "li", scene.ScenePropCsv));
             }
 
             xmpElem.Save(xmp.xmpPath);

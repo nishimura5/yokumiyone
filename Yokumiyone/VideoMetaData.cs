@@ -1,15 +1,9 @@
 ﻿using Common;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Yokumiyone.tables;
-using static Yokumiyone.MainWindow;
 
 namespace Yokumiyone
 {
@@ -55,10 +49,10 @@ namespace Yokumiyone
             // 最初に読み込んだ時と比べて新しかったら上書き
             List<string> oldSceneCsvList = new List<string>();
             List<string> newSceneCsvList = new List<string>();
-            foreach(SceneProp oldScene in initScenePropList)
+            foreach (SceneProp oldScene in initScenePropList)
             {
                 oldSceneCsvList.Add(oldScene.ScenePropCsv);
-                if (oldSceneTitleList.Contains(oldScene.Title)==false)
+                if (oldSceneTitleList.Contains(oldScene.Title) == false)
                 {
                     oldSceneTitleList.Add(oldScene.Title);
                 }
@@ -71,9 +65,10 @@ namespace Yokumiyone
                     newSceneTitleList.Add(newScene.Title);
                 }
             }
-            
+
             bool isEqual = Enumerable.SequenceEqual(oldSceneCsvList, newSceneCsvList);
-            if (isEqual == true){
+            if (isEqual == true)
+            {
                 return;
             }
 

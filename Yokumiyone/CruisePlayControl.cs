@@ -2,20 +2,19 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Controls.Primitives;
 
 namespace Yokumiyone
 {
     internal class CruisePlayControl
     {
-        private List<SceneProp> chapters = new List<SceneProp>();
+        private List<SceneProp> sceneProps = new List<SceneProp>();
         public ToggleButton isCruise = new ToggleButton();
         private ToggleButton isFast = new ToggleButton();
 
         public bool? IsCruiseMode { get { return isCruise.IsChecked; } }
-        public bool? IsFastMode { 
+        public bool? IsFastMode
+        {
             get { return isFast.IsChecked; }
             set { isFast.IsChecked = value; }
         }
@@ -24,14 +23,15 @@ namespace Yokumiyone
             this.isCruise = isCruise;
             this.isFast = isFast;
         }
-        public void SetScenes(ObservableCollection<SceneProp> chapters)
+        public void SetScenes(ObservableCollection<SceneProp> sceneProps)
         {
-            this.chapters = chapters.ToList();
+            this.sceneProps = sceneProps.ToList();
             SwitchCruiseEnable();
         }
 
-        public void SwitchCruiseEnable() {
-            if (this.chapters.Count == 0)
+        public void SwitchCruiseEnable()
+        {
+            if (this.sceneProps.Count == 0)
             {
                 isCruise.IsChecked = false;
                 isCruise.IsEnabled = false;
@@ -45,9 +45,10 @@ namespace Yokumiyone
         public bool IsInScene(TimeSpan now)
         {
             bool ret = false;
-            foreach (SceneProp chapter in chapters)
+            foreach (SceneProp sceneProp in sceneProps)
             {
-                if(now > chapter.StartTime && now < chapter.EndTime) {
+                if (now > sceneProp.StartTime && now < sceneProp.EndTime)
+                {
                     ret = true;
                     break;
                 }
@@ -56,14 +57,14 @@ namespace Yokumiyone
         }
         public TimeSpan NextScene(TimeSpan now)
         {
-            if (chapters.Count == 0)
+            if (sceneProps.Count == 0)
             {
                 return new TimeSpan(0, 0, 0);
             }
             List<TimeSpan> starts = new List<TimeSpan>();
-            foreach(SceneProp chapter in chapters)
+            foreach (SceneProp sceneProp in sceneProps)
             {
-                starts.Add(chapter.StartTime);
+                starts.Add(sceneProp.StartTime);
             }
             starts.Sort();
             TimeSpan ret = starts[0];

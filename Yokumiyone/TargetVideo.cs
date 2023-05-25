@@ -1,15 +1,7 @@
-﻿using MahApps.Metro.Controls;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 
 
@@ -100,7 +92,7 @@ namespace Yokumiyone
                     Step(1000 * (this.skipPlayControl.SkipSec));
                     recentSkipPos = nowPos + this.skipPlayControl.SkipSec;
                 }
-                else if((nowPos - recentSkipPos) < 0)
+                else if ((nowPos - recentSkipPos) < 0)
                 {
                     recentSkipPos = nowPos;
                 }
@@ -114,14 +106,14 @@ namespace Yokumiyone
             if (this.cruisePlayControl.IsCruiseMode == true)
             {
                 TimeSpan nowPos = movie.Position;
-                if(this.cruisePlayControl.IsInScene(nowPos) == false)
+                if (this.cruisePlayControl.IsInScene(nowPos) == false)
                 {
                     TimeSpan nextPos = this.cruisePlayControl.NextScene(nowPos);
                     this.Jump(nextPos);
                 }
             }
 
-            if(this.cruisePlayControl.IsFastMode == true)
+            if (this.cruisePlayControl.IsFastMode == true)
             {
                 movie.SpeedRatio = 3.0;
             }
@@ -175,7 +167,7 @@ namespace Yokumiyone
                     lastSliderValue = ProgressSlider.Value;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, this.GetType().Name);
             }
@@ -193,7 +185,8 @@ namespace Yokumiyone
             if (newMs < 0)
             {
                 newMs = 0;
-            }else if (newMs > movie.NaturalDuration.TimeSpan.TotalMilliseconds)
+            }
+            else if (newMs > movie.NaturalDuration.TimeSpan.TotalMilliseconds)
             {
                 newMs = movie.NaturalDuration.TimeSpan.TotalMilliseconds;
             }
@@ -206,7 +199,8 @@ namespace Yokumiyone
             Jump(mseconds);
         }
 
-        public void Jump(double mseconds) {
+        public void Jump(double mseconds)
+        {
             if (IsMovieEnable() == false)
             {
                 return;
@@ -278,8 +272,8 @@ namespace Yokumiyone
             {
                 return;
             }
-                movie.Play();
-                m_stateCurrent = MediaState.Play;
+            movie.Play();
+            m_stateCurrent = MediaState.Play;
         }
 
         public void Release()
@@ -295,8 +289,8 @@ namespace Yokumiyone
 
         public bool IsMovieEnable()
         {
-            bool res= false;
-            if(movie==null || movie.NaturalDuration.HasTimeSpan == false)
+            bool res = false;
+            if (movie == null || movie.NaturalDuration.HasTimeSpan == false)
             {
                 res = false;
             }
