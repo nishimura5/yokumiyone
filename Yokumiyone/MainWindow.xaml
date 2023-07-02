@@ -41,9 +41,13 @@
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <Slider Name="progressSlider" Grid.Column="1" Margin="4,10" HorizontalAlignment="Stretch" TickPlacement="TopLeft" Ticks="{Binding SceneStarts.Value}" />
                     <Button Grid.Column="2" Name="progressButton" Width="120" Content="" Margin="4" Padding="1" Click="ProgressButton_Click" Cursor="Hand" />
+                    <Button Grid.Column="3" Name="startButton" Width="40" Content="{materialDesign:PackIcon Kind=ArrowCollapseLeft}" Margin="4"  Padding="1" Click="StartButton_Click" Cursor="Hand" />
+                    <Button Grid.Column="4" Name="endButton" Width="40" Content="{materialDesign:PackIcon Kind=ArrowCollapseRight}" Margin="4"  Padding="1" Click="EndButton_Click" Cursor="Hand" />
                 </Grid>
                 <Grid Margin="4">
                     <materialDesign:PackIcon Kind="Tortoise" Margin="4,0" />

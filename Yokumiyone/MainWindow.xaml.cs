@@ -286,25 +286,51 @@ namespace Yokumiyone
             }
             progressButtonTime = progressButtonTime.Substring(1);
 
-            // 行が選択されていたら終了時刻を追加
+            string default_scene_title = "Untitled";
+            SceneProp sceneProp = new SceneProp(progressButtonTime, "", default_scene_title);
+            SceneStarts.Value.Add(sceneProp.StartTime.TotalSeconds / targetVideo.TotalSec * 1000);
+            _Bind.Scenes.Add(sceneProp);
+            _Bind.Scenes = new ObservableCollection<SceneProp>(_Bind.Scenes.OrderBy(n => n.StartTime));
+            // シーン選択
+            this.sceneGrid.SelectedItem = sceneProp;
+
+            cruisePlayControl.SetScenes(_Bind.Scenes);
+        }
+        private void StartButton_Click(object sender, RoutedEventArgs e)
+        {
+            string progressButtonTime = progressButton.Content.ToString() ?? "";
+            if (progressButtonTime.Length == 0)
+            {
+                return;
+            }
+            progressButtonTime = progressButtonTime.Substring(1);
+
+            // 行が選択されていたら終了時刻を更新
+            if (this.sceneGrid.SelectedItem != null)
+            {
+                SceneProp selectedRow = (SceneProp)this.sceneGrid.SelectedItem;
+                selectedRow.StartTimeStr = progressButtonTime;
+                _Bind.Scenes = new ObservableCollection<SceneProp>(_Bind.Scenes.OrderBy(n => n.StartTime));
+                cruisePlayControl.SetScenes(_Bind.Scenes);
+            }
+        }
+        private void EndButton_Click(object sender, RoutedEventArgs e)
+        {
+            string progressButtonTime = progressButton.Content.ToString() ?? "";
+            if (progressButtonTime.Length == 0)
+            {
+                return;
+            }
+            progressButtonTime = progressButtonTime.Substring(1);
+
+            // 行が選択されていたら終了時刻を更新
             if (this.sceneGrid.SelectedItem != null)
             {
                 SceneProp selectedRow = (SceneProp)this.sceneGrid.SelectedItem;
                 selectedRow.EndTimeStr = progressButtonTime;
+                _Bind.Scenes = new ObservableCollection<SceneProp>(_Bind.Scenes.OrderBy(n => n.StartTime));
+                cruisePlayControl.SetScenes(_Bind.Scenes);
             }
-            // 行が選択されていなかったら新しい開始時刻を追加
-            else
-            {
-                string default_scene_title = "Untitled";
-                SceneProp sceneProp = new SceneProp(progressButtonTime, "", default_scene_title);
-                SceneStarts.Value.Add(sceneProp.StartTime.TotalSeconds / targetVideo.TotalSec * 1000);
-                _Bind.Scenes.Add(sceneProp);
-            }
-            _Bind.Scenes = new ObservableCollection<SceneProp>(_Bind.Scenes.OrderBy(n => n.StartTime));
-            // シーン選択を解除、終了時刻の誤上書き防止
-            this.sceneGrid.SelectedItem = null;
-
-            cruisePlayControl.SetScenes(_Bind.Scenes);
         }
 
         private void Movie_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
