@@ -275,6 +275,22 @@ namespace Yokumiyone
             this.sceneGrid.SelectedItem = null;
         }
 
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Space)
+            {
+                PlayPauseButton_Click((object)sender, e);
+            }
+            else if (e.Key == Key.A)
+            {
+                targetVideo.Step(-1000);
+            }
+            else if (e.Key == Key.D)
+            {
+                targetVideo.Step(1000);
+            }
+}
+
         // 時刻ボタンをクリックするとチャプター追加
         // 終了時刻列が選択されていたら終了時刻を追加
         private void ProgressButton_Click(object sender, RoutedEventArgs e)
