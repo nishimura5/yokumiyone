@@ -449,6 +449,14 @@ namespace Yokumiyone
             SceneOutputDialog sceneOutputDialog = new SceneOutputDialog(this, selectedRow, targetVideoPath);
             var res = sceneOutputDialog.ShowDialog();
         }
+
+        private void LandmarkTicket_Click(object sender, RoutedEventArgs e)
+        {
+            SceneProp selectedRow = (SceneProp)this.sceneGrid.SelectedItem;
+            LandmarkTicketDialog landmarkTicketDialog = new LandmarkTicketDialog(this, selectedRow, targetVideoPath);
+            var res = landmarkTicketDialog.ShowDialog();
+        }
+
         private void RemoveScene_Click(object sender, RoutedEventArgs e)
         {
 

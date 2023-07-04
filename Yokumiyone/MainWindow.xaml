@@ -299,6 +299,7 @@
                         <ContextMenu IsVisibleChanged="SceneMenu_Opening">
                             <MenuItem Name="editSceneTitle" Header="タイトルを編集" Click="EditSceneTitle_Click" />
                             <MenuItem Name="sceneOutput" Header="ファイル出力" Click="SceneOutput_Click" />
+                            <MenuItem Name="landmarkTicket" Header="ランドマーク分析票を作成" Click="LandmarkTicket_Click" />
                             <MenuItem Name="removeScene" Header="削除" Click="RemoveScene_Click" />
                         </ContextMenu>
                     </DataGrid.ContextMenu>
