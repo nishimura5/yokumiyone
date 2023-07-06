@@ -56,13 +56,14 @@ namespace Yokumiyone
         SelectedPoints selectedPointsOnGrid = new SelectedPoints(60, 230, 60);
 
         string videoPath = "";
+        float fps=1;
         private string? dstFolderPath;
         string dstFilePath = "";
         SceneProp scene;
         private int _mouseOverThreshold = 5;
 
 
-        public LandmarkTicketDialog(Window owner, SceneProp scene, string srcVideoPath)
+        public LandmarkTicketDialog(Window owner, SceneProp scene, string srcVideoPath, float fps)
         {
             InitializeComponent();
             _Bind = new Bind();
@@ -70,6 +71,7 @@ namespace Yokumiyone
             _Bind.Points = new ObservableCollection<Landmark>();
 
             this.videoPath = srcVideoPath;
+            this.fps = fps;
             this.scene = scene;
 
             string jsonText = File.ReadAllText(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "3rd", "face_mesh_landmarks.json"));
@@ -199,6 +201,7 @@ namespace Yokumiyone
             LandmarkCalcJson export = new LandmarkCalcJson
             {
                 videoPath = this.videoPath,
+                fps = this.fps,
                 startTimeStr = scene.StartTimeStr,
                 endTimeStr = scene.EndTimeStr,
                 landmarks = landmarksStr,

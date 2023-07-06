@@ -452,8 +452,9 @@ namespace Yokumiyone
 
         private void LandmarkTicket_Click(object sender, RoutedEventArgs e)
         {
-            SceneProp selectedRow = (SceneProp)this.sceneGrid.SelectedItem;
-            LandmarkTicketDialog landmarkTicketDialog = new LandmarkTicketDialog(this, selectedRow, targetVideoPath);
+            VideoProp selectedVideo = (VideoProp)this.videoPropDataGrid.SelectedItem;
+            SceneProp selectedScene = (SceneProp)this.sceneGrid.SelectedItem;
+            LandmarkTicketDialog landmarkTicketDialog = new LandmarkTicketDialog(this, selectedScene, targetVideoPath, selectedVideo.Fps);
             var res = landmarkTicketDialog.ShowDialog();
         }
 

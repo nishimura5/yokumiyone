@@ -11,11 +11,13 @@ namespace Yokumiyone
     public class LandmarkCalcJson
     {
         [JsonProperty("video_path")]
-        public string videoPath { get; set; }
+        public string? videoPath { get; set; }
+        [JsonProperty("fps")]
+        public float fps { get; set; }
         [JsonProperty("start_time")]
-        public string startTimeStr { get; set; }
+        public string? startTimeStr { get; set; }
         [JsonProperty("end_time")]
-        public string endTimeStr { get; set; }
+        public string? endTimeStr { get; set; }
         [JsonProperty("landmarks")]
         public List<List<string>> landmarks { get; set; }
 

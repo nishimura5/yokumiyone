@@ -50,6 +50,7 @@ namespace Yokumiyone
             FilePath = targetFilePath;
             FileName = Path.GetFileNameWithoutExtension(targetFilePath);
             FpsFormat = exiftool.MetaData.VideoFrameRate.ToString();
+            Fps = exiftool.MetaData.VideoFrameRate;
             Width = exiftool.MetaData.ImageWidth;
             Height = exiftool.MetaData.ImageHeight;
             Rotation = exiftool.MetaData.Rotation;
@@ -66,6 +67,7 @@ namespace Yokumiyone
             FilePath = filePath;
             FileName = Path.GetFileNameWithoutExtension(filePath);
             FpsFormat = fpsFormat;
+            Fps = (float)Convert.ToDouble(fpsFormat);
             Width = width;
             Height = height;
             Rotation = rotation;
