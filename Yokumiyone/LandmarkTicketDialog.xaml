@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        WindowStyle="None"
+        Title="Yokumiyone"
         Width="1000" Height="700">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -17,14 +17,66 @@
         </Grid>
         <StackPanel Orientation="Vertical" Grid.Column="1">
             <StackPanel>
-                <Button Name="titleOk" 
+                <Button Name="standardButton" 
+        			VerticalAlignment="Center" Margin="4,8"
+                    Click="StandardButton_Click" Cursor="Hand"
+                    >
+                    標準領域を登録
+                </Button>
+                <DataGrid Name="stdPointsGrid" 
+                      ItemsSource="{Binding StdPoints}" 
+                      SelectedItem="" 
+                      AutoGenerateColumns="False"
+                      CanUserAddRows="False"
+                      VirtualizingStackPanel.VirtualizationMode="Standard">
+                    <DataGrid.ColumnHeaderStyle>
+                        <Style TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
+                                        <TextBlock x:Name="ContentHeader" Text="{TemplateBinding Content}" Padding="5" Width="{TemplateBinding Width}" TextAlignment="Center" />
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </DataGrid.ColumnHeaderStyle>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn IsReadOnly="True" Header="点数" Binding="{Binding PointNum}" Width="60"/>
+                        <DataGridTextColumn IsReadOnly="True" Header="ランドマーク" Binding="{Binding PointsCsv}" Width="*"/>
+                    </DataGrid.Columns>
+                    <DataGrid.Resources>
+                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#c7890f"/>
+                        <Style TargetType="{x:Type DataGridRow}">
+                            <EventSetter Event="MouseLeftButtonUp" Handler="StdPointsRow_Click"/>
+                        </Style>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Setter Property="Padding" Value="3"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                        <Border Padding="{TemplateBinding Padding}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                                            <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </DataGrid.Resources>
+                    <DataGrid.ContextMenu>
+                        <ContextMenu IsVisibleChanged="StdPointsMenu_Opening">
+                            <MenuItem Name="removeStdPoints" Header="削除" Click="RemoveStdPoints_Click" />
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
+                </DataGrid>
+            </StackPanel>
+            <StackPanel>
+                <Button Name="appendButton" 
         			VerticalAlignment="Center" Margin="4,8"
                     Click="AppendButton_Click" Cursor="Hand"
                     >
                     分析領域を追加
                 </Button>
-            </StackPanel>
-            <StackPanel>
+
                 <DataGrid Name="pointsGrid" 
                       ItemsSource="{Binding Points}" 
                       SelectedItem="" 
@@ -72,12 +124,6 @@
                 </DataGrid>
             </StackPanel>
             <DockPanel>
-                <Button Name="CloseButton" HorizontalAlignment="Right" 
-        			VerticalAlignment="Center" Margin="4,8" Width="100"
-                    Click="CloseButton_Click" Cursor="Hand"
-                    >
-                    閉じる
-                </Button>
                 <Button Name="ExportButton" HorizontalAlignment="Right" 
         			VerticalAlignment="Center" Margin="4,8" Width="150"
                     Click="ExportButton_Click" Cursor="Hand"

@@ -1,16 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 using System.Windows;
 using Newtonsoft.Json;
-using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Shapes;
 using System.Windows.Media;
-using static Yokumiyone.MainWindow;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using Microsoft.WindowsAPICodePack.Dialogs;
@@ -37,6 +33,13 @@ namespace Yokumiyone
 
             internal Bind() { }
 
+            private ObservableCollection<Landmark> _StdPoints;
+            public ObservableCollection<Landmark> StdPoints
+            {
+                get { return _StdPoints; }
+                set { _StdPoints = value; OnPropertyChanged("StdPoints"); }
+            }
+
             private ObservableCollection<Landmark> _Points;
             public ObservableCollection<Landmark> Points
             {
@@ -46,6 +49,7 @@ namespace Yokumiyone
         }
         internal Bind _Bind;
         #endregion
+
         // mouse overした点
         MouseoverPoint mouseoverPoint = new MouseoverPoint();
         Point postPoint = new Point();
@@ -68,6 +72,7 @@ namespace Yokumiyone
             InitializeComponent();
             _Bind = new Bind();
             this.DataContext = _Bind;
+            _Bind.StdPoints = new ObservableCollection<Landmark>();
             _Bind.Points = new ObservableCollection<Landmark>();
 
             this.videoPath = srcVideoPath;
@@ -143,6 +148,34 @@ namespace Yokumiyone
             selectedPointsOnGrid.UpdateSelectedPoints(selectedRow);
             canvas.Children.Add(selectedPointsOnGrid.SelectedPolygon);
         }
+        private void StdPointsRow_Click(object sender, EventArgs e)
+        {
+            if (this.stdPointsGrid.CurrentColumn == null)
+            {
+                return;
+            }
+            Landmark selectedRow = (Landmark)this.stdPointsGrid.SelectedItem;
+
+            canvas.Children.Remove(selectedPointsOnGrid.SelectedPolygon);
+            selectedPointsOnGrid.UpdateSelectedPoints(selectedRow);
+            canvas.Children.Add(selectedPointsOnGrid.SelectedPolygon);
+        }
+        private void StandardButton_Click(object sender, EventArgs e)
+        {
+            Landmark newPoints = new Landmark(selectedPoints.Points);
+            _Bind.StdPoints.Add(newPoints);
+            _Bind.StdPoints = new ObservableCollection<Landmark>(_Bind.StdPoints.OrderBy(n => n.PointNum));
+
+            canvas.Children.Remove(selectedPoints.SelectedPolygon);
+            selectedPoints.Clear();
+
+            this.stdPointsGrid.SelectedItem = newPoints;
+            Landmark selectedRow = (Landmark)this.stdPointsGrid.SelectedItem;
+
+            canvas.Children.Remove(selectedPointsOnGrid.SelectedPolygon);
+            selectedPointsOnGrid.UpdateSelectedPoints(selectedRow);
+            canvas.Children.Add(selectedPointsOnGrid.SelectedPolygon);
+        }
 
         private void AppendButton_Click(object sender, RoutedEventArgs e)
         {
@@ -162,6 +195,18 @@ namespace Yokumiyone
         }
 
         // 右クリック操作
+        private void StdPointsMenu_Opening(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            var selectedRow = this.pointsGrid.SelectedItem;
+            if (selectedRow == null)
+            {
+                removeStdPoints.IsEnabled = false;
+            }
+            else
+            {
+                removeStdPoints.IsEnabled = true;
+            }
+        }
         private void PointsMenu_Opening(object sender, DependencyPropertyChangedEventArgs e)
         {
             var selectedRow = this.pointsGrid.SelectedItem;
@@ -174,6 +219,16 @@ namespace Yokumiyone
                 removePoints.IsEnabled = true;
             }
         }
+        private void RemoveStdPoints_Click(object sender, RoutedEventArgs e)
+        {
+            int idx = this.stdPointsGrid.SelectedIndex;
+
+            if (idx >= _Bind.StdPoints.Count || idx < 0)
+            {
+                return;
+            }
+            _Bind.StdPoints.RemoveAt(idx);
+        }
         private void RemovePoints_Click(object sender, RoutedEventArgs e)
         {
             int idx = this.pointsGrid.SelectedIndex;
@@ -184,7 +239,6 @@ namespace Yokumiyone
             }
             _Bind.Points.RemoveAt(idx);
         }
-
         private void ExportButton_Click(object sender, RoutedEventArgs e)
         {
 
@@ -198,12 +252,24 @@ namespace Yokumiyone
                 }
                 landmarksStr.Add(points);
             }
+            List<List<string>> stdLandmarksStr = new List<List<string>>();
+            foreach (var landmarks in _Bind.StdPoints)
+            {
+                List<string> points = new List<string>();
+                foreach (var point in landmarks.Points)
+                {
+                    points.Add(point.Name);
+                }
+                stdLandmarksStr.Add(points);
+            }
+
             LandmarkCalcJson export = new LandmarkCalcJson
             {
                 videoPath = this.videoPath,
                 fps = this.fps,
                 startTimeStr = scene.StartTimeStr,
                 endTimeStr = scene.EndTimeStr,
+                standardLandmarks = stdLandmarksStr,
                 landmarks = landmarksStr,
             };
 

@@ -18,6 +18,8 @@ namespace Yokumiyone
         public string? startTimeStr { get; set; }
         [JsonProperty("end_time")]
         public string? endTimeStr { get; set; }
+        [JsonProperty("standard_landmarks")]
+        public List<List<string>> standardLandmarks { get; set; }
         [JsonProperty("landmarks")]
         public List<List<string>> landmarks { get; set; }
 
