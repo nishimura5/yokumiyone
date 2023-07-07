@@ -277,11 +277,13 @@ namespace Yokumiyone
             {
                 dstFolderPath = System.IO.Path.GetDirectoryName(this.videoPath);
             }
+
+            string dstJsonFileName = System.IO.Path.GetFileNameWithoutExtension(this.videoPath);
             var dialog = new CommonSaveFileDialog()
             {
                 Title = "出力先を選択してください",
                 DefaultDirectory = dstFolderPath,
-                DefaultFileName = "landmarks.json",
+                DefaultFileName = string.Concat(dstJsonFileName, "_", scene.Title, "_landmarks.json"),
             };
             dialog.Filters.Add(new CommonFileDialogFilter("Json files", ".json"));
 
