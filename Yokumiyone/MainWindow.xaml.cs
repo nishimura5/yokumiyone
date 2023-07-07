@@ -31,7 +31,9 @@ namespace Yokumiyone
             {
                 PropertyChangedEventHandler? handler = this.PropertyChanged;
                 if (handler != null)
+                {
                     handler(this, new PropertyChangedEventArgs(propertyName));
+                }
             }
             #endregion
 
@@ -41,14 +43,14 @@ namespace Yokumiyone
             public ObservableCollection<VideoProp> VideoProps
             {
                 get { return _VideoProps; }
-                set { _VideoProps = value; OnPropertyChanged("VideoProps"); }
+                set { _VideoProps = value; OnPropertyChanged(nameof(VideoProps)); }
             }
 
             private ObservableCollection<SceneProp> _Scenes;
             public ObservableCollection<SceneProp> Scenes
             {
                 get { return _Scenes; }
-                set { _Scenes = value; OnPropertyChanged("Scenes"); }
+                set { _Scenes = value; OnPropertyChanged(nameof(Scenes)); }
             }
         }
         internal Bind _Bind;
@@ -57,14 +59,14 @@ namespace Yokumiyone
         private string targetFolderPath = "";
         private string targetVideoPath = "";
         private int writingVideoNum = 0;
-        private TargetVideo targetVideo = new TargetVideo();
-        private TweakSliderManager tweak = new TweakSliderManager();
-        private VideoMetaData metadata = new VideoMetaData();
-        private SkipPlayControl skipPlayControl = new SkipPlayControl();
-        private CruisePlayControl cruisePlayControl = new CruisePlayControl();
-        private VideoList videoList = new VideoList();
+        private readonly TargetVideo targetVideo = new();
+        private readonly TweakSliderManager tweak = new();
+        private readonly VideoMetaData metadata = new();
+        private readonly SkipPlayControl skipPlayControl = new();
+        private readonly CruisePlayControl cruisePlayControl = new();
+        private readonly VideoList videoList = new();
 
-        private ReactivePropertySlim<DoubleCollection> _SceneStarts = new ReactivePropertySlim<DoubleCollection>();
+        private ReactivePropertySlim<DoubleCollection> _SceneStarts = new();
         public ReactivePropertySlim<DoubleCollection> SceneStarts
         {
             get { return _SceneStarts; }
@@ -103,7 +105,7 @@ namespace Yokumiyone
                 {
                     targetVideoPath = args[1];
                     targetFolderPath = new FileInfo(targetVideoPath).Directory.FullName;
-                    VideoProp tarProp = new VideoProp(targetVideoPath);
+                    VideoProp tarProp = new(targetVideoPath);
                     LoadVideo(tarProp);
                 }
             }
@@ -159,7 +161,7 @@ namespace Yokumiyone
 
         private async void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
-            SettingsDialog settingsDialog = new SettingsDialog(this);
+            SettingsDialog settingsDialog = new(this);
             var res = settingsDialog.ShowDialog();
         }
 
@@ -226,15 +228,15 @@ namespace Yokumiyone
                 return;
             }
             // シーン数を更新
-            int NumOfScene = _Bind.Scenes.Count();
+            int NumOfScene = _Bind.Scenes.Count;
             selectedRow.SetNumOfScene(NumOfScene);
 
-            List<string> sceneList = new List<string>();
+            List<string> sceneList = new();
             foreach (var sceneProp in _Bind.Scenes)
             {
                 sceneList.Add(sceneProp.Title);
             }
-            ScenePathTable scenePathDb = new ScenePathTable(targetVideoPath);
+            ScenePathTable scenePathDb = new(targetVideoPath);
             scenePathDb.Update(sceneList);
 
             targetVideoPath = selectedRow.FilePath;
@@ -249,7 +251,7 @@ namespace Yokumiyone
             selectedRow.SetState("unselected");
 
             // DB更新
-            VideoPropTable videoPropDb = new VideoPropTable();
+            VideoPropTable videoPropDb = new();
             videoPropDb.UpdateSceneCnt(targetVideoPath, NumOfScene.ToString());
 
             // mp4上書きが終わったらフォルダ選択をenableにする
@@ -300,10 +302,10 @@ namespace Yokumiyone
             {
                 return;
             }
-            progressButtonTime = progressButtonTime.Substring(1);
+            progressButtonTime = progressButtonTime[1..];
 
             string default_scene_title = "Untitled";
-            SceneProp sceneProp = new SceneProp(progressButtonTime, "", default_scene_title);
+            SceneProp sceneProp = new(progressButtonTime, "", default_scene_title);
             SceneStarts.Value.Add(sceneProp.StartTime.TotalSeconds / targetVideo.TotalSec * 1000);
             _Bind.Scenes.Add(sceneProp);
             _Bind.Scenes = new ObservableCollection<SceneProp>(_Bind.Scenes.OrderBy(n => n.StartTime));
@@ -319,7 +321,7 @@ namespace Yokumiyone
             {
                 return;
             }
-            progressButtonTime = progressButtonTime.Substring(1);
+            progressButtonTime = progressButtonTime[1..];
 
             // 行が選択されていたら終了時刻を更新
             if (this.sceneGrid.SelectedItem != null)
@@ -337,7 +339,7 @@ namespace Yokumiyone
             {
                 return;
             }
-            progressButtonTime = progressButtonTime.Substring(1);
+            progressButtonTime = progressButtonTime[1..];
 
             // 行が選択されていたら終了時刻を更新
             if (this.sceneGrid.SelectedItem != null)
@@ -434,7 +436,7 @@ namespace Yokumiyone
         private void EditSceneTitle_Click(object sender, RoutedEventArgs e)
         {
             SceneProp selectedRow = (SceneProp)this.sceneGrid.SelectedItem;
-            TitleEditDialog titleEditDialog = new TitleEditDialog(this, selectedRow.Title);
+            TitleEditDialog titleEditDialog = new(this, selectedRow.Title);
             var res = titleEditDialog.ShowDialog();
             if (res == true)
             {
@@ -446,7 +448,7 @@ namespace Yokumiyone
         private void SceneOutput_Click(object sender, RoutedEventArgs e)
         {
             SceneProp selectedRow = (SceneProp)this.sceneGrid.SelectedItem;
-            SceneOutputDialog sceneOutputDialog = new SceneOutputDialog(this, selectedRow, targetVideoPath);
+            SceneOutputDialog sceneOutputDialog = new(this, selectedRow, targetVideoPath);
             var res = sceneOutputDialog.ShowDialog();
         }
 
@@ -454,7 +456,10 @@ namespace Yokumiyone
         {
             VideoProp selectedVideo = (VideoProp)this.videoPropDataGrid.SelectedItem;
             SceneProp selectedScene = (SceneProp)this.sceneGrid.SelectedItem;
-            LandmarkTicketDialog landmarkTicketDialog = new LandmarkTicketDialog(this, selectedScene, targetVideoPath, selectedVideo.Fps);
+            if(selectedVideo == null) {
+                return;
+            }
+            LandmarkTicketDialog landmarkTicketDialog = new(this, selectedScene, targetVideoPath, selectedVideo.Fps);
             var res = landmarkTicketDialog.ShowDialog();
         }
 
