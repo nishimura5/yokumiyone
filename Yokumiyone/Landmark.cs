@@ -17,6 +17,7 @@ namespace Yokumiyone
         private readonly List<LandPoint> landmarks = new();
 
         public List<LandPoint> Points { get { return landmarks; } }
+        public string LandmarkType { get; set; }
         public int PointNum { get { return Points.Count; } }
         public string PointsCsv { get { return GenCsv(); } }
 

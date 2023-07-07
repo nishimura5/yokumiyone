@@ -306,6 +306,7 @@ namespace Yokumiyone
                 Fps = this.fps,
                 StartTimeStr = scene.StartTimeStr,
                 EndTimeStr = scene.EndTimeStr,
+                LandmarkType="mediapipe_facial_mesh",
                 StandardLandmarks = stdLandmarksStr,
                 Landmarks = landmarksStr,
             };
