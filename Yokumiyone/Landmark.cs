@@ -75,6 +75,20 @@ namespace Yokumiyone
             return polygon;
         }
 
+        public LandPoint FindByName(string name)
+        {
+            LandPoint retPoint = new(name ,0, 0, 1);
+            foreach (var point in landmarks)
+            {
+                if(point.Name == name)
+                {
+                    retPoint = point;
+                    break;
+                }
+            }
+            return retPoint;
+        }
+
         private string GenCsv()
         {
             string dstCsv = "";

@@ -160,34 +160,29 @@ namespace Yokumiyone
             selectedPointsOnGrid.UpdateSelectedPoints(selectedRow);
             canvas.Children.Add(selectedPointsOnGrid.SelectedPolygon);
         }
-        private void StandardButton_Click(object sender, EventArgs e)
+        private void AppendButton_Click(object sender, EventArgs e)
         {
             Landmark newPoints = new(selectedPoints.Points);
-            _Bind.StdPoints.Add(newPoints);
-            _Bind.StdPoints = new ObservableCollection<Landmark>(_Bind.StdPoints.OrderBy(n => n.PointNum));
+            Landmark selectedRow = new();
+            
+            var button = (System.Windows.Controls.Button)sender;
+            if (button.Name == "standardButton")
+            {
+                _Bind.StdPoints.Add(newPoints);
+                _Bind.StdPoints = new ObservableCollection<Landmark>(_Bind.StdPoints.OrderBy(n => n.PointNum));
+                this.stdPointsGrid.SelectedItem = newPoints;
+                selectedRow = (Landmark)this.stdPointsGrid.SelectedItem;
+            }
+            else if(button.Name == "appendButton")
+            {
+                _Bind.Points.Add(newPoints);
+                _Bind.Points = new ObservableCollection<Landmark>(_Bind.Points.OrderBy(n => n.PointNum));
+                this.pointsGrid.SelectedItem = newPoints;
+                selectedRow = (Landmark)this.pointsGrid.SelectedItem;
+            }
 
             canvas.Children.Remove(selectedPoints.SelectedPolygon);
             selectedPoints.Clear();
-
-            this.stdPointsGrid.SelectedItem = newPoints;
-            Landmark selectedRow = (Landmark)this.stdPointsGrid.SelectedItem;
-
-            canvas.Children.Remove(selectedPointsOnGrid.SelectedPolygon);
-            selectedPointsOnGrid.UpdateSelectedPoints(selectedRow);
-            canvas.Children.Add(selectedPointsOnGrid.SelectedPolygon);
-        }
-
-        private void AppendButton_Click(object sender, RoutedEventArgs e)
-        {
-            Landmark newPoints = new(selectedPoints.Points);
-            _Bind.Points.Add(newPoints);
-            _Bind.Points = new ObservableCollection<Landmark>(_Bind.Points.OrderBy(n => n.PointNum));
-
-            canvas.Children.Remove(selectedPoints.SelectedPolygon);
-            selectedPoints.Clear();
-
-            this.pointsGrid.SelectedItem = newPoints;
-            Landmark selectedRow = (Landmark)this.pointsGrid.SelectedItem;
 
             canvas.Children.Remove(selectedPointsOnGrid.SelectedPolygon);
             selectedPointsOnGrid.UpdateSelectedPoints(selectedRow);
@@ -195,30 +190,21 @@ namespace Yokumiyone
         }
 
         // 右クリック操作
-        private void StdPointsMenu_Opening(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            var selectedRow = this.pointsGrid.SelectedItem;
-            if (selectedRow == null)
-            {
-                removeStdPoints.IsEnabled = false;
-            }
-            else
-            {
-                removeStdPoints.IsEnabled = true;
-            }
-        }
         private void PointsMenu_Opening(object sender, DependencyPropertyChangedEventArgs e)
         {
             var selectedRow = this.pointsGrid.SelectedItem;
             if (selectedRow == null)
             {
+                removeStdPoints.IsEnabled = false;
                 removePoints.IsEnabled = false;
             }
             else
             {
+                removeStdPoints.IsEnabled = true;
                 removePoints.IsEnabled = true;
             }
         }
+
         private void RemoveStdPoints_Click(object sender, RoutedEventArgs e)
         {
             int idx = this.stdPointsGrid.SelectedIndex;
@@ -238,6 +224,57 @@ namespace Yokumiyone
                 return;
             }
             _Bind.Points.RemoveAt(idx);
+        }
+        private void ImportButton_Click(object sender, RoutedEventArgs e)
+        {
+            string targetFolderPath = System.IO.Path.GetDirectoryName(this.videoPath);
+            string targetFilePath = "";
+            var dialog = new CommonOpenFileDialog()
+            {
+                Title = "ファイルを選択してください",
+                InitialDirectory = targetFolderPath,
+            };
+            dialog.Filters.Add(new CommonFileDialogFilter("Json files", ".json"));
+
+            // ダイアログを表示
+            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                    targetFilePath = dialog.FileName;
+            }
+            this.Topmost = true;
+            this.Topmost = false;
+
+            LandmarkCalcJson import = new();
+
+            using(var sr = new StreamReader(targetFilePath))
+            {
+                var jsonData = sr.ReadToEnd();
+                import = JsonConvert.DeserializeObject<LandmarkCalcJson>(jsonData);
+            }
+
+            // 標準領域を追加
+            foreach(List<string> lm in import.StandardLandmarks)
+            {
+                Landmark landmark = new();
+                foreach(string pointName in lm)
+                {
+                    LandPoint point = baseLandmarks.FindByName(pointName);
+                    landmark.Points.Add(point);
+                }
+                _Bind.StdPoints.Add(landmark);
+            }
+
+            // 分析領域を追加
+            foreach (List<string> lm in import.Landmarks)
+            {
+                Landmark landmark = new();
+                foreach (string pointName in lm)
+                {
+                    LandPoint point = baseLandmarks.FindByName(pointName);
+                    landmark.Points.Add(point);
+                }
+                _Bind.Points.Add(landmark);
+            }
         }
         private void ExportButton_Click(object sender, RoutedEventArgs e)
         {

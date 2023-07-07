@@ -19,7 +19,7 @@
             <StackPanel>
                 <Button Name="standardButton" 
         			VerticalAlignment="Center" Margin="4,8"
-                    Click="StandardButton_Click" Cursor="Hand"
+                    Click="AppendButton_Click" Cursor="Hand"
                     >
                     標準領域を登録
                 </Button>
@@ -63,7 +63,7 @@
                         </Style>
                     </DataGrid.Resources>
                     <DataGrid.ContextMenu>
-                        <ContextMenu IsVisibleChanged="StdPointsMenu_Opening">
+                        <ContextMenu IsVisibleChanged="PointsMenu_Opening">
                             <MenuItem Name="removeStdPoints" Header="削除" Click="RemoveStdPoints_Click" />
                         </ContextMenu>
                     </DataGrid.ContextMenu>
@@ -124,6 +124,12 @@
                 </DataGrid>
             </StackPanel>
             <DockPanel>
+                <Button Name="ImportButton" HorizontalAlignment="Right" 
+        			VerticalAlignment="Center" Margin="4,8" Width="150"
+                    Click="ImportButton_Click" Cursor="Hand"
+                    >
+                    ファイル読み込み
+                </Button>
                 <Button Name="ExportButton" HorizontalAlignment="Right" 
         			VerticalAlignment="Center" Margin="4,8" Width="150"
                     Click="ExportButton_Click" Cursor="Hand"
