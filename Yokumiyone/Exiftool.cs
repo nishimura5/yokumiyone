@@ -12,8 +12,8 @@ namespace Yokumiyone
 {
     class Exiftool
     {
-        private YokumiyoneXmp xmp = new YokumiyoneXmp();
-        private string exiftoolPath
+        private YokumiyoneXmp xmp = new();
+        private string ExiftoolPath
         {
             get
             {
@@ -25,8 +25,8 @@ namespace Yokumiyone
         private static readonly XNamespace Rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
         private static readonly XNamespace Iptc4xmpCore = "http://iptc.org/std/Iptc4xmpCore/1.0/xmlns/";
 
-        public List<SceneProp> SceneList = new List<SceneProp>();
-        public Meta MetaData = new Meta();
+        public List<SceneProp> SceneList = new();
+        public Meta MetaData = new();
 
         public Exiftool(string targetVideoPath)
         {
@@ -36,7 +36,7 @@ namespace Yokumiyone
         public void GetMetaData()
         {
             var proc = new Process();
-            proc.StartInfo.FileName = this.exiftoolPath;
+            proc.StartInfo.FileName = this.ExiftoolPath;
             proc.StartInfo.Arguments = $"\"{xmp.targetVideoPath}\" -charset filename=\"\" -s -Duration -ImageHeight -ImageWidth -Rotation -VideoFrameRate -AvgBitrate -j -b";
             proc.StartInfo.CreateNoWindow = true;
             proc.StartInfo.RedirectStandardOutput = true;
@@ -81,8 +81,8 @@ namespace Yokumiyone
         public string ExtractMetaDataFile()
         {
             var proc = new Process();
-            proc.StartInfo.FileName = this.exiftoolPath;
-            proc.StartInfo.Arguments = $"-tagsfromfile \"{xmp.targetVideoPath}\" \"{xmp.xmpPath}\" -charset filename=\"\" -overwrite_original_in_place -all:all -xmp:all -exif:all -composite:all -quicktime:all -iptc:all -gps:all -ee -api largefilesupport=1";
+            proc.StartInfo.FileName = this.ExiftoolPath;
+            proc.StartInfo.Arguments = $"-tagsfromfile \"{xmp.targetVideoPath}\" \"{xmp.XmpPath}\" -charset filename=\"\" -overwrite_original_in_place -all:all -xmp:all -exif:all -composite:all -quicktime:all -iptc:all -gps:all -ee -api largefilesupport=1";
             proc.StartInfo.CreateNoWindow = true;
             proc.StartInfo.RedirectStandardOutput = false;
             proc.StartInfo.RedirectStandardError = true;
@@ -110,12 +110,12 @@ namespace Yokumiyone
 
         public void LoadMetaDataFile()
         {
-            if (File.Exists(xmp.xmpPath) == false)
+            if (File.Exists(xmp.XmpPath) == false)
             {
                 xmp.CreateBlankXmp();
             }
             // AppdataLocalに保存されているxmpファイルを読み込んでParse
-            XElement xmpElem = XElement.Load(xmp.xmpPath);
+            XElement xmpElem = XElement.Load(xmp.XmpPath);
             IEnumerable<XElement> stream = from el in xmpElem.Descendants(Iptc4xmpCore + "Scene").Elements(Rdf + "Bag").Elements(Rdf + "li") select el;
             foreach (XElement el in stream)
             {
@@ -130,12 +130,12 @@ namespace Yokumiyone
 
         public int CountNumOfScene()
         {
-            if (File.Exists(xmp.xmpPath) == false)
+            if (File.Exists(xmp.XmpPath) == false)
             {
                 return 0;
             }
             int cnt = 0;
-            XElement xmpElem = XElement.Load(xmp.xmpPath);
+            XElement xmpElem = XElement.Load(xmp.XmpPath);
             cnt = xmpElem.Descendants(Iptc4xmpCore + "Scene").Count();
             if (cnt > 0)
             {
@@ -147,7 +147,7 @@ namespace Yokumiyone
 
         public void UpdateMetaDataFile()
         {
-            XElement xmpElem = XElement.Load(xmp.xmpPath);
+            XElement xmpElem = XElement.Load(xmp.XmpPath);
 
             // Sceneを探す
             int cnt = xmpElem.Descendants(Iptc4xmpCore + "Scene").Count();
@@ -172,14 +172,14 @@ namespace Yokumiyone
                 xmpElem.Descendants(Iptc4xmpCore + "Scene").Elements(Rdf + "Bag").First().Add(new XElement(Rdf + "li", scene.ScenePropCsv));
             }
 
-            xmpElem.Save(xmp.xmpPath);
+            xmpElem.Save(xmp.XmpPath);
         }
 
         public void InsertMetaData()
         {
             var proc = new Process();
-            proc.StartInfo.FileName = this.exiftoolPath;
-            proc.StartInfo.Arguments = $"-tagsfromfile \"{xmp.xmpPath}\" \"{xmp.targetVideoPath}\" -overwrite_original_in_place -api largefilesupport=1";
+            proc.StartInfo.FileName = this.ExiftoolPath;
+            proc.StartInfo.Arguments = $"-tagsfromfile \"{xmp.XmpPath}\" \"{xmp.targetVideoPath}\" -overwrite_original_in_place -api largefilesupport=1";
             proc.StartInfo.CreateNoWindow = true;
             proc.StartInfo.RedirectStandardOutput = true;
             proc.StartInfo.UseShellExecute = false;

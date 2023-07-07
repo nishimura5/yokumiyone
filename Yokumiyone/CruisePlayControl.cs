@@ -8,9 +8,9 @@ namespace Yokumiyone
 {
     internal class CruisePlayControl
     {
-        private List<SceneProp> sceneProps = new List<SceneProp>();
-        public ToggleButton isCruise = new ToggleButton();
-        private ToggleButton isFast = new ToggleButton();
+        private List<SceneProp> sceneProps = new();
+        public ToggleButton isCruise = new();
+        private ToggleButton isFast = new();
 
         public bool? IsCruiseMode { get { return isCruise.IsChecked; } }
         public bool? IsFastMode
@@ -61,7 +61,7 @@ namespace Yokumiyone
             {
                 return new TimeSpan(0, 0, 0);
             }
-            List<TimeSpan> starts = new List<TimeSpan>();
+            List<TimeSpan> starts = new();
             foreach (SceneProp sceneProp in sceneProps)
             {
                 starts.Add(sceneProp.StartTime);

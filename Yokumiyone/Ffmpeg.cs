@@ -6,7 +6,7 @@ namespace Yokumiyone
 {
     internal class Ffmpeg
     {
-        private string ffmpegPath
+        private string FfmpegPath
         {
             get
             {
@@ -14,10 +14,10 @@ namespace Yokumiyone
             }
         }
 
-        private string targetVideoPath;
-        private string sceneTitle;
-        private string start;
-        private string duration;
+        private readonly string targetVideoPath;
+        private readonly string sceneTitle;
+        private readonly string start;
+        private readonly string duration;
 
         public Ffmpeg(string targetVideoPath, string sceneTitle, string start, string duration)
         {
@@ -38,7 +38,7 @@ namespace Yokumiyone
             string dstPath = Path.Combine(dstBaseDir, "%06d.png");
 
             var proc = new Process();
-            proc.StartInfo.FileName = this.ffmpegPath;
+            proc.StartInfo.FileName = this.FfmpegPath;
             proc.StartInfo.Arguments = $"-ss {start} -i \"{targetVideoPath}\" -t {duration} -r {frameRate} -vcodec png \"{dstPath}\"";
             proc.StartInfo.CreateNoWindow = false;
             proc.StartInfo.RedirectStandardOutput = true;

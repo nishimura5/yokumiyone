@@ -15,9 +15,9 @@ namespace Yokumiyone
 {
     class VideoList
     {
-        private ProgressBar loadProgressBar = new ProgressBar();
-        private Expander expander = new Expander();
-        private ObservableCollection<VideoProp> videoProps = new ObservableCollection<VideoProp>();
+        private ProgressBar loadProgressBar = new();
+        private Expander expander = new();
+        private ObservableCollection<VideoProp> videoProps = new();
         public ObservableCollection<VideoProp> VideoProps { get { return videoProps; } }
 
         public void SetProgressBar(ProgressBar loadProgressBar)
@@ -40,18 +40,18 @@ namespace Yokumiyone
                 BindingOperations.EnableCollectionSynchronization(videoProps, new object());
 
                 // フォルダ内を検索してファイルパス一覧を取得
-                DirectoryInfo d = new DirectoryInfo(targetFolderPath);
+                DirectoryInfo d = new(targetFolderPath);
                 FileInfo[] mp4Files = d.GetFiles("*.mp4");
                 FileInfo[] movFiles = d.GetFiles("*.mov");
                 FileInfo[] Files = mp4Files.Concat(movFiles).ToArray();
                 string[] fileList = Files.Select(f => f.FullName).ToArray();
 
                 // DBからファイルパス一覧と動画prop一覧を取得
-                VideoPropTable videoPropDb = new VideoPropTable();
-                ScenePathTable scenePathDb = new ScenePathTable();
+                VideoPropTable videoPropDb = new();
+                ScenePathTable scenePathDb = new();
                 videoPropDb.SelectFolder(targetFolderPath);
 
-                List<VideoProp> videoPropsDbPre = new List<VideoProp>(videoPropDb.VideoPropList);
+                List<VideoProp> videoPropsDbPre = new(videoPropDb.VideoPropList);
                 foreach (VideoProp prop in videoPropsDbPre)
                 {
                     // DBにあって実際にはないデータをDELETE
@@ -75,10 +75,10 @@ namespace Yokumiyone
 
                 // 再SELECT
                 videoPropDb.SelectFolder(targetFolderPath);
-                ObservableCollection<VideoProp> videoPropsDb = new ObservableCollection<VideoProp>(videoPropDb.VideoPropList);
+                ObservableCollection<VideoProp> videoPropsDb = new(videoPropDb.VideoPropList);
 
                 this.loadProgressBar.Visibility = Visibility.Visible;
-                IProgress<string> progress = new Progress<string>(onProgressChanged);
+                IProgress<string> progress = new Progress<string>(OnProgressChanged);
                 this.loadProgressBar.Value = 0;
                 this.loadProgressBar.Maximum = Files.Length;
 
@@ -92,7 +92,7 @@ namespace Yokumiyone
                         {
                             continue;
                         }
-                        VideoProp prop = new VideoProp(file.ToString());
+                        VideoProp prop = new(file.ToString());
                         videoProps.Add(prop);
                         videoPropDb.Insert(prop);
                     }
@@ -105,7 +105,7 @@ namespace Yokumiyone
             }
         }
 
-        private void onProgressChanged(string file)
+        private void OnProgressChanged(string file)
         {
             this.loadProgressBar.Value++;
         }

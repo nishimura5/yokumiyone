@@ -12,8 +12,8 @@ namespace Yokumiyone
         private string ffmpegPath = "";
         private string targetVideoPath = "";
 
-        public ObservableCollection<SceneProp> ScenePropOc = new ObservableCollection<SceneProp>();
-        private List<SceneProp> initScenePropList = new List<SceneProp>();
+        public ObservableCollection<SceneProp> ScenePropOc = new();
+        private List<SceneProp> initScenePropList = new();
 
         public VideoMetaData()
         {
@@ -43,12 +43,12 @@ namespace Yokumiyone
 
         public async Task UpdateMetaData(ObservableCollection<SceneProp> scenePropListOc)
         {
-            List<string> oldSceneTitleList = new List<string>();
-            List<string> newSceneTitleList = new List<string>();
+            List<string> oldSceneTitleList = new();
+            List<string> newSceneTitleList = new();
 
             // 最初に読み込んだ時と比べて新しかったら上書き
-            List<string> oldSceneCsvList = new List<string>();
-            List<string> newSceneCsvList = new List<string>();
+            List<string> oldSceneCsvList = new();
+            List<string> newSceneCsvList = new();
             foreach (SceneProp oldScene in initScenePropList)
             {
                 oldSceneCsvList.Add(oldScene.ScenePropCsv);
@@ -72,7 +72,7 @@ namespace Yokumiyone
                 return;
             }
 
-            ScenePathTable db = new ScenePathTable(targetVideoPath);
+            ScenePathTable db = new(targetVideoPath);
 
             var exiftool = new Exiftool(targetVideoPath);
             // 新しいsceneListで上書き

@@ -79,9 +79,9 @@ namespace Yokumiyone
             // H:mm:ss の文字列を戻す
             if (diff.TotalSeconds < 0)
             {
-                return "-" + diff.ToString().Substring(1, 8);
+                return string.Concat("-", diff.ToString()[1..9]);
             }
-            return diff.ToString().Substring(0, 8);
+            return diff.ToString()[..8];
         }
 
         public TimeSpan CalcMidTime()
@@ -106,11 +106,11 @@ namespace Yokumiyone
             string dst = timeSpan.ToString();
             if (dst.Length < 12)
             {
-                dst = dst.Substring(0, 8);
+                dst = dst[..8];
             }
             else
             {
-                dst = dst.Substring(0, 12);
+                dst = dst[..12];
             }
             return dst;
         }

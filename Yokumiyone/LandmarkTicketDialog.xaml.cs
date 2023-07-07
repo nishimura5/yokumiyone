@@ -37,34 +37,34 @@ namespace Yokumiyone
             public ObservableCollection<Landmark> StdPoints
             {
                 get { return _StdPoints; }
-                set { _StdPoints = value; OnPropertyChanged("StdPoints"); }
+                set { _StdPoints = value; OnPropertyChanged(nameof(StdPoints)); }
             }
 
             private ObservableCollection<Landmark> _Points;
             public ObservableCollection<Landmark> Points
             {
                 get { return _Points; }
-                set { _Points = value; OnPropertyChanged("Points"); }
+                set { _Points = value; OnPropertyChanged(nameof(Points)); }
             }
         }
         internal Bind _Bind;
         #endregion
 
         // mouse overした点
-        MouseoverPoint mouseoverPoint = new MouseoverPoint();
-        Point postPoint = new Point();
+        readonly MouseoverPoint mouseoverPoint = new();
+         Point postPoint = new();
 
-        Ellipse landmarkSelectedCircle = new Ellipse();
-        Landmark baseLandmarks = new Landmark();
-        SelectedPoints selectedPoints = new SelectedPoints(60, 60, 230);
-        SelectedPoints selectedPointsOnGrid = new SelectedPoints(60, 230, 60);
+        Ellipse landmarkSelectedCircle = new();
+        readonly Landmark baseLandmarks = new();
+        readonly SelectedPoints selectedPoints = new(60, 60, 230);
+        readonly SelectedPoints selectedPointsOnGrid = new(60, 230, 60);
 
-        string videoPath = "";
-        float fps=1;
+        readonly string videoPath = "";
+        readonly float fps=1;
         private string? dstFolderPath;
         string dstFilePath = "";
-        SceneProp scene;
-        private int _mouseOverThreshold = 5;
+        readonly SceneProp scene;
+        private readonly int _mouseOverThreshold = 5;
 
 
         public LandmarkTicketDialog(Window owner, SceneProp scene, string srcVideoPath, float fps)
@@ -162,7 +162,7 @@ namespace Yokumiyone
         }
         private void StandardButton_Click(object sender, EventArgs e)
         {
-            Landmark newPoints = new Landmark(selectedPoints.Points);
+            Landmark newPoints = new(selectedPoints.Points);
             _Bind.StdPoints.Add(newPoints);
             _Bind.StdPoints = new ObservableCollection<Landmark>(_Bind.StdPoints.OrderBy(n => n.PointNum));
 
@@ -179,7 +179,7 @@ namespace Yokumiyone
 
         private void AppendButton_Click(object sender, RoutedEventArgs e)
         {
-            Landmark newPoints = new Landmark(selectedPoints.Points);
+            Landmark newPoints = new(selectedPoints.Points);
             _Bind.Points.Add(newPoints);
             _Bind.Points = new ObservableCollection<Landmark>(_Bind.Points.OrderBy(n => n.PointNum));
 
@@ -242,20 +242,20 @@ namespace Yokumiyone
         private void ExportButton_Click(object sender, RoutedEventArgs e)
         {
 
-            List<List<string>> landmarksStr = new List<List<string>>();
+            List<List<string>> landmarksStr = new();
             foreach(var landmarks in _Bind.Points)
             {
-                List<string> points = new List<string>();
+                List<string> points = new();
                 foreach(var point in landmarks.Points)
                 {
                     points.Add(point.Name);
                 }
                 landmarksStr.Add(points);
             }
-            List<List<string>> stdLandmarksStr = new List<List<string>>();
+            List<List<string>> stdLandmarksStr = new();
             foreach (var landmarks in _Bind.StdPoints)
             {
-                List<string> points = new List<string>();
+                List<string> points = new();
                 foreach (var point in landmarks.Points)
                 {
                     points.Add(point.Name);
@@ -263,14 +263,14 @@ namespace Yokumiyone
                 stdLandmarksStr.Add(points);
             }
 
-            LandmarkCalcJson export = new LandmarkCalcJson
+            LandmarkCalcJson export = new()
             {
-                videoPath = this.videoPath,
-                fps = this.fps,
-                startTimeStr = scene.StartTimeStr,
-                endTimeStr = scene.EndTimeStr,
-                standardLandmarks = stdLandmarksStr,
-                landmarks = landmarksStr,
+                VideoPath = this.videoPath,
+                Fps = this.fps,
+                StartTimeStr = scene.StartTimeStr,
+                EndTimeStr = scene.EndTimeStr,
+                StandardLandmarks = stdLandmarksStr,
+                Landmarks = landmarksStr,
             };
 
             if (string.IsNullOrEmpty(dstFolderPath) == true)

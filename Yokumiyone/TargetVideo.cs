@@ -10,14 +10,14 @@ namespace Yokumiyone
     class TargetVideo
     {
         private MediaState m_stateCurrent;
-        private MediaElement movie = new MediaElement();
-        private Slider progressSlider = new Slider();
-        private Button playPause = new Button();
-        private Button progressLabel = new Button();
+        private MediaElement movie = new();
+        private Slider progressSlider = new();
+        private Button playPause = new();
+        private Button progressLabel = new();
         private double lastSliderValue;
-        private DispatcherTimer m_timer = new DispatcherTimer();
-        private SkipPlayControl skipPlayControl = new SkipPlayControl();
-        private CruisePlayControl cruisePlayControl = new CruisePlayControl();
+        private DispatcherTimer m_timer = new();
+        private SkipPlayControl skipPlayControl = new();
+        private CruisePlayControl cruisePlayControl = new();
 
         private int recentSkipPos = 0;
 
@@ -55,18 +55,12 @@ namespace Yokumiyone
 
         public void TimerStart()
         {
-            if (m_timer != null)
-            {
-                m_timer.Start();
-            }
+            m_timer?.Start();
         }
 
         public void TimerStop()
         {
-            if (m_timer != null)
-            {
-                m_timer.Stop();
-            }
+            m_timer?.Stop();
         }
 
         private void DispatcherTimer_Tick(object sender, EventArgs e)
@@ -79,7 +73,7 @@ namespace Yokumiyone
             string position = movie.Position.ToString() ?? "00:00:00.000";
             if (position.Length > 10)
             {
-                position = position.Substring(0, 12);
+                position = position[..12];
             }
             progressLabel.Content = position;
 
@@ -215,7 +209,7 @@ namespace Yokumiyone
         // ステータス取得
         private MediaState GetMediaState()
         {
-            MediaState state = new MediaState();
+            MediaState state = new();
             if (movie == null)
             {
                 return state;
@@ -289,7 +283,7 @@ namespace Yokumiyone
 
         public bool IsMovieEnable()
         {
-            bool res = false;
+            bool res;
             if (movie == null || movie.NaturalDuration.HasTimeSpan == false)
             {
                 res = false;

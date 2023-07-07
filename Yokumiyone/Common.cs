@@ -33,7 +33,7 @@ namespace Common
 
     public class YokumiyoneDb
     {
-        public string dbPath
+        public string DbPath
         {
             get
             {
@@ -46,7 +46,7 @@ namespace Common
             try
             {
                 // 接続先を指定
-                using (var conn = new SQLiteConnection($"Data Source={dbPath}"))
+                using (var conn = new SQLiteConnection($"Data Source={DbPath}"))
                 using (var command = conn.CreateCommand())
                 {
                     conn.Open();
@@ -65,9 +65,9 @@ namespace Common
         }
         public void CreateDb()
         {
-            if (System.IO.File.Exists(dbPath) == false)
+            if (System.IO.File.Exists(DbPath) == false)
             {
-                List<SQLiteParameter> sql_params = new List<SQLiteParameter>();
+                List<SQLiteParameter> sql_params = new();
                 ExecNonQuery("CREATE TABLE \"scene_path\" (\"scene\" TEXT, \"path\" TEXT, \"status\" INTEGER DEFAULT 1, PRIMARY KEY(\"scene\",\"path\"))", sql_params);
                 ExecNonQuery("CREATE TABLE \"video_prop\" (\"path\" TEXT, \"fps\" TEXT, \"duration\" TEXT, \"width\" INTEGER, \"height\"\tINTEGER, \"rotation\"\tINTEGER, \"modified\" TEXT,  \"scene_cnt\" TEXT, PRIMARY KEY(\"path\"))", sql_params);
                 ExecNonQuery("CREATE TABLE \"preferences\" (\"key\" TEXT, \"value\" TEXT, PRIMARY KEY(\"key\"))", sql_params);
@@ -78,7 +78,7 @@ namespace Common
     public class YokumiyoneXmp
     {
         public string targetVideoPath = "";
-        private string xmpFolderPath
+        private string XmpFolderPath
         {
             get
             {
@@ -87,12 +87,12 @@ namespace Common
         }
         private void CreateXmpFolder()
         {
-            if (Directory.Exists(xmpFolderPath) == false)
+            if (Directory.Exists(XmpFolderPath) == false)
             {
-                Directory.CreateDirectory(xmpFolderPath);
+                Directory.CreateDirectory(XmpFolderPath);
             }
         }
-        public string xmpPath
+        public string XmpPath
         {
             get
             {
@@ -101,7 +101,7 @@ namespace Common
                     return "";
                 }
                 CreateXmpFolder();
-                return System.IO.Path.Combine(xmpFolderPath, System.IO.Path.GetFileNameWithoutExtension(targetVideoPath)) + ".xmp";
+                return System.IO.Path.Combine(XmpFolderPath, System.IO.Path.GetFileNameWithoutExtension(targetVideoPath)) + ".xmp";
             }
         }
         public void CreateBlankXmp()
@@ -115,7 +115,7 @@ namespace Common
                 "</x:xmpmeta>",
                 "<?xpacket end='w'?>"
             };
-            File.WriteAllLines(xmpPath, lines);
+            File.WriteAllLines(XmpPath, lines);
         }
     }
 }

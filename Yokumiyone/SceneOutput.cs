@@ -4,7 +4,7 @@ namespace Yokumiyone
 {
     internal class SceneOutput
     {
-        private TextBox framerateTextBox = new TextBox();
+        private TextBox framerateTextBox = new();
         public string Framerate
         {
             get { return framerateTextBox.Text; }

@@ -22,19 +22,19 @@ namespace Yokumiyone
         public DateTime ModifiedDatetime { get; }
         public string AvgBitrate { get; }
 
-        private ReactivePropertySlim<string> numOfScene = new ReactivePropertySlim<string>("");
+        private readonly ReactivePropertySlim<string> numOfScene = new("");
         public ReactivePropertySlim<string> NumOfScene
         {
             get { return numOfScene; }
         }
 
-        private ReactivePropertySlim<bool> isEnabled = new ReactivePropertySlim<bool>(true);
+        private readonly ReactivePropertySlim<bool> isEnabled = new(true);
         public ReactivePropertySlim<bool> IsEnabled
         {
             get { return isEnabled; }
         }
 
-        private ReactivePropertySlim<string> videoStatus = new ReactivePropertySlim<string>("");
+        private readonly ReactivePropertySlim<string> videoStatus = new("");
         public ReactivePropertySlim<string> VideoStatus
         {
             get { return videoStatus; }
@@ -42,10 +42,9 @@ namespace Yokumiyone
 
         public VideoProp(string targetFilePath)
         {
-            string stderr = "";
-            Exiftool exiftool = new Exiftool(targetFilePath);
+            Exiftool exiftool = new(targetFilePath);
             exiftool.GetMetaData();
-            stderr = exiftool.ExtractMetaDataFile();
+            string stderr = exiftool.ExtractMetaDataFile();
 
             FilePath = targetFilePath;
             FileName = Path.GetFileNameWithoutExtension(targetFilePath);

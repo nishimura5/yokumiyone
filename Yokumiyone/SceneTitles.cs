@@ -6,14 +6,14 @@ namespace Yokumiyone
 {
     internal class SceneTitles
     {
-        private TextBox titleTextBox = new TextBox();
+        private TextBox titleTextBox = new();
         public string Title
         {
             get { return titleTextBox.Text; }
             set { titleTextBox.Text = value; }
         }
 
-        private ComboBox titleCbx = new ComboBox();
+        private ComboBox titleCbx = new();
         public string SceneTitleSelected
         {
             get
@@ -29,7 +29,7 @@ namespace Yokumiyone
             this.titleTextBox.Focus();
             this.titleTextBox.SelectAll();
 
-            ObservableCollection<TitleCbxItem> SceneTitles = new ObservableCollection<TitleCbxItem>();
+            ObservableCollection<TitleCbxItem> SceneTitles = new();
 
             // 今のタイトルがリストの中にあったらそれをselectedに、なかったらComboboxの先頭に追加
             int idx = sceneTitleList.IndexOf(currentTitle);

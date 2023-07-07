@@ -13,9 +13,9 @@ namespace Yokumiyone
     {
         public double NowMs { set; get; }
         private double preMs = 0.0f;
-        private Slider tweakSlider = new Slider();
-        private ComboBox rangeCbx = new ComboBox();
-        private int sliderRange = 500;
+        private Slider tweakSlider = new();
+        private ComboBox rangeCbx = new();
+        private readonly int sliderRange = 500;
 
         public void SetControls(Slider tweakSlider, ComboBox rangeCbx) {
             this.tweakSlider = tweakSlider;

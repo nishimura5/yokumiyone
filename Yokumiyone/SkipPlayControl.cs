@@ -6,9 +6,9 @@ namespace Yokumiyone
 {
     class SkipPlayControl
     {
-        private ComboBox skipCbx = new ComboBox();
-        private ComboBox playCbx = new ComboBox();
-        private ToggleButton isSkip = new ToggleButton();
+        private ComboBox skipCbx = new();
+        private ComboBox playCbx = new();
+        private ToggleButton isSkip = new();
 
         public bool? IsSkipMode
         {

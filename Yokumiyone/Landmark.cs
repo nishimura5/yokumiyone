@@ -14,11 +14,11 @@ namespace Yokumiyone
 {
     internal class Landmark
     {
-        private List<LandPoint> landmarks = new List<LandPoint>();
+        private readonly List<LandPoint> landmarks = new();
 
         public List<LandPoint> Points { get { return landmarks; } }
         public int PointNum { get { return Points.Count; } }
-        public string PointsCsv { get { return genCsv(); } }
+        public string PointsCsv { get { return GenCsv(); } }
 
         public Landmark() { 
         
@@ -34,7 +34,7 @@ namespace Yokumiyone
             int idx = 0;
             foreach (var point in points)
             {
-                LandPoint p = new LandPoint(idx.ToString(), point.X, point.Y, scale);
+                LandPoint p = new(idx.ToString(), point.X, point.Y, scale);
                 landmarks.Add(p);
                 idx++;
             }
@@ -61,12 +61,12 @@ namespace Yokumiyone
 
         public Polygon SetPolygon(Brush fill)
         {
-            PointCollection pointCollection = new PointCollection();
+            PointCollection pointCollection = new();
             foreach (var point in landmarks)
             {
                 pointCollection.Add(new Point(point.X, point.Y));
             }
-            Polygon polygon = new Polygon
+            Polygon polygon = new()
             {
                 Points = pointCollection,
                 Fill = fill,
@@ -75,7 +75,7 @@ namespace Yokumiyone
             return polygon;
         }
 
-        private string genCsv()
+        private string GenCsv()
         {
             string dstCsv = "";
             foreach (var point in Points)
@@ -91,7 +91,7 @@ namespace Yokumiyone
         public string? Name { get; set; }
         public int X { get; set; }
         public int Y { get; set; }
-        private double scale = 1;
+        private readonly double scale = 1;
 
         public LandPoint(string? name, double x, double y, double scale)
         {
@@ -108,7 +108,7 @@ namespace Yokumiyone
 
         public Ellipse SetCircle(int radius, Brush fill, Brush stroke)
         {
-            Ellipse circle = new Ellipse
+            Ellipse circle = new()
             {
                 Width = radius,
                 Height = radius,
@@ -124,7 +124,7 @@ namespace Yokumiyone
 
         public TextBlock SetText(int fontSize)
         {
-            TextBlock text = new TextBlock
+            TextBlock text = new()
             {
                 FontSize = fontSize,
                 Text = Name
@@ -138,11 +138,11 @@ namespace Yokumiyone
     // canvas描画用
     class SelectedPoints
     {
-        private Landmark selectedPoly = new Landmark();
+        private Landmark selectedPoly = new();
         private Polygon? selectedPolygon;
-        private byte r;
-        private byte g;
-        private byte b;
+        private readonly byte r;
+        private readonly byte g;
+        private readonly byte b;
 
         public Polygon? SelectedPolygon { get { return selectedPolygon; } }
         public List<LandPoint> Points { get { return selectedPoly.Points; } }

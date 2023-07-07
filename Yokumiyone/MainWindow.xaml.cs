@@ -162,7 +162,7 @@ namespace Yokumiyone
         private async void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
             SettingsDialog settingsDialog = new(this);
-            var res = settingsDialog.ShowDialog();
+            var _ = settingsDialog.ShowDialog();
         }
 
         private void VideoItem_Click(object sender, MouseButtonEventArgs e)
@@ -449,7 +449,7 @@ namespace Yokumiyone
         {
             SceneProp selectedRow = (SceneProp)this.sceneGrid.SelectedItem;
             SceneOutputDialog sceneOutputDialog = new(this, selectedRow, targetVideoPath);
-            var res = sceneOutputDialog.ShowDialog();
+            var _ = sceneOutputDialog.ShowDialog();
         }
 
         private void LandmarkTicket_Click(object sender, RoutedEventArgs e)
@@ -460,7 +460,7 @@ namespace Yokumiyone
                 return;
             }
             LandmarkTicketDialog landmarkTicketDialog = new(this, selectedScene, targetVideoPath, selectedVideo.Fps);
-            var res = landmarkTicketDialog.ShowDialog();
+            var _ = landmarkTicketDialog.ShowDialog();
         }
 
         private void RemoveScene_Click(object sender, RoutedEventArgs e)

@@ -28,7 +28,7 @@ namespace Yokumiyone.tables
             try
             {
                 // 接続先を指定
-                using (var conn = new SQLiteConnection($"Data Source={db.dbPath}"))
+                using (var conn = new SQLiteConnection($"Data Source={db.DbPath}"))
                 using (var command = conn.CreateCommand())
                 {
                     conn.Open();
