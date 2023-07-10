@@ -82,7 +82,7 @@ namespace Yokumiyone
             string jsonText = File.ReadAllText(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "3rd", "face_mesh_landmarks.json"));
             List<Point3d>? points = JsonConvert.DeserializeObject<List<Point3d>>(jsonText);
 
-            baseLandpack = new Landmarks(points, 800);
+            baseLandpack = new Landmarks(points);
             baseLandpack.Strip(50);
 
             foreach (var lpoint in baseLandpack.Points)

@@ -30,8 +30,11 @@ namespace Yokumiyone
             this.landmarks = landmarks;
         }
 
-        public Landmarks(List<Point3d> points, double scale)
+        public Landmarks(List<Point3d> points)
         {
+            double left = points.Select(p => p.X).Min();
+            double right = points.Select(d => d.X).Max();
+            int scale = (int)(600 / right + left*600);
             int idx = 0;
             foreach (var point in points)
             {
