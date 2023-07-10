@@ -12,25 +12,25 @@ using System.Collections.ObjectModel;
 
 namespace Yokumiyone
 {
-    internal class Landmark
+    internal class Landmarks
     {
         private readonly List<LandPoint> landmarks = new();
 
         public List<LandPoint> Points { get { return landmarks; } }
         public string LandmarkType { get; set; }
-        public int PointNum { get { return Points.Count; } }
+        public int NumOfPoints { get { return Points.Count; } }
         public string PointsCsv { get { return GenCsv(); } }
 
-        public Landmark() { 
+        public Landmarks() { 
         
         }
 
-        public Landmark(List<LandPoint> landmarks)
+        public Landmarks(List<LandPoint> landmarks)
         {
             this.landmarks = landmarks;
         }
 
-        public Landmark(List<Point3d> points, double scale)
+        public Landmarks(List<Point3d> points, double scale)
         {
             int idx = 0;
             foreach (var point in points)
@@ -153,7 +153,7 @@ namespace Yokumiyone
     // canvas描画用
     class SelectedPoints
     {
-        private Landmark selectedPoly = new();
+        private Landmarks selectedPoly = new();
         private Polygon? selectedPolygon;
         private readonly byte r;
         private readonly byte g;
@@ -169,7 +169,7 @@ namespace Yokumiyone
             this.b = b;
         }
 
-        public void UpdateSelectedPoints(Landmark selectedPoly)
+        public void UpdateSelectedPoints(Landmarks selectedPoly)
         {
             this.selectedPoly = selectedPoly;
             var mediaColor = System.Windows.Media.Color.FromArgb(127, r, g, b);
@@ -187,7 +187,7 @@ namespace Yokumiyone
 
         public void Clear()
         {
-            selectedPoly = new Landmark();
+            selectedPoly = new Landmarks();
             selectedPolygon = null;
         }
     }

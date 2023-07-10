@@ -20,11 +20,10 @@ namespace Yokumiyone
         public string? EndTimeStr { get; set; }
         [JsonProperty("landmark_type")]
         public string? LandmarkType { get; set; }
-        [JsonProperty("standard_landmarks")]
-        public List<List<string>>? StandardLandmarks { get; set; }
-        [JsonProperty("landmarks")]
-        public List<List<string>>? Landmarks { get; set; }
-
+        [JsonProperty("standard_landarea")]
+        public List<List<string>>? StandardLandarea { get; set; }
+        [JsonProperty("landarea")]
+        public List<List<string>>? Landarea { get; set; }
     }
     public static class JsonExtensions
     {

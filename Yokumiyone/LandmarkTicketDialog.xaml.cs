@@ -33,15 +33,15 @@ namespace Yokumiyone
 
             internal Bind() { }
 
-            private ObservableCollection<Landmark> _StdPoints;
-            public ObservableCollection<Landmark> StdPoints
+            private ObservableCollection<Landmarks> _StdPoints;
+            public ObservableCollection<Landmarks> StdPoints
             {
                 get { return _StdPoints; }
                 set { _StdPoints = value; OnPropertyChanged(nameof(StdPoints)); }
             }
 
-            private ObservableCollection<Landmark> _Points;
-            public ObservableCollection<Landmark> Points
+            private ObservableCollection<Landmarks> _Points;
+            public ObservableCollection<Landmarks> Points
             {
                 get { return _Points; }
                 set { _Points = value; OnPropertyChanged(nameof(Points)); }
@@ -55,7 +55,7 @@ namespace Yokumiyone
          Point postPoint = new();
 
         Ellipse landmarkSelectedCircle = new();
-        readonly Landmark baseLandmarks = new();
+        readonly Landmarks baseLandpack = new();
         readonly SelectedPoints selectedPoints = new(60, 60, 230);
         readonly SelectedPoints selectedPointsOnGrid = new(60, 230, 60);
 
@@ -72,8 +72,8 @@ namespace Yokumiyone
             InitializeComponent();
             _Bind = new Bind();
             this.DataContext = _Bind;
-            _Bind.StdPoints = new ObservableCollection<Landmark>();
-            _Bind.Points = new ObservableCollection<Landmark>();
+            _Bind.StdPoints = new ObservableCollection<Landmarks>();
+            _Bind.Points = new ObservableCollection<Landmarks>();
 
             this.videoPath = srcVideoPath;
             this.fps = fps;
@@ -82,10 +82,10 @@ namespace Yokumiyone
             string jsonText = File.ReadAllText(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "3rd", "face_mesh_landmarks.json"));
             List<Point3d>? points = JsonConvert.DeserializeObject<List<Point3d>>(jsonText);
 
-            baseLandmarks = new Landmark(points, 800);
-            baseLandmarks.Strip(50);
+            baseLandpack = new Landmarks(points, 800);
+            baseLandpack.Strip(50);
 
-            foreach (var lpoint in baseLandmarks.Points)
+            foreach (var lpoint in baseLandpack.Points)
             {
                 Ellipse circle = lpoint.SetCircle(4, Brushes.White, Brushes.Gray);
                 canvas.Children.Add(circle);
@@ -104,7 +104,7 @@ namespace Yokumiyone
             canvas.Children.Remove(mouseoverPoint.Circle);
             canvas.Children.Remove(mouseoverPoint.Text);
 
-            foreach (LandPoint lpoint in baseLandmarks.Points)
+            foreach (LandPoint lpoint in baseLandpack.Points)
             {
                 if ((_currentPoint.X > (lpoint.X - _mouseOverThreshold)) &&
                     (_currentPoint.X < (lpoint.X + _mouseOverThreshold)) &&
@@ -142,7 +142,7 @@ namespace Yokumiyone
             {
                 return;
             }
-            Landmark selectedRow = (Landmark)this.pointsGrid.SelectedItem;
+            Landmarks selectedRow = (Landmarks)this.pointsGrid.SelectedItem;
 
             canvas.Children.Remove(selectedPointsOnGrid.SelectedPolygon);
             selectedPointsOnGrid.UpdateSelectedPoints(selectedRow);
@@ -154,7 +154,7 @@ namespace Yokumiyone
             {
                 return;
             }
-            Landmark selectedRow = (Landmark)this.stdPointsGrid.SelectedItem;
+            Landmarks selectedRow = (Landmarks)this.stdPointsGrid.SelectedItem;
 
             canvas.Children.Remove(selectedPointsOnGrid.SelectedPolygon);
             selectedPointsOnGrid.UpdateSelectedPoints(selectedRow);
@@ -162,23 +162,23 @@ namespace Yokumiyone
         }
         private void AppendButton_Click(object sender, EventArgs e)
         {
-            Landmark newPoints = new(selectedPoints.Points);
-            Landmark selectedRow = new();
+            Landmarks newLandarea = new(selectedPoints.Points);
+            Landmarks selectedRow = new();
             
             var button = (System.Windows.Controls.Button)sender;
             if (button.Name == "standardButton")
             {
-                _Bind.StdPoints.Add(newPoints);
-                _Bind.StdPoints = new ObservableCollection<Landmark>(_Bind.StdPoints.OrderBy(n => n.PointNum));
-                this.stdPointsGrid.SelectedItem = newPoints;
-                selectedRow = (Landmark)this.stdPointsGrid.SelectedItem;
+                _Bind.StdPoints.Add(newLandarea);
+                _Bind.StdPoints = new ObservableCollection<Landmarks>(_Bind.StdPoints.OrderBy(n => n.NumOfPoints));
+                this.stdPointsGrid.SelectedItem = newLandarea;
+                selectedRow = (Landmarks)this.stdPointsGrid.SelectedItem;
             }
             else if(button.Name == "appendButton")
             {
-                _Bind.Points.Add(newPoints);
-                _Bind.Points = new ObservableCollection<Landmark>(_Bind.Points.OrderBy(n => n.PointNum));
-                this.pointsGrid.SelectedItem = newPoints;
-                selectedRow = (Landmark)this.pointsGrid.SelectedItem;
+                _Bind.Points.Add(newLandarea);
+                _Bind.Points = new ObservableCollection<Landmarks>(_Bind.Points.OrderBy(n => n.NumOfPoints));
+                this.pointsGrid.SelectedItem = newLandarea;
+                selectedRow = (Landmarks)this.pointsGrid.SelectedItem;
             }
 
             canvas.Children.Remove(selectedPoints.SelectedPolygon);
@@ -253,51 +253,51 @@ namespace Yokumiyone
             }
 
             // 標準領域を追加
-            foreach(List<string> lm in import.StandardLandmarks)
+            foreach(List<string> landareas in import.StandardLandarea)
             {
-                Landmark landmark = new();
-                foreach(string pointName in lm)
+                Landmarks landarea = new();
+                foreach(string pointName in landareas)
                 {
-                    LandPoint point = baseLandmarks.FindByName(pointName);
-                    landmark.Points.Add(point);
+                    LandPoint point = baseLandpack.FindByName(pointName);
+                    landarea.Points.Add(point);
                 }
-                _Bind.StdPoints.Add(landmark);
+                _Bind.StdPoints.Add(landarea);
             }
 
             // 分析領域を追加
-            foreach (List<string> lm in import.Landmarks)
+            foreach (List<string> landareas in import.Landarea)
             {
-                Landmark landmark = new();
-                foreach (string pointName in lm)
+                Landmarks landarea = new();
+                foreach (string pointName in landareas)
                 {
-                    LandPoint point = baseLandmarks.FindByName(pointName);
-                    landmark.Points.Add(point);
+                    LandPoint point = baseLandpack.FindByName(pointName);
+                    landarea.Points.Add(point);
                 }
-                _Bind.Points.Add(landmark);
+                _Bind.Points.Add(landarea);
             }
         }
         private void ExportButton_Click(object sender, RoutedEventArgs e)
         {
 
-            List<List<string>> landmarksStr = new();
-            foreach(var landmarks in _Bind.Points)
+            List<List<string>> landareaStr = new();
+            foreach(var landarea in _Bind.Points)
             {
                 List<string> points = new();
-                foreach(var point in landmarks.Points)
+                foreach(var point in landarea.Points)
                 {
                     points.Add(point.Name);
                 }
-                landmarksStr.Add(points);
+                landareaStr.Add(points);
             }
-            List<List<string>> stdLandmarksStr = new();
-            foreach (var landmarks in _Bind.StdPoints)
+            List<List<string>> stdLandareaStr = new();
+            foreach (var landarea in _Bind.StdPoints)
             {
                 List<string> points = new();
-                foreach (var point in landmarks.Points)
+                foreach (var point in landarea.Points)
                 {
                     points.Add(point.Name);
                 }
-                stdLandmarksStr.Add(points);
+                stdLandareaStr.Add(points);
             }
 
             LandmarkCalcJson export = new()
@@ -306,9 +306,9 @@ namespace Yokumiyone
                 Fps = this.fps,
                 StartTimeStr = scene.StartTimeStr,
                 EndTimeStr = scene.EndTimeStr,
-                LandmarkType="mediapipe_facial_mesh",
-                StandardLandmarks = stdLandmarksStr,
-                Landmarks = landmarksStr,
+                LandmarkType="mediapipe_face_landmarker",
+                StandardLandarea = stdLandareaStr,
+                Landarea = landareaStr,
             };
 
             if (string.IsNullOrEmpty(dstFolderPath) == true)
