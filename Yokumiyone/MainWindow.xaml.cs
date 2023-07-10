@@ -378,8 +378,6 @@ namespace Yokumiyone
             }
             targetVideo.Pause();
             tweak.SetPreMs(targetVideo.GetMovieProgressMs());
-            // チャプター選択を解除、終了時刻の誤上書き防止
-            this.sceneGrid.SelectedItem = null;
         }
 
         private void Tweak_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
