@@ -9,7 +9,7 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="400"/>
+            <ColumnDefinition Width="450"/>
         </Grid.ColumnDefinitions>
         <Grid Grid.Column="0">
             <Canvas x:Name="canvas" Background="White" MouseLeftButtonDown="Canvas_MouseClick" MouseMove="Canvas_MouseMove">
@@ -41,7 +41,8 @@
                         </Style>
                     </DataGrid.ColumnHeaderStyle>
                     <DataGrid.Columns>
-                        <DataGridTextColumn IsReadOnly="True" Header="点数" Binding="{Binding NumOfPoints}" Width="60"/>
+                        <DataGridTextColumn IsReadOnly="True" Header="名前" Binding="{Binding Name}" Width="100"/>
+                        <DataGridTextColumn IsReadOnly="True" Header="点数" Binding="{Binding NumOfPoints}" Width="40"/>
                         <DataGridTextColumn IsReadOnly="True" Header="ランドマーク" Binding="{Binding PointsCsv}" Width="*"/>
                     </DataGrid.Columns>
                     <DataGrid.Resources>
@@ -63,7 +64,8 @@
                         </Style>
                     </DataGrid.Resources>
                     <DataGrid.ContextMenu>
-                        <ContextMenu IsVisibleChanged="PointsMenu_Opening">
+                        <ContextMenu Name="stdLandareaMenu" IsVisibleChanged="StdLandareaMenu_Opening">
+                            <MenuItem Name="editStdName" Header="領域名を編集" Click="EditStdName_Click" />
                             <MenuItem Name="removeStdPoints" Header="削除" Click="RemoveStdPoints_Click" />
                         </ContextMenu>
                     </DataGrid.ContextMenu>
@@ -95,7 +97,8 @@
                         </Style>
                     </DataGrid.ColumnHeaderStyle>
                     <DataGrid.Columns>
-                        <DataGridTextColumn IsReadOnly="True" Header="点数" Binding="{Binding NumOfPoints}" Width="60"/>
+                        <DataGridTextColumn IsReadOnly="True" Header="名前" Binding="{Binding Name}" Width="100"/>
+                        <DataGridTextColumn IsReadOnly="True" Header="点数" Binding="{Binding NumOfPoints}" Width="40"/>
                         <DataGridTextColumn IsReadOnly="True" Header="ランドマーク" Binding="{Binding PointsCsv}" Width="*"/>
                     </DataGrid.Columns>
                     <DataGrid.Resources>
@@ -117,7 +120,8 @@
                         </Style>
                     </DataGrid.Resources>
                     <DataGrid.ContextMenu>
-                        <ContextMenu IsVisibleChanged="PointsMenu_Opening">
+                        <ContextMenu Name="landareaMenu" IsVisibleChanged="LandareaMenu_Opening">
+                            <MenuItem Name="editName" Header="領域名を編集" Click="EditName_Click" />
                             <MenuItem Name="removePoints" Header="削除" Click="RemovePoints_Click" />
                         </ContextMenu>
                     </DataGrid.ContextMenu>

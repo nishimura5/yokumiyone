@@ -35,4 +35,19 @@ namespace Validation
             }
         }
     }
+    public class LandareaNameValidationRule : ValidationRule
+    {
+        public override ValidationResult Validate(object value, CultureInfo cultureInfo)
+        {
+            string[] ng = new string[] { ",", "\"", "\'", "[", "]", "{", "}", "_", ":" };
+            if (ng.Where(x => ((string)value).Contains(x) == true).Any())
+            {
+                return new ValidationResult(false, @"次の記号は使用できません(, [ ] { } ' "" _ :)");
+            }
+            else
+            {
+                return new ValidationResult(true, null);
+            }
+        }
+    }
 }

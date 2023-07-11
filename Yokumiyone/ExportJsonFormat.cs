@@ -21,9 +21,9 @@ namespace Yokumiyone
         [JsonProperty("landmark_type")]
         public string? LandmarkType { get; set; }
         [JsonProperty("standard_landarea")]
-        public List<List<string>>? StandardLandarea { get; set; }
+        public Dictionary<string, List<string>>? StandardLandarea { get; set; }
         [JsonProperty("landarea")]
-        public List<List<string>>? Landarea { get; set; }
+        public Dictionary<string, List<string>>? Landarea { get; set; }
     }
     public static class JsonExtensions
     {

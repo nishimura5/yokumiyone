@@ -20,13 +20,19 @@ namespace Yokumiyone
         public string LandmarkType { get; set; }
         public int NumOfPoints { get { return Points.Count; } }
         public string PointsCsv { get { return GenCsv(); } }
+        public string Name { get; set; }
 
-        public Landmarks() { 
-        
+        public Landmarks() {
+            Name = string.Empty;
+        }
+        public Landmarks(string name)
+        {
+            Name = name;
         }
 
-        public Landmarks(List<LandPoint> landmarks)
+        public Landmarks(List<LandPoint> landmarks, string name)
         {
+            Name = name;
             this.landmarks = landmarks;
         }
 
