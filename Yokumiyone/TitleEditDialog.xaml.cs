@@ -18,7 +18,7 @@ namespace Yokumiyone
     /// </summary>
     public partial class TitleEditDialog : Window
     {
-        private SceneTitles ctrl = new SceneTitles();
+        private SceneTitles ctrl = new();
 
         private string sceneTitle;
         public string SceneTitle {
@@ -35,11 +35,11 @@ namespace Yokumiyone
             this.Owner = owner;
             this.WindowStartupLocation = WindowStartupLocation.CenterOwner;
 
-            ScenePathTable db = new ScenePathTable();
+            ScenePathTable db = new();
             db.CleanRows();
             List<string> Scenes = db.GetScenes();
 
-            ctrl.SetControls(titleText, sceneTitles, title, Scenes);
+            ctrl.SetControls(titleTextBox, sceneTitles, title, Scenes);
         }
 
         private void SceneTitle_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
@@ -48,11 +48,11 @@ namespace Yokumiyone
             sceneTitle = ctrl.Title;
         }
 
-        private void titleOk_Click(object sender, RoutedEventArgs e)
+        private void Ok_Click(object sender, RoutedEventArgs e)
         {
             this.DialogResult = true;
         }
-        private void titleCancel_Click(object sender, RoutedEventArgs e)
+        private void Cancel_Click(object sender, RoutedEventArgs e)
         {
             this.DialogResult = false;
         }

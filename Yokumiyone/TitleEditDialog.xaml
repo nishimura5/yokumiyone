@@ -17,7 +17,7 @@
                           Foreground="White"
                           DisplayMemberPath="Name"
                       SelectionChanged="SceneTitle_SelectionChanged"/>
-            <TextBox Name="titleText"
+            <TextBox Name="titleTextBox"
                      Margin="4,8"
                      Style="{StaticResource MaterialDesignTextBox}"
                      Foreground="White">
@@ -32,13 +32,13 @@
             <DockPanel>
                 <Button Name="titleCancel" HorizontalAlignment="Right" 
         			VerticalAlignment="Center" Margin="4,8" Width="100"
-                    Click="titleCancel_Click" Cursor="Hand"
+                    Click="Cancel_Click" Cursor="Hand"
                     >
                     キャンセル
                 </Button>
                 <Button Name="titleOk" HorizontalAlignment="Right" 
         			VerticalAlignment="Center" Margin="4,8" Width="100"
-                    Click="titleOk_Click" Cursor="Hand"
+                    Click="Ok_Click" Cursor="Hand"
                     >
                     OK
                 </Button>
