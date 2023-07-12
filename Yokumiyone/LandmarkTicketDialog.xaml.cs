@@ -96,7 +96,7 @@ namespace Yokumiyone
             this.fps = fps;
             this.scene = scene;
 
-            string jsonText = File.ReadAllText(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "3rd", "face_mesh_landmarks.json"));
+            string jsonText = File.ReadAllText(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "3rd", "json", "face_mesh_landmarks.json"));
             List<Point3d>? points = JsonConvert.DeserializeObject<List<Point3d>>(jsonText);
 
             baseLandpack = new Landmarks(points);
