@@ -286,12 +286,13 @@ namespace Yokumiyone
         private void ImportButton_Click(object sender, RoutedEventArgs e)
         {
             string targetFolderPath = System.IO.Path.GetDirectoryName(this.videoPath);
-            string targetFilePath = "";
+            string targetFilePath;
             var dialog = new CommonOpenFileDialog()
             {
                 Title = "ファイルを選択してください",
                 InitialDirectory = targetFolderPath,
             };
+            dialog.Filters.Add(new CommonFileDialogFilter("LandmarkTicket files", ".lmt.json"));
             dialog.Filters.Add(new CommonFileDialogFilter("Json files", ".json"));
 
             // ダイアログを表示
@@ -401,8 +402,9 @@ namespace Yokumiyone
             {
                 Title = "出力先を選択してください",
                 DefaultDirectory = dstFolderPath,
-                DefaultFileName = string.Concat(dstJsonFileName, "_", scene.Title, "_landmarks.json"),
+                DefaultFileName = string.Concat(dstJsonFileName, "_", scene.Title, ".lmt.json"),
             };
+            dialog.Filters.Add(new CommonFileDialogFilter("LandmarkTicket files", ".lmt.json"));
             dialog.Filters.Add(new CommonFileDialogFilter("Json files", ".json"));
 
             // ダイアログを表示

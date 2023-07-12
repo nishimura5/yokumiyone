@@ -28,7 +28,8 @@
                       SelectedItem="" 
                       AutoGenerateColumns="False"
                       CanUserAddRows="False"
-                      VirtualizingStackPanel.VirtualizationMode="Standard">
+                      VirtualizingStackPanel.VirtualizationMode="Standard"
+                      MaxHeight="100">
                     <DataGrid.ColumnHeaderStyle>
                         <Style TargetType="{x:Type DataGridColumnHeader}">
                             <Setter Property="Template">
@@ -84,7 +85,8 @@
                       SelectedItem="" 
                       AutoGenerateColumns="False"
                       CanUserAddRows="False"
-                      VirtualizingStackPanel.VirtualizationMode="Standard">
+                      VirtualizingStackPanel.VirtualizationMode="Standard"
+                      MaxHeight="400">
                     <DataGrid.ColumnHeaderStyle>
                         <Style TargetType="{x:Type DataGridColumnHeader}">
                             <Setter Property="Template">
