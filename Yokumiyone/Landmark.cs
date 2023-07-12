@@ -38,9 +38,7 @@ namespace Yokumiyone
 
         public Landmarks(List<Point3d> points)
         {
-            double left = points.Select(p => p.X).Min();
-            double right = points.Select(d => d.X).Max();
-            int scale = (int)(600 / right + left*600);
+            int scale = 1;
             int idx = 0;
             foreach (var point in points)
             {
@@ -55,17 +53,6 @@ namespace Yokumiyone
             if (landmarks.Contains(point) == false)
             {
                 landmarks.Add(point);
-            }
-        }
-
-        // 空白を切り詰める
-        public void Strip(int padding)
-        {
-            var minX = landmarks.Select(d => d.X).Min() - padding;
-            var minY = landmarks.Select(d => d.Y).Min() - padding;
-            foreach (var point in landmarks)
-            {
-                point.Offset(minX, minY);
             }
         }
 
@@ -123,11 +110,6 @@ namespace Yokumiyone
             X = (int)(x * scale);
             Y = (int)(y * scale);
             this.scale = scale;
-        }
-        public void Offset(int x, int y)
-        {
-            X -= x;
-            Y -= y;
         }
 
         public Ellipse SetCircle(int radius, Brush fill, Brush stroke)

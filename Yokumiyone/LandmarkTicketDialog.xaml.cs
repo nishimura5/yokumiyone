@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using Microsoft.WindowsAPICodePack.Dialogs;
+using System.Windows.Media.Imaging;
 
 namespace Yokumiyone
 {
@@ -83,7 +84,6 @@ namespace Yokumiyone
         readonly SceneProp scene;
         private readonly int _mouseOverThreshold = 5;
 
-
         public LandmarkTicketDialog(Window owner, SceneProp scene, string srcVideoPath, float fps)
         {
             InitializeComponent();
@@ -98,9 +98,19 @@ namespace Yokumiyone
 
             string jsonText = File.ReadAllText(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "3rd", "json", "face_mesh_landmarks.json"));
             List<Point3d>? points = JsonConvert.DeserializeObject<List<Point3d>>(jsonText);
-
             baseLandpack = new Landmarks(points);
-            baseLandpack.Strip(50);
+
+            BitmapImage bmpImage = new BitmapImage();
+            using (FileStream stream = File.OpenRead(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "3rd", "json", "face_mesh_landmarks.png")))
+            {
+                bmpImage.BeginInit();
+                bmpImage.StreamSource = stream;
+                bmpImage.CacheOption = BitmapCacheOption.OnLoad;
+                bmpImage.CreateOptions = BitmapCreateOptions.None;
+                bmpImage.EndInit();
+                bmpImage.Freeze();
+            }
+            image.Source = bmpImage;
 
             foreach (var lpoint in baseLandpack.Points)
             {
