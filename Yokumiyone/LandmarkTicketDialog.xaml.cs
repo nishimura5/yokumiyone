@@ -17,7 +17,7 @@ namespace Yokumiyone
     /// <summary>
     /// LandmarkTicketDialog.xaml の相互作用ロジック
     /// </summary>
-    public partial class LandmarkTicketDialog : Window
+    public partial class LandmarkTicketDialog
     {
         #region Binding
         internal class Bind : INotifyPropertyChanged
