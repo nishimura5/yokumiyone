@@ -38,7 +38,7 @@
                     >
                         <ToolTipService.ShowDuration>5000</ToolTipService.ShowDuration>
                         <ToolTipService.ToolTip>
-                            <ToolTip Content="Dキー：1秒送り&#xa;Aキー：1秒戻し&#xa;マウスホイール↑：0.1秒送り&#xa;マウスホイール↓：0.1秒戻し&#xa;スペースキー：再生/停止" Placement="MousePoint"  ToolTipService.ShowOnDisabled="True"/>
+                            <ToolTip Content="Dキー：1秒送り&#xa;Aキー：1秒戻し&#xa;マウスホイール↑：0.1秒送り&#xa;マウスホイール↓：0.1秒戻し&#xa;スペースキー：再生/停止" Placement="Mouse"  ToolTipService.ShowOnDisabled="True"/>
                         </ToolTipService.ToolTip>
                     </MediaElement>
                 </DockPanel>
