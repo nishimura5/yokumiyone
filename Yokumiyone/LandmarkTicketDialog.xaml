@@ -16,7 +16,6 @@
         <Grid Grid.Column="0">
             <Canvas x:Name="canvas" Background="White" MouseLeftButtonDown="Canvas_MouseClick" MouseMove="Canvas_MouseMove">
                 <Image Name="image"
-                       AllowDrop="True"
                        Height="700"/>
             </Canvas>
         </Grid>

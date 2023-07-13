@@ -11,6 +11,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using System.Windows.Media.Imaging;
+using System.Windows.Controls;
 
 namespace Yokumiyone
 {
@@ -73,7 +74,7 @@ namespace Yokumiyone
          Point postPoint = new();
 
         Ellipse landmarkSelectedCircle = new();
-        readonly Landmarks baseLandpack = new();
+        Landmarks baseLandpack = new();
         readonly SelectedPoints selectedPoints = new(60, 60, 230);
         readonly SelectedPoints selectedPointsOnGrid = new(60, 230, 60);
 
@@ -96,12 +97,19 @@ namespace Yokumiyone
             this.fps = fps;
             this.scene = scene;
 
-            string jsonText = File.ReadAllText(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "3rd", "json", "face_mesh_landmarks.json"));
+            PutLandpack("mediapipe_face_mesh_landmarks", 4);
+        }
+
+        private void PutLandpack(string fileName, int radius)
+        {
+            canvas.Children.Clear();
+            string jsonText = File.ReadAllText(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "3rd", "landpack", fileName+".json"));
             List<Point3d>? points = JsonConvert.DeserializeObject<List<Point3d>>(jsonText);
             baseLandpack = new Landmarks(points);
 
+            Image img = new();
             BitmapImage bmpImage = new BitmapImage();
-            using (FileStream stream = File.OpenRead(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "3rd", "json", "face_mesh_landmarks.png")))
+            using (FileStream stream = File.OpenRead(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "3rd", "landpack", fileName+".png")))
             {
                 bmpImage.BeginInit();
                 bmpImage.StreamSource = stream;
@@ -110,11 +118,13 @@ namespace Yokumiyone
                 bmpImage.EndInit();
                 bmpImage.Freeze();
             }
-            image.Source = bmpImage;
+            img.Source = bmpImage;
+            img.Height = 700;
 
+            canvas.Children.Add(img);
             foreach (var lpoint in baseLandpack.Points)
             {
-                Ellipse circle = lpoint.SetCircle(4, Brushes.White, Brushes.Gray);
+                Ellipse circle = lpoint.SetCircle(radius, Brushes.White, Brushes.Gray);
                 canvas.Children.Add(circle);
             }
         }
@@ -325,8 +335,17 @@ namespace Yokumiyone
                 import = JsonConvert.DeserializeObject<LandmarkCalcJson>(jsonData);
             }
 
+            if (import.LandmarkType == "mediapipe_face_landmarker")
+            {
+                PutLandpack("mediapipe_face_mesh_landmarks", 4);
+            }
+            else if (import.LandmarkType == "mediapipe_pose_landmarker")
+            {
+                PutLandpack("mediapipe_pose_landmarks", 5);
+            }
+
             // 標準領域を追加
-            foreach(KeyValuePair<string, List<string>> importLandareas in import.StandardLandarea)
+            foreach (KeyValuePair<string, List<string>> importLandareas in import.StandardLandarea)
             {
                 string name = importLandareas.Key;
                 List<string> importLandarea = importLandareas.Value;

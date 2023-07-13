@@ -40,7 +40,8 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="if not exist &quot;$(OutDir)3rd&quot; mkdir &quot;$(OutDir)3rd&quot;&#xD;&#xA;robocopy &quot;$(ProjectDir)3rd&quot; &quot;$(OutDir)3rd&quot; *.exe /xo /E /COPY:DT" />
+    <Exec Command="if not exist &quot;$(OutDir)3rd&quot; mkdir &quot;$(OutDir)3rd&quot;" />
+    <Exec Command="robocopy &quot;$(ProjectDir)3rd&quot; &quot;$(OutDir)3rd&quot; *.exe *.json *png /xo /E /COPY:DT" />
   </Target>
 
 </Project>
