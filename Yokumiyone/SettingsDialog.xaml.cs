@@ -4,6 +4,11 @@ using System.Reflection;
 using Common;
 using System;
 using Microsoft.WindowsAPICodePack.Shell;
+using Yokumiyone.tables;
+using static Yokumiyone.LandmarkTicketDialog;
+using System.ComponentModel;
+using System.Collections.ObjectModel;
+using static Yokumiyone.MainWindow;
 
 namespace Yokumiyone
 {
@@ -12,25 +17,64 @@ namespace Yokumiyone
     /// </summary>
     public partial class SettingsDialog : Window
     {
+        #region Binding
+        internal class Bind : INotifyPropertyChanged
+        {
+            #region INotifyPropertyChanged
+            public event PropertyChangedEventHandler? PropertyChanged;
+            protected virtual void OnPropertyChanged(string propertyName)
+            {
+                PropertyChangedEventHandler? handler = this.PropertyChanged;
+                if (handler != null)
+                {
+                    handler(this, new PropertyChangedEventArgs(propertyName));
+                }
+            }
+            #endregion
+            internal Bind() { }
+            private bool _EnableLandpackDialog;
+            public bool EnableLandpackDialog
+            {
+                get { return _EnableLandpackDialog; }
+                set { _EnableLandpackDialog = value; OnPropertyChanged(nameof(EnableLandpackDialog)); }
+            }
+            private bool _EnableSceneExport;
+            public bool EnableSceneExport
+            {
+                get { return _EnableSceneExport; }
+                set { _EnableSceneExport = value; OnPropertyChanged(nameof(EnableSceneExport)); }
+            }
+        }
+        internal Bind _Bind;
+        #endregion
+
+        PreferencesTable preferencesTable = new();
+
         public SettingsDialog(Window owner)
         {
             InitializeComponent();
+            _Bind = new Bind();
+            this.DataContext = _Bind;
 
-            this.DataContext = this;
             this.SizeToContent = SizeToContent.Height;
 
             this.Owner = owner;
             this.WindowStartupLocation = WindowStartupLocation.CenterOwner;
 
+            // アプリケーションの情報
             string exePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "yokumiyone.exe");
             using (var file = ShellFile.FromFilePath(exePath))
             {
                 file.Thumbnail.FormatOption = ShellThumbnailFormatOption.IconOnly;
                 IconImage.Source = file.Thumbnail.BitmapSource; // 256x256
             }
-
             string? versionStr = Assembly.GetEntryAssembly()?.GetName()?.Version?.ToString();
             version.Text = $"Version {versionStr}";
+
+            // 設定の読み込み
+            var pref = preferencesTable.GetPreferences();
+            _Bind.EnableSceneExport = pref["enableSceneExport"];
+            _Bind.EnableLandpackDialog = pref["enableLandpackDialog"];
         }
 
         private void RemoveCashButton_Click(object sender, RoutedEventArgs e)
@@ -56,6 +100,8 @@ namespace Yokumiyone
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             this.DialogResult = false;
+            preferencesTable.SetEnableSceneExport(_Bind.EnableSceneExport);
+            preferencesTable.SetEnableLandpackDialog(_Bind.EnableLandpackDialog);
         }
     }
 }

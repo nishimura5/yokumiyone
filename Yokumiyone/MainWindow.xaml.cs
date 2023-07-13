@@ -421,15 +421,34 @@ namespace Yokumiyone
             if (selectedRow == null)
             {
                 editSceneTitle.IsEnabled = false;
-                sceneOutput.IsEnabled = false;
+                sceneExport.IsEnabled = false;
                 removeScene.IsEnabled = false;
+                landmarkTicket.IsEnabled = false;
             }
             else
             {
                 editSceneTitle.IsEnabled = true;
-                sceneOutput.IsEnabled = true;
+                sceneExport.IsEnabled = true;
                 removeScene.IsEnabled = true;
+                landmarkTicket.IsEnabled = true;
             }
+
+            // 設定の読み込み
+            PreferencesTable preferencesTable = new();
+            var pref = preferencesTable.GetPreferences();
+            sceneExport.Visibility = Visibility.Visible;
+            landmarkTicket.Visibility = Visibility.Visible;
+            if (pref["enableSceneExport"] == false)
+            {
+                sceneExport.Visibility = Visibility.Collapsed;
+                sceneExport.IsEnabled = false;
+            }
+            if (pref["enableLandpackDialog"] == false)
+            {
+                landmarkTicket.Visibility = Visibility.Collapsed;
+                landmarkTicket.IsEnabled = false;
+            }
+
         }
         private void EditSceneTitle_Click(object sender, RoutedEventArgs e)
         {
@@ -443,7 +462,7 @@ namespace Yokumiyone
             _Bind.Scenes = new ObservableCollection<SceneProp>(_Bind.Scenes.OrderBy(n => n.StartTime));
         }
 
-        private void SceneOutput_Click(object sender, RoutedEventArgs e)
+        private void SceneExport_Click(object sender, RoutedEventArgs e)
         {
             SceneProp selectedRow = (SceneProp)this.sceneGrid.SelectedItem;
             SceneOutputDialog sceneOutputDialog = new(this, selectedRow, targetVideoPath);

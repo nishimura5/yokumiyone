@@ -20,6 +20,10 @@
                 <Run Text="https://github.com/nishimura5/yokumiyone"/>
                 </TextBlock>
             </StackPanel>
+            <StackPanel Margin="0,10">
+                <CheckBox IsChecked="{Binding EnableSceneExport}" Content="シーン出力メニューを有効化" Style="{StaticResource MaterialDesignLightCheckBox}" Margin="0,3" FontSize="12" Foreground="White"/>
+                <CheckBox IsChecked="{Binding EnableLandpackDialog}" Content="ランドマーク分析メニューを有効化" Style="{StaticResource MaterialDesignLightCheckBox}" Margin="0,3" FontSize="12" Foreground="White"/>
+            </StackPanel>
             <Button Name="folderLoadButton" Style="{StaticResource MaterialDesignFlatButton}" Click="RemoveCashButton_Click" Cursor="Hand">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="キャッシュの削除" Height="20" Padding="2.2" Foreground="White"/>
