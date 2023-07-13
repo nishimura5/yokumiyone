@@ -7,18 +7,27 @@
         FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         WindowStyle="None"
-        Width="320">
+        Width="350">
     <Grid>
         <StackPanel Margin="10,4" Orientation="Vertical">
-            <TextBlock Margin="4,8,4,2" x:Name="version" Text="Version" Foreground="White"/>
+            <StackPanel Orientation="Horizontal">
+                <Image Name="IconImage" Width="42"/>
+                <TextBlock Margin="12,2,4,5" Foreground="LightGray">
+                <Run Text="Yokumiyone" FontSize="21"/>
+                <Run Text="      "/>
+                <Run x:Name="version" Text="Version"/>
+                <LineBreak/>
+                <Run Text="https://github.com/nishimura5/yokumiyone"/>
+                </TextBlock>
+            </StackPanel>
             <Button Name="folderLoadButton" Style="{StaticResource MaterialDesignFlatButton}" Click="RemoveCashButton_Click" Cursor="Hand">
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="キャッシュの削除" Height="20" Padding="2.2"/>
+                    <TextBlock Text="キャッシュの削除" Height="20" Padding="2.2" Foreground="White"/>
                 </StackPanel>
             </Button>
             <Button Name="closeButton" Style="{StaticResource MaterialDesignFlatButton}" Click="CloseButton_Click" Cursor="Hand">
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="閉じる" Height="20" Padding="2.2"/>
+                    <TextBlock Text="閉じる" Height="20" Padding="2.2" Foreground="White"/>
                 </StackPanel>
             </Button>
         </StackPanel>

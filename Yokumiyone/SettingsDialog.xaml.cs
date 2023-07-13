@@ -2,7 +2,8 @@
 using System.IO;
 using System.Reflection;
 using Common;
-
+using System;
+using Microsoft.WindowsAPICodePack.Shell;
 
 namespace Yokumiyone
 {
@@ -20,6 +21,13 @@ namespace Yokumiyone
 
             this.Owner = owner;
             this.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+
+            string exePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "yokumiyone.exe");
+            using (var file = ShellFile.FromFilePath(exePath))
+            {
+                file.Thumbnail.FormatOption = ShellThumbnailFormatOption.IconOnly;
+                IconImage.Source = file.Thumbnail.BitmapSource; // 256x256
+            }
 
             string? versionStr = Assembly.GetEntryAssembly()?.GetName()?.Version?.ToString();
             version.Text = $"Version {versionStr}";
