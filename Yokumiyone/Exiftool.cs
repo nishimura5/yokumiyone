@@ -37,7 +37,7 @@ namespace Yokumiyone
         {
             var proc = new Process();
             proc.StartInfo.FileName = this.ExiftoolPath;
-            proc.StartInfo.Arguments = $"\"{xmp.targetVideoPath}\" -charset filename=\"\" -s -Duration -ImageHeight -ImageWidth -Rotation -VideoFrameRate -AvgBitrate -j -b";
+            proc.StartInfo.Arguments = $"\"{xmp.targetVideoPath}\" -charset filename=\"\" -s -Duration -ImageHeight -ImageWidth -Rotation -CompressorId -VideoFrameRate -AvgBitrate -j -b";
             proc.StartInfo.CreateNoWindow = true;
             proc.StartInfo.RedirectStandardOutput = true;
             proc.StartInfo.UseShellExecute = false;
@@ -71,6 +71,7 @@ namespace Yokumiyone
             public int ImageWidth { get; set; }
             public int Rotation { get; set; }
             public float VideoFrameRate { get; set; }
+            public string? CompressorID { get; set; }  // Exiftoolの戻りの都合でIdではなくIDとしている。
             public string AvgBitrate
             {
                 get { return avgBitrate ?? "EEE"; }

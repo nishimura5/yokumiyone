@@ -69,7 +69,7 @@ namespace Common
             {
                 List<SQLiteParameter> sql_params = new();
                 ExecNonQuery("CREATE TABLE \"scene_path\" (\"scene\" TEXT, \"path\" TEXT, \"status\" INTEGER DEFAULT 1, PRIMARY KEY(\"scene\",\"path\"))", sql_params);
-                ExecNonQuery("CREATE TABLE \"video_prop\" (\"path\" TEXT, \"fps\" TEXT, \"duration\" TEXT, \"width\" INTEGER, \"height\"\tINTEGER, \"rotation\"\tINTEGER, \"modified\" TEXT,  \"scene_cnt\" TEXT, PRIMARY KEY(\"path\"))", sql_params);
+                ExecNonQuery("CREATE TABLE \"video_prop\" (\"path\" TEXT, \"fps\" TEXT, \"duration\" TEXT, \"width\" INTEGER, \"height\"\tINTEGER, \"rotation\"\tINTEGER, \"compressor_id\" TEXT, \"modified\" TEXT,  \"scene_cnt\" TEXT, PRIMARY KEY(\"path\"))", sql_params);
                 ExecNonQuery("CREATE TABLE \"preferences\" (\"key\" TEXT, \"value\" TEXT, PRIMARY KEY(\"key\"))", sql_params);
             }
         }

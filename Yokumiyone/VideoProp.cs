@@ -20,6 +20,7 @@ namespace Yokumiyone
         public string DurationStr { get; }
         public TimeSpan Duration { get; }
         public DateTime ModifiedDatetime { get; }
+        public string CompressorId { get; }
         public string AvgBitrate { get; }
 
         private readonly ReactivePropertySlim<string> numOfScene = new("");
@@ -59,9 +60,10 @@ namespace Yokumiyone
             isEnabled.Value = true;
             Duration = StringToTimeSpan(DurationStr);
             ModifiedDatetime = File.GetLastWriteTime(targetFilePath);
+            CompressorId = exiftool.MetaData.CompressorID;
         }
 
-        public VideoProp(string filePath, string fpsFormat, string durationStr, int width, int height, int rotation, DateTime modified, string scene_cnt)
+        public VideoProp(string filePath, string fpsFormat, string durationStr, int width, int height, int rotation, string compressorId, DateTime modified, string scene_cnt)
         {
             FilePath = filePath;
             FileName = Path.GetFileNameWithoutExtension(filePath);
@@ -70,6 +72,7 @@ namespace Yokumiyone
             Width = width;
             Height = height;
             Rotation = rotation;
+            CompressorId = compressorId;
             WidthHeight = $"{width}x{height}";
             DurationStr = durationStr;
             ModifiedDatetime = modified;

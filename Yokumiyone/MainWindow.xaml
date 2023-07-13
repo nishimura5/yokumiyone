@@ -119,7 +119,8 @@
                             <DataGridTextColumn Header="fps" IsReadOnly="True" Binding="{Binding FpsFormat}" Width="60"/>
                             <DataGridTextColumn Header="時間" IsReadOnly="True" Binding="{Binding DurationStr}" Width="70"/>
                             <DataGridTextColumn Header="解像度" IsReadOnly="True" Binding="{Binding WidthHeight}" Width="100"/>
-                            <DataGridTextColumn Header="シーン数" IsReadOnly="True" Binding="{Binding NumOfScene.Value}" Width="80"/>
+                            <DataGridTextColumn Header="コーデック" IsReadOnly="True" Binding="{Binding CompressorId}" Width="50"/>
+                            <DataGridTextColumn Header="シーン数" IsReadOnly="True" Binding="{Binding NumOfScene.Value}" Width="50"/>
                         </DataGrid.Columns>
                         <DataGrid.Resources>
                             <Style TargetType="{x:Type DataGridRow}">
