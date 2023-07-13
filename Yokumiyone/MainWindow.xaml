@@ -35,7 +35,12 @@
                               ScrubbingEnabled="True"
                               MediaOpened="MovieOpened"
                               PreviewMouseWheel="Movie_PreviewMouseWheel"
-                    />
+                    >
+                        <ToolTipService.ShowDuration>5000</ToolTipService.ShowDuration>
+                        <ToolTipService.ToolTip>
+                            <ToolTip Content="Dキー：1秒送り&#xa;Aキー：1秒戻し&#xa;マウスホイール↑：0.1秒送り&#xa;マウスホイール↓：0.1秒戻し&#xa;スペースキー：再生/停止" Placement="MousePoint"  ToolTipService.ShowOnDisabled="True"/>
+                        </ToolTipService.ToolTip>
+                    </MediaElement>
                 </DockPanel>
                 <Grid Margin="4">
                     <Grid.ColumnDefinitions>
@@ -46,9 +51,21 @@
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <Slider Name="progressSlider" Grid.Column="1" Margin="4,10" HorizontalAlignment="Stretch" TickPlacement="TopLeft" Ticks="{Binding SceneStarts.Value}" />
-                    <Button Grid.Column="2" Name="progressButton" Width="120" Content="" Margin="4" Padding="1" Click="ProgressButton_Click" Cursor="Hand" />
-                    <Button Grid.Column="3" Name="startButton" Width="40" Content="{materialDesign:PackIcon Kind=ArrowCollapseLeft}" Margin="4"  Padding="1" Click="StartButton_Click" Cursor="Hand" />
-                    <Button Grid.Column="4" Name="endButton" Width="40" Content="{materialDesign:PackIcon Kind=ArrowCollapseRight}" Margin="4"  Padding="1" Click="EndButton_Click" Cursor="Hand" />
+                    <Button Grid.Column="2" Name="progressButton" Width="120" Content="" Margin="4" Padding="1" Click="ProgressButton_Click" Cursor="Hand">
+                        <ToolTipService.ToolTip>
+                            <ToolTip Content="シーンを追加" ToolTipService.ShowOnDisabled="True"/>
+                        </ToolTipService.ToolTip>
+                    </Button>
+                    <Button Grid.Column="3" Name="startButton" Width="40" Content="{materialDesign:PackIcon Kind=ArrowCollapseLeft}" Margin="4"  Padding="1" Click="StartButton_Click" Cursor="Hand">
+                        <ToolTipService.ToolTip>
+                            <ToolTip Content="シーンの開始時刻を設定" ToolTipService.ShowOnDisabled="True"/>
+                        </ToolTipService.ToolTip>
+                    </Button>
+                    <Button Grid.Column="4" Name="endButton" Width="40" Content="{materialDesign:PackIcon Kind=ArrowCollapseRight}" Margin="4"  Padding="1" Click="EndButton_Click" Cursor="Hand">
+                        <ToolTipService.ToolTip>
+                            <ToolTip Content="シーンの終了時刻を設定" ToolTipService.ShowOnDisabled="True"/>
+                        </ToolTipService.ToolTip>
+                    </Button>
                 </Grid>
                 <Grid Margin="4">
                     <materialDesign:PackIcon Kind="Tortoise" Margin="4,0" />
@@ -164,13 +181,11 @@
                                     <Setter Property="BorderBrush" Value="White"/>
                                 </Trigger>
                             </Style.Triggers>
-                            <Setter Property="ToolTip">
-                                <Setter.Value>
-                                    <TextBlock Text="3倍速再生" ToolTipService.ShowOnDisabled="True"/>
-                                </Setter.Value>
-                            </Setter>
                         </Style>
                     </ToggleButton.Style>
+                    <ToolTipService.ToolTip>
+                        <ToolTip Content="3倍速再生" ToolTipService.ShowOnDisabled="True"/>
+                    </ToolTipService.ToolTip>
                 </ToggleButton>
                 <ToggleButton Name="isCruiseMode"
                               Width="34" Height="34" Margin="4" HorizontalAlignment="Left"
@@ -196,13 +211,11 @@
                                     <Setter Property="BorderBrush" Value="White"/>
                                 </Trigger>
                             </Style.Triggers>
-                            <Setter Property="ToolTip">
-                                <Setter.Value>
-                                    <TextBlock Text="鳥モード：登録済みのシーンだけを再生" ToolTipService.ShowOnDisabled="True"/>
-                                </Setter.Value>
-                            </Setter>
                         </Style>
                     </ToggleButton.Style>
+                    <ToolTipService.ToolTip>
+                        <ToolTip Content="ジャンプ再生(登録済みのシーンだけを再生)" ToolTipService.ShowOnDisabled="True"/>
+                    </ToolTipService.ToolTip>
                 </ToggleButton>
                 <ToggleButton Name="isSkipMode"
                               Width="34" Height="34" Margin="15,4,4,4"
@@ -229,13 +242,11 @@
                                     <Setter Property="BorderBrush" Value="White"/>
                                 </Trigger>
                             </Style.Triggers>
-                            <Setter Property="ToolTip">
-                                <Setter.Value>
-                                    <TextBlock Text="兎モード：設定した間隔でスキップしながら再生" ToolTipService.ShowOnDisabled="True"/>
-                                </Setter.Value>
-                            </Setter>
                         </Style>
                     </ToggleButton.Style>
+                    <ToolTipService.ToolTip>
+                        <ToolTip Content="スキップ再生" ToolTipService.ShowOnDisabled="True"/>
+                    </ToolTipService.ToolTip>
                 </ToggleButton>
 
                 <ComboBox Name="skipSpans"
