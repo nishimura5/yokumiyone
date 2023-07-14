@@ -134,7 +134,7 @@
                 </DataGrid>
             </StackPanel>
             <DockPanel>
-                <Button Name="CreateButton" HorizontalAlignment="Right" 
+                <Button Name="CreateButton" DockPanel.Dock="Left" 
         			VerticalAlignment="Center" Margin="4,8" Width="100"
                     Click="CreateButton_Click" Cursor="Hand"
                     >
@@ -142,16 +142,16 @@
                 </Button>
                 <ComboBox Name="ticketNames"
                           Style="{StaticResource MaterialDesignOutlinedComboBox}"
-                          Margin="4,8" Padding="8,10,10,6" Height="34" Width="150"
+                          Margin="4,8" Padding="8,10,10,6" Height="34" Width="160"
                           Foreground="White"
                           DisplayMemberPath="Name"/>
-                <Button Name="ImportButton" HorizontalAlignment="Right" 
+                <Button Name="ImportButton" DockPanel.Dock="Right" 
         			VerticalAlignment="Center" Margin="4,8" Width="100"
                     Click="ImportButton_Click" Cursor="Hand"
                     >
                     読み込み
                 </Button>
-                <Button Name="ExportButton" HorizontalAlignment="Right" 
+                <Button Name="ExportButton"  
         			VerticalAlignment="Center" Margin="4,8" Width="80"
                     Click="ExportButton_Click" Cursor="Hand"
                     >
