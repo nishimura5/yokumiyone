@@ -10,7 +10,7 @@ using System.Windows.Media;
 using System.Windows.Input;
 using System.Collections.ObjectModel;
 
-namespace Yokumiyone
+namespace Yokumiyone.landmark
 {
     internal class Landmarks
     {
@@ -19,10 +19,10 @@ namespace Yokumiyone
         public List<LandPoint> Points { get { return landmarks; } }
         public string LandmarkType { get; set; }
         public int NumOfPoints { get { return Points.Count; } }
-        public string PointsCsv { get { return GenCsv(); } }
         public string Name { get; set; }
 
-        public Landmarks() {
+        public Landmarks()
+        {
             Name = string.Empty;
         }
         public Landmarks(string name)
@@ -74,10 +74,10 @@ namespace Yokumiyone
 
         public LandPoint FindByName(string name)
         {
-            LandPoint retPoint = new(name ,0, 0, 1);
+            LandPoint retPoint = new(name, 0, 0, 1);
             foreach (var point in landmarks)
             {
-                if(point.Name == name)
+                if (point.Name == name)
                 {
                     retPoint = point;
                     break;
@@ -86,14 +86,9 @@ namespace Yokumiyone
             return retPoint;
         }
 
-        private string GenCsv()
+        public List<string> GetPointNames()
         {
-            string dstCsv = "";
-            foreach (var point in Points)
-            {
-                dstCsv += point.Name + ",";
-            }
-            return dstCsv;
+            return Points.Select(p => p.Name).ToList();
         }
     }
 
@@ -123,8 +118,8 @@ namespace Yokumiyone
                 StrokeThickness = 1
             };
 
-            Canvas.SetLeft(circle, X-(int)(radius/2));
-            Canvas.SetTop(circle, Y-(int)(radius/2));
+            Canvas.SetLeft(circle, X - radius / 2);
+            Canvas.SetTop(circle, Y - radius / 2);
             return circle;
         }
 
@@ -163,16 +158,16 @@ namespace Yokumiyone
         public void UpdateSelectedPoints(Landmarks selectedPoly)
         {
             this.selectedPoly = selectedPoly;
-            var mediaColor = System.Windows.Media.Color.FromArgb(127, r, g, b);
-            var brush = new System.Windows.Media.SolidColorBrush(mediaColor);
+            var mediaColor = Color.FromArgb(127, r, g, b);
+            var brush = new SolidColorBrush(mediaColor);
             selectedPolygon = selectedPoly.SetPolygon(brush);
         }
 
         public void SetPoint(LandPoint point)
         {
             selectedPoly.Add(point);
-            var mediaColor = System.Windows.Media.Color.FromArgb(127, r, g, b);
-            var brush = new System.Windows.Media.SolidColorBrush(mediaColor);
+            var mediaColor = Color.FromArgb(127, r, g, b);
+            var brush = new SolidColorBrush(mediaColor);
             selectedPolygon = selectedPoly.SetPolygon(brush);
         }
 

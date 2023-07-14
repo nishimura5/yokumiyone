@@ -134,17 +134,22 @@
                 </DataGrid>
             </StackPanel>
             <DockPanel>
+                <ComboBox Name="ticketNames"
+                          Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                          Margin="4,8" Padding="8,10,10,6" Height="34" Width="180"
+                          Foreground="White"
+                          DisplayMemberPath="Name"/>
                 <Button Name="ImportButton" HorizontalAlignment="Right" 
-        			VerticalAlignment="Center" Margin="4,8" Width="150"
+        			VerticalAlignment="Center" Margin="4,8" Width="100"
                     Click="ImportButton_Click" Cursor="Hand"
                     >
-                    ファイル読み込み
+                    読み込み
                 </Button>
                 <Button Name="ExportButton" HorizontalAlignment="Right" 
-        			VerticalAlignment="Center" Margin="4,8" Width="150"
+        			VerticalAlignment="Center" Margin="4,8" Width="80"
                     Click="ExportButton_Click" Cursor="Hand"
                     >
-                    分析票を出力
+                    保存
                 </Button>
             </DockPanel>
         </StackPanel>

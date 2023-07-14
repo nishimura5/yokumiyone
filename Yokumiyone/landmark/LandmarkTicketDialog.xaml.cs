@@ -12,6 +12,8 @@ using System.ComponentModel;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using System.Windows.Media.Imaging;
 using System.Windows.Controls;
+using Yokumiyone.tables;
+using Yokumiyone.landmark;
 
 namespace Yokumiyone
 {
@@ -81,9 +83,11 @@ namespace Yokumiyone
         readonly string videoPath = "";
         readonly float fps=1;
         private string? dstFolderPath;
+        private string landmarkType = "";
         string dstFilePath = "";
         readonly SceneProp scene;
         private readonly int _mouseOverThreshold = 5;
+        private TicketNames ctrl = new();
 
         public LandmarkTicketDialog(Window owner, SceneProp scene, string srcVideoPath, float fps)
         {
@@ -98,6 +102,10 @@ namespace Yokumiyone
             this.scene = scene;
 
             PutLandpack("mediapipe_face_mesh_landmarks", 4);
+
+            LandareaTable landareatable = new();
+            List<string> names = landareatable.GetNames();
+            ctrl.SetControls(ticketNames, names);
         }
 
         private void PutLandpack(string fileName, int radius)
@@ -305,70 +313,37 @@ namespace Yokumiyone
         }
         private void ImportButton_Click(object sender, RoutedEventArgs e)
         {
-            string targetFolderPath = System.IO.Path.GetDirectoryName(this.videoPath);
-            string targetFilePath;
-            var dialog = new CommonOpenFileDialog()
-            {
-                Title = "ファイルを選択してください",
-                InitialDirectory = targetFolderPath,
-            };
-            dialog.Filters.Add(new CommonFileDialogFilter("LandmarkTicket files", ".lmt.json"));
-            dialog.Filters.Add(new CommonFileDialogFilter("Json files", ".json"));
+            // DBからlandareaを取得
+            LandareaTable landareaTable = new();
+            string ticketName = ctrl.TicketNameSelected;
+            landareaTable.GetLandarea(ticketName);
 
-            // ダイアログを表示
-            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
-            {
-                    targetFilePath = dialog.FileName;
-            }
-            else
-            {
-                return;
-            }
-            this.Topmost = true;
-            this.Topmost = false;
-
-            LandmarkCalcJson import = new();
-
-            using(var sr = new StreamReader(targetFilePath))
-            {
-                var jsonData = sr.ReadToEnd();
-                import = JsonConvert.DeserializeObject<LandmarkCalcJson>(jsonData);
-            }
-
-            if (import.LandmarkType == "mediapipe_face_landmarker")
+            if (landareaTable.LandmarkType == "mediapipe_face_mesh_landmarker")
             {
                 PutLandpack("mediapipe_face_mesh_landmarks", 4);
-            }
-            else if (import.LandmarkType == "mediapipe_pose_landmarker")
+            }else if (landareaTable.LandmarkType == "mediapipe_pose_landmarker")
             {
                 PutLandpack("mediapipe_pose_landmarks", 5);
             }
 
+            Landareas landAreas = new(landareaTable.LandmarkType, baseLandpack);
             // 標準領域を追加
-            foreach (KeyValuePair<string, List<string>> importLandareas in import.StandardLandarea)
+            foreach (KeyValuePair<string, List<string>> landarea in landareaTable.StandardLandarea)
             {
-                string name = importLandareas.Key;
-                List<string> importLandarea = importLandareas.Value;
-                Landmarks landarea = new(name);
-                foreach(string pointName in importLandarea)
-                {
-                    LandPoint point = baseLandpack.FindByName(pointName);
-                    landarea.Points.Add(point);
-                }
+                landAreas.AddStandardLandareaByPointNames(landarea.Key, landarea.Value);
+            }
+            foreach (Landmarks landarea in landAreas.StandardLandmarks)
+            {
                 _Bind.StdPoints.Add(landarea);
             }
 
             // 分析領域を追加
-            foreach (KeyValuePair<string, List<string>> importLandareas in import.Landarea)
+            foreach (KeyValuePair<string, List<string>> landarea in landareaTable.TargetLandarea)
             {
-                string name = importLandareas.Key;
-                List<string> importLandarea = importLandareas.Value;
-                Landmarks landarea = new(name);
-                foreach (string pointName in importLandarea)
-                {
-                    LandPoint point = baseLandpack.FindByName(pointName);
-                    landarea.Points.Add(point);
-                }
+                landAreas.AddTargetLandareaByPointNames(landarea.Key, landarea.Value);
+            }
+            foreach (Landmarks landarea in landAreas.TargetLandmarks)
+            {
                 _Bind.Points.Add(landarea);
             }
         }
@@ -388,63 +363,27 @@ namespace Yokumiyone
                 return;
             }
 
+            Landareas landAreas = new(landmarkType, baseLandpack);
+
             // Landareaのデータ詰め替え
-            Dictionary<string, List<string>> landareaStr = new();
-            foreach(var landarea in _Bind.Points)
+            foreach(Landmarks landarea in _Bind.Points)
             {
-                List<string> points = new();
-                foreach(var point in landarea.Points)
-                {
-                    points.Add(point.Name);
-                }
-                landareaStr.Add(landarea.Name, points);
+                landAreas.AddTargetLandarea(landarea);
             }
-            Dictionary<string, List<string>> stdLandareaStr = new();
-            foreach (var landarea in _Bind.StdPoints)
+            Dictionary<string, List<string>> standardLandareaStr = landAreas.GetStandardLandareaAsPointNames();
+
+            foreach (Landmarks landarea in _Bind.Points)
             {
-                List<string> points = new();
-                foreach (var point in landarea.Points)
-                {
-                    points.Add(point.Name);
-                }
-                stdLandareaStr.Add(landarea.Name, points);
+                landAreas.AddTargetLandarea(landarea);
             }
+            Dictionary<string, List<string>> targetLandareaStr = landAreas.GetTargetLandareaAsPointNames();
 
-            LandmarkCalcJson export = new()
-            {
-                VideoPath = this.videoPath,
-                Fps = this.fps,
-                StartTimeStr = scene.StartTimeStr,
-                EndTimeStr = scene.EndTimeStr,
-                LandmarkType="mediapipe_face_landmarker",
-                StandardLandarea = stdLandareaStr,
-                Landarea = landareaStr,
-            };
-
-            if (string.IsNullOrEmpty(dstFolderPath) == true)
-            {
-                dstFolderPath = System.IO.Path.GetDirectoryName(this.videoPath);
-            }
-
-            string dstJsonFileName = System.IO.Path.GetFileNameWithoutExtension(this.videoPath);
-            var dialog = new CommonSaveFileDialog()
-            {
-                Title = "出力先を選択してください",
-                DefaultDirectory = dstFolderPath,
-                DefaultFileName = string.Concat(dstJsonFileName, "_", scene.Title, ".lmt.json"),
-            };
-            dialog.Filters.Add(new CommonFileDialogFilter("LandmarkTicket files", ".lmt.json"));
-            dialog.Filters.Add(new CommonFileDialogFilter("Json files", ".json"));
-
-            // ダイアログを表示
-            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
-            {
-                dstFilePath = dialog.FileName;
-            }
-            this.Topmost = true;
-            this.Topmost = false;
-
-            export.SerializeToFile(dstFilePath);
+            // DBにlandareaを保存
+            LandareaTable landareaTable = new();
+            landareaTable.LandmarkType = this.landmarkType;
+            landareaTable.StandardLandarea = standardLandareaStr;
+            landareaTable.TargetLandarea = targetLandareaStr;
+            landareaTable.SetLandarea("test");
         }
         private void CloseButton_Click(object sender, EventArgs e)
         {
