@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Windows;
 using System;
+using System.Linq;
 
 namespace Yokumiyone.tables
 {
@@ -51,8 +52,14 @@ namespace Yokumiyone.tables
 
         public List<string> GetNames()
         {
-            List<string> names = ExecReader($"SELECT name FROM landarea");
+            List<string> names = ExecReader($"SELECT name FROM landarea", "name");
             return names;
+        }
+        public List<string> GetLandmarkTypes()
+        {
+            List<string> landmarkTypes = ExecReader($"SELECT landmark_type FROM landarea", "landmark_type");
+            IEnumerable<string> uniqueList = landmarkTypes.Distinct();
+            return uniqueList.ToList();
         }
 
         private void ExecReader(string stmt, List<SQLiteParameter> sql_params)
@@ -92,9 +99,9 @@ namespace Yokumiyone.tables
                 MessageBox.Show(ex.Message, GetType().Name);
             }
         }
-        private List<string> ExecReader(string stmt)
+        private List<string> ExecReader(string stmt, string col)
         {
-            List<string> names = new();
+            List<string> retList = new();
 
             try
             {
@@ -109,7 +116,7 @@ namespace Yokumiyone.tables
                         // 1行ずつデータを取得、最後に取得した値を返す
                         while (reader.Read())
                         {
-                            names.Add((string)reader["name"]);
+                            retList.Add((string)reader[col]);
                         }
                     }
                 }
@@ -118,7 +125,7 @@ namespace Yokumiyone.tables
             {
                 MessageBox.Show(ex.Message, GetType().Name);
             }
-            return names;
+            return retList;
         }
     }
 }

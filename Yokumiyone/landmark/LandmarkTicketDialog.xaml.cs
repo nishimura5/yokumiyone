@@ -82,9 +82,8 @@ namespace Yokumiyone
 
         readonly string videoPath = "";
         readonly float fps=1;
-        private string? dstFolderPath;
         private string landmarkType = "";
-        string dstFilePath = "";
+        private string currentTicketName = "";
         readonly SceneProp scene;
         private readonly int _mouseOverThreshold = 5;
         private TicketNames ctrl = new();
@@ -311,22 +310,56 @@ namespace Yokumiyone
             selectedRow.Name = nameEditDialog.LandareaNameText;
             _Bind.StdPoints = new ObservableCollection<Landmarks>(_Bind.StdPoints.OrderBy(n => n.Name));
         }
+        private void CreateButton_Click(object sender, RoutedEventArgs e)
+        {
+            LandareaTable landareaTable = new();
+
+            List<string> landmarkTypes = landareaTable.GetLandmarkTypes();
+            TicketCreateDialog ticketCreateDialog = new(this, landmarkTypes, landmarkType);
+            var res = ticketCreateDialog.ShowDialog();
+            if (res == true)
+            {
+                if(landmarkType != ticketCreateDialog.LandmarkType)
+                {
+                    _Bind.Points.Clear();
+                    _Bind.StdPoints.Clear();
+                }
+                landmarkType  = ticketCreateDialog.LandmarkType;
+                if (landmarkType == "mediapipe_face_mesh_landmarker")
+                {
+                    PutLandpack("mediapipe_face_mesh_landmarks", 4);
+                }
+                else if (landmarkType == "mediapipe_pose_landmarker")
+                {
+                    PutLandpack("mediapipe_pose_landmarks", 5);
+                }
+                currentTicketName = ticketCreateDialog.NewTicketName;
+                ctrl.AddTicketName(currentTicketName);
+            }
+        }
         private void ImportButton_Click(object sender, RoutedEventArgs e)
         {
             // DBからlandareaを取得
             LandareaTable landareaTable = new();
-            string ticketName = ctrl.TicketNameSelected;
-            landareaTable.GetLandarea(ticketName);
+            currentTicketName = ctrl.TicketNameSelected;
+            landareaTable.GetLandarea(currentTicketName);
 
-            if (landareaTable.LandmarkType == "mediapipe_face_mesh_landmarker")
+            if(landmarkType != landareaTable.LandmarkType)
+            {
+                _Bind.Points.Clear();
+                _Bind.StdPoints.Clear();
+            }
+            landmarkType = landareaTable.LandmarkType;
+            if (landmarkType == "mediapipe_face_mesh_landmarker")
             {
                 PutLandpack("mediapipe_face_mesh_landmarks", 4);
-            }else if (landareaTable.LandmarkType == "mediapipe_pose_landmarker")
+            }
+            else if (landmarkType == "mediapipe_pose_landmarker")
             {
                 PutLandpack("mediapipe_pose_landmarks", 5);
             }
 
-            Landareas landAreas = new(landareaTable.LandmarkType, baseLandpack);
+            Landareas landAreas = new(landmarkType, baseLandpack);
             // 標準領域を追加
             foreach (KeyValuePair<string, List<string>> landarea in landareaTable.StandardLandarea)
             {
@@ -366,9 +399,9 @@ namespace Yokumiyone
             Landareas landAreas = new(landmarkType, baseLandpack);
 
             // Landareaのデータ詰め替え
-            foreach(Landmarks landarea in _Bind.Points)
+            foreach(Landmarks landarea in _Bind.StdPoints)
             {
-                landAreas.AddTargetLandarea(landarea);
+                landAreas.AddStandardLandarea(landarea);
             }
             Dictionary<string, List<string>> standardLandareaStr = landAreas.GetStandardLandareaAsPointNames();
 
@@ -383,7 +416,7 @@ namespace Yokumiyone
             landareaTable.LandmarkType = this.landmarkType;
             landareaTable.StandardLandarea = standardLandareaStr;
             landareaTable.TargetLandarea = targetLandareaStr;
-            landareaTable.SetLandarea("test");
+            landareaTable.SetLandarea(currentTicketName);
         }
         private void CloseButton_Click(object sender, EventArgs e)
         {

@@ -21,17 +21,24 @@ namespace Yokumiyone.landmark
         }
         public void SetControls(ComboBox ticketNameCbx, List<string> ticketNames)
         {
-            ObservableCollection<TicketNameCbxItem> SceneTitles = new();
+            this.ticketNameCbx = ticketNameCbx;
 
-            foreach (string SceneTitle in ticketNames)
+            foreach (string name in ticketNames)
             {
-                SceneTitles.Add(new TicketNameCbxItem(SceneTitle));
+                this.ticketNameCbx.Items.Add(new TicketNameCbxItem(name));
             }
 
-            this.ticketNameCbx = ticketNameCbx;
-            this.ticketNameCbx.ItemsSource = SceneTitles;
             this.ticketNameCbx.SelectedIndex = 0;
         }
+        public void AddTicketName(string newTicketName)
+        {
+            if (String.IsNullOrEmpty(newTicketName.Trim()) == false)
+            {
+                this.ticketNameCbx.Items.Insert(0, new TicketNameCbxItem(newTicketName));
+                this.ticketNameCbx.SelectedIndex = 0;
+            }
+        }
+
         // コンボボックスの中身
         public class TicketNameCbxItem
         {

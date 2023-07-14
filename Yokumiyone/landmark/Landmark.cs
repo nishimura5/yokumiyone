@@ -19,6 +19,8 @@ namespace Yokumiyone.landmark
         public List<LandPoint> Points { get { return landmarks; } }
         public string LandmarkType { get; set; }
         public int NumOfPoints { get { return Points.Count; } }
+        public string PointsCsv { get { return GenCsv(); } }
+
         public string Name { get; set; }
 
         public Landmarks()
@@ -85,7 +87,15 @@ namespace Yokumiyone.landmark
             }
             return retPoint;
         }
-
+        private string GenCsv()
+        {
+            string dstCsv = "";
+            foreach (var point in Points)
+            {
+                dstCsv += point.Name + ",";
+            }
+            return dstCsv;
+        }
         public List<string> GetPointNames()
         {
             return Points.Select(p => p.Name).ToList();

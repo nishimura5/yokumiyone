@@ -134,9 +134,15 @@
                 </DataGrid>
             </StackPanel>
             <DockPanel>
+                <Button Name="CreateButton" HorizontalAlignment="Right" 
+        			VerticalAlignment="Center" Margin="4,8" Width="100"
+                    Click="CreateButton_Click" Cursor="Hand"
+                    >
+                    新規作成
+                </Button>
                 <ComboBox Name="ticketNames"
                           Style="{StaticResource MaterialDesignOutlinedComboBox}"
-                          Margin="4,8" Padding="8,10,10,6" Height="34" Width="180"
+                          Margin="4,8" Padding="8,10,10,6" Height="34" Width="150"
                           Foreground="White"
                           DisplayMemberPath="Name"/>
                 <Button Name="ImportButton" HorizontalAlignment="Right" 
