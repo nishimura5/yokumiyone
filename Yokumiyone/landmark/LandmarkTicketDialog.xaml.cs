@@ -381,7 +381,7 @@ namespace Yokumiyone
                 _Bind.Points.Add(landarea);
             }
         }
-        private void ExportButton_Click(object sender, RoutedEventArgs e)
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             // Landareaの名前の重複チェック
             var names = _Bind.Points.GroupBy(n => n.Name)
@@ -418,6 +418,10 @@ namespace Yokumiyone
             landareaTable.StandardLandarea = standardLandareaStr;
             landareaTable.TargetLandarea = targetLandareaStr;
             landareaTable.SetLandarea(currentTicketName);
+        }
+        private void ExecPythonButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
         private void CloseButton_Click(object sender, EventArgs e)
         {

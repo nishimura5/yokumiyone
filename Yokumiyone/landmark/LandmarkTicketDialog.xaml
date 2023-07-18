@@ -81,7 +81,7 @@
         			VerticalAlignment="Center" Margin="4,8"
                     Click="AppendButton_Click" Cursor="Hand"
                     >
-                    分析領域を追加
+                    計測領域を追加
                 </Button>
 
                 <DataGrid Name="pointsGrid" 
@@ -151,13 +151,19 @@
                     >
                     読み込み
                 </Button>
-                <Button Name="ExportButton"  
+                <Button Name="SaveButton"  
         			VerticalAlignment="Center" Margin="4,8" Width="80"
-                    Click="ExportButton_Click" Cursor="Hand"
+                    Click="SaveButton_Click" Cursor="Hand"
                     >
                     保存
                 </Button>
             </DockPanel>
+            <Button Name="ExecPython"  
+        			VerticalAlignment="Center" Margin="4,8"
+                    Click="ExecPythonButton_Click" Cursor="Hand"
+                    >
+                計測ツールを起動
+            </Button>
         </StackPanel>
     </Grid>
 </mah:MetroWindow>
