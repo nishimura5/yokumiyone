@@ -72,9 +72,11 @@ namespace Yokumiyone
             version.Text = $"Version {versionStr}";
 
             // 設定の読み込み
-            var pref = preferencesTable.GetPreferences();
+            var pref = preferencesTable.GetBoolPreferences();
             _Bind.EnableSceneExport = pref["enableSceneExport"];
             _Bind.EnableLandpackDialog = pref["enableLandpackDialog"];
+            var prefString = preferencesTable.GetStringPreferences();
+            pythonPathTextBox.Text = prefString["pythonPath"];
         }
 
         private void RemoveCashButton_Click(object sender, RoutedEventArgs e)
@@ -102,6 +104,7 @@ namespace Yokumiyone
             this.DialogResult = false;
             preferencesTable.SetEnableSceneExport(_Bind.EnableSceneExport);
             preferencesTable.SetEnableLandpackDialog(_Bind.EnableLandpackDialog);
+            preferencesTable.SetPythonPath(pythonPathTextBox.Text);
         }
     }
 }

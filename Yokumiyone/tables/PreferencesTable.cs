@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Windows;
+using System.Windows.Documents;
 
 namespace Yokumiyone.tables
 {
@@ -14,7 +15,7 @@ namespace Yokumiyone.tables
             db.CreateDb();
         }
 
-        public Dictionary<string,bool> GetPreferences()
+        public Dictionary<string,bool> GetBoolPreferences()
         {
             List<string> keys = new(){
                 "enableSceneExport", "enableLandpackDialog"
@@ -47,7 +48,31 @@ namespace Yokumiyone.tables
             return retDict;
         }
 
-        public void SetEnableSceneExport(bool enable)
+        public Dictionary<string, string> GetStringPreferences()
+        {
+            List<string> keys = new(){
+                "pythonPath"
+            };
+            List<SQLiteParameter> sql_params = new List<SQLiteParameter>() {
+                new SQLiteParameter("@keyName1", keys[0]),
+            };
+            Dictionary<string, string> retDict = new();
+            var returnVal = ExecReader($"SELECT * FROM preferences WHERE key == @keyName1", sql_params);
+            foreach (string key in keys)
+            {
+                if (returnVal.ContainsKey(key) == false)
+                {
+                    retDict.Add(key, "");
+                }
+                else
+                {
+                    retDict.Add(key, returnVal[key]);
+                }                
+            }
+            return retDict;
+        }
+
+        public void SetEnableSceneExport(bool? enable)
         {
             Insert("enableSceneExport", enable.ToString());
         }
@@ -56,6 +81,11 @@ namespace Yokumiyone.tables
         {
             Insert("enableLandpackDialog", enable.ToString());
         }
+        public void SetPythonPath(string pythonPath)
+        {
+            Insert("pythonPath", pythonPath);
+        }
+
         private void Insert(string key, string value)
         {
             List<SQLiteParameter> sql_params = new List<SQLiteParameter>() {

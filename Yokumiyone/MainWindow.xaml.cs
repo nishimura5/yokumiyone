@@ -435,7 +435,7 @@ namespace Yokumiyone
 
             // 設定の読み込み
             PreferencesTable preferencesTable = new();
-            var pref = preferencesTable.GetPreferences();
+            var pref = preferencesTable.GetBoolPreferences();
             sceneExport.Visibility = Visibility.Visible;
             landmarkTicket.Visibility = Visibility.Visible;
             if (pref["enableSceneExport"] == false)
