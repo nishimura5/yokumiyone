@@ -14,6 +14,7 @@ using System.Windows.Controls;
 using Yokumiyone.tables;
 using Yokumiyone.landmark;
 using System.Text.Json;
+using System.Diagnostics;
 
 namespace Yokumiyone
 {
@@ -426,11 +427,25 @@ namespace Yokumiyone
         }
         private void ExecPythonButton_Click(object sender, RoutedEventArgs e)
         {
+            // 設定の読み込み
+            PreferencesTable preferencesTable = new();
+            var prefString = preferencesTable.GetStringPreferences();
+            string pythonPath = prefString["pythonPath"];
 
-        }
-        private void CloseButton_Click(object sender, EventArgs e)
-        {
-            this.DialogResult = false;
+            var proc = new Process();
+            proc.StartInfo.FileName = pythonPath;
+            
+            string workingDirectory = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "3rd", "landpack", "landmark_detector");
+            proc.StartInfo.Arguments = $"landmarks_grapher.py --src_video_path \"{videoPath}\" --init_time_min \"{scene.StartTimeStr}\" --init_time_max \"{scene.EndTimeStr}\" --init_ticket_name \"{currentTicketName}\" --fps \"{fps}\"";
+            proc.StartInfo.CreateNoWindow = true;
+            proc.StartInfo.RedirectStandardOutput = true;
+            proc.StartInfo.UseShellExecute = false;
+            proc.StartInfo.WorkingDirectory = workingDirectory;
+            proc.Start();
+//            string rawResults = proc.StandardOutput.ReadToEnd();
+//            proc.WaitForExit();
+//            proc.Close();
+//            proc.Dispose();
         }
     }
 }
