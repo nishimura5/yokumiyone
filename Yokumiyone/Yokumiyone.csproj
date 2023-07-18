@@ -26,7 +26,6 @@
     <PackageReference Include="MahApps.Metro" Version="2.4.9" />
     <PackageReference Include="MaterialDesignThemes.MahApps" Version="0.3.0" />
     <PackageReference Include="Microsoft-WindowsAPICodePack-Shell" Version="1.1.5" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="ReactiveProperty" Version="9.2.0" />
     <PackageReference Include="ReactiveProperty.WPF" Version="9.2.0" />
     <PackageReference Include="Stub.System.Data.SQLite.Core.NetStandard" Version="1.0.118" />

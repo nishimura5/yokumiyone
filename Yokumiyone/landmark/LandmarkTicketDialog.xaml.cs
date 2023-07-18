@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 using System.Windows;
-using Newtonsoft.Json;
 using System.Windows.Input;
 using System.Windows.Shapes;
 using System.Windows.Media;
@@ -14,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Controls;
 using Yokumiyone.tables;
 using Yokumiyone.landmark;
+using System.Text.Json;
 
 namespace Yokumiyone
 {
@@ -111,7 +111,8 @@ namespace Yokumiyone
         {
             canvas.Children.Clear();
             string jsonText = File.ReadAllText(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "3rd", "landpack", fileName+".json"));
-            List<Point3d>? points = JsonConvert.DeserializeObject<List<Point3d>>(jsonText);
+            var options = new JsonSerializerOptions { WriteIndented = true };
+            List<Point3d>? points = JsonSerializer.Deserialize<List<Point3d>>(jsonText, options);
             baseLandpack = new Landmarks(points);
 
             Image img = new();
