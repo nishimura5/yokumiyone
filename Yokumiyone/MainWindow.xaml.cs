@@ -477,7 +477,7 @@ namespace Yokumiyone
                 return;
             }
             LandmarkTicketDialog landmarkTicketDialog = new(this, selectedScene, targetVideoPath, selectedVideo.Fps);
-            var _ = landmarkTicketDialog.ShowDialog();
+            landmarkTicketDialog.Show();
         }
 
         private void RemoveScene_Click(object sender, RoutedEventArgs e)

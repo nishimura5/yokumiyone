@@ -105,6 +105,11 @@ namespace Yokumiyone
             LandareaTable landareatable = new();
             List<string> names = landareatable.GetNames();
             ctrl.SetControls(ticketNames, names);
+
+            videoName.Text = System.IO.Path.GetFileName(srcVideoPath);
+            sceneTitle.Text = scene.Title;
+            startTime.Text = scene.StartTimeStr;
+            endTime.Text = scene.EndTimeStr;
         }
 
         private void PutLandpack(string fileName, int radius)
