@@ -405,12 +405,12 @@ namespace Yokumiyone
             if (selectedColNum == 0)
             {
                 targetVideo.Jump(selectedRow.StartTime);
-                this.sceneGrid.SelectedItem = null;
+//                this.sceneGrid.SelectedItem = null;
             }
             else if (selectedColNum == 1 && selectedRow.EndTimeStr != "")
             {
                 targetVideo.Jump(selectedRow.EndTime);
-                this.sceneGrid.SelectedItem = null;
+//                this.sceneGrid.SelectedItem = null;
             }
         }
 
