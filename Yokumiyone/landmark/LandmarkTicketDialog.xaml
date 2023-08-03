@@ -145,30 +145,36 @@
             </StackPanel>
             <DockPanel>
                 <Button Name="CreateButton" DockPanel.Dock="Left" 
-        			VerticalAlignment="Center" Margin="4,8" Width="100"
+                    Content="{materialDesign:PackIcon Kind=NotePlus}" 
+        			VerticalAlignment="Center" Margin="4,8" Padding="1" Width="40"
                     Click="CreateButton_Click" Cursor="Hand"
                     >
-                    新規作成
                 </Button>
                 <ComboBox Name="ticketNames"
                           Style="{StaticResource MaterialDesignOutlinedComboBox}"
-                          Margin="4,8" Padding="8,10,10,6" Height="34" Width="160"
+                          Margin="4,8" Padding="8,10,10,6" Height="34" Width="150"
                           Foreground="White"
                           DisplayMemberPath="Name"/>
-                <Button Name="ImportButton" DockPanel.Dock="Right" 
-        			VerticalAlignment="Center" Margin="4,8" Width="100"
+                <Button Name="ImportButton"
+        			VerticalAlignment="Center" Margin="4,8" Width="90"
                     Click="ImportButton_Click" Cursor="Hand"
                     >
                     読み込み
                 </Button>
-                <Button Name="SaveButton"  
-        			VerticalAlignment="Center" Margin="4,8" Width="80"
+                <Button Name="SaveButton"
+        			VerticalAlignment="Center" Margin="4,8" Padding="2" Width="70"
                     Click="SaveButton_Click" Cursor="Hand"
                     >
                     保存
                 </Button>
+                <Button Name="ClearButton" DockPanel.Dock="Right"
+                    Content="{materialDesign:PackIcon Kind=Broom}" 
+        			VerticalAlignment="Center" Padding="1" Width="40"
+                    Click="ClearButton_Click" Cursor="Hand"
+                    >
+                </Button>
             </DockPanel>
-            <Button Name="ExecPython"  
+            <Button Name="ExecPython"
         			VerticalAlignment="Center" Margin="4,8"
                     Click="ExecPythonButton_Click" Cursor="Hand"
                     >

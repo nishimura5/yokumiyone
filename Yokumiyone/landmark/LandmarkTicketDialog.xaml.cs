@@ -425,6 +425,11 @@ namespace Yokumiyone
             landareaTable.TargetLandarea = targetLandareaStr;
             landareaTable.SetLandarea(currentTicketName);
         }
+        private void ClearButton_Click(object sender, EventArgs e)
+        {
+            _Bind.Points.Clear();
+            _Bind.StdPoints.Clear();
+        }
         private void ExecPythonButton_Click(object sender, RoutedEventArgs e)
         {
             // 設定の読み込み
