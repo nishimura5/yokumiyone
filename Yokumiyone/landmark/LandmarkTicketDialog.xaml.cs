@@ -363,7 +363,7 @@ namespace Yokumiyone
             }
             else if (landmarkType == "mediapipe_pose_landmarker")
             {
-                PutLandpack("mediapipe_pose_landmarks", 5);
+                PutLandpack("mediapipe_pose_landmarks", 8);
             }
 
             Landareas landAreas = new(landmarkType, baseLandpack);
