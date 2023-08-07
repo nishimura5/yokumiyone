@@ -442,8 +442,7 @@ namespace Yokumiyone
             proc.StartInfo.FileName = pythonPath;
             
             string workingDirectory = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "3rd", "landpack", "landmark_detector");
-            string dbPath = landareaTable.DbPath;
-            proc.StartInfo.Arguments = $"landmarks_grapher.py --src_video_path \"{videoPath}\" --init_time_min \"{scene.StartTimeStr}\" --init_time_max \"{scene.EndTimeStr}\" --init_ticket_name \"{currentTicketName}\" --fps \"{fps}\" --db_path \"{dbPath}\"";
+            proc.StartInfo.Arguments = $"landmarks_grapher.py --src_video_path \"{videoPath}\" --init_time_min \"{scene.StartTimeStr}\" --init_time_max \"{scene.EndTimeStr}\" --ticket_name \"{currentTicketName}\" --fps \"{fps}\" --db_path \"{landareaTable.DbPath}\"";
             proc.StartInfo.CreateNoWindow = true;
             proc.StartInfo.RedirectStandardOutput = true;
             proc.StartInfo.UseShellExecute = false;

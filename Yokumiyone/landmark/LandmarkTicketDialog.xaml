@@ -7,7 +7,7 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         Title="Yokumiyone"
-        Width="1000" Height="700">
+        Width="1000" Height="730">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="500"/>
@@ -100,7 +100,7 @@
                       AutoGenerateColumns="False"
                       CanUserAddRows="False"
                       VirtualizingStackPanel.VirtualizationMode="Standard"
-                      MaxHeight="400">
+                      MaxHeight="380">
                     <DataGrid.ColumnHeaderStyle>
                         <Style TargetType="{x:Type DataGridColumnHeader}">
                             <Setter Property="Template">
