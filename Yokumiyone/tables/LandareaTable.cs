@@ -22,6 +22,7 @@ namespace Yokumiyone.tables
         public string LandmarkType = "";
         public Dictionary<string, List<string>> StandardLandarea = new();
         public Dictionary<string, List<string>> TargetLandarea = new();
+        public string DbPath { get { return db.DbPath; } }
 
         public LandareaTable()
         {
