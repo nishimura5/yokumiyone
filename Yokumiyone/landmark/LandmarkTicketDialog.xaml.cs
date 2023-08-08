@@ -182,9 +182,9 @@ namespace Yokumiyone
             landmarkSelectedCircle = mouseoverPoint.Point.SetCircle(6, Brushes.Blue, Brushes.Black);
             canvas.Children.Add(landmarkSelectedCircle);
 
-            canvas.Children.Remove(selectedPoints.SelectedPolygon);
+            canvas.Children.Remove(selectedPoints.SelectedPolyline);
             selectedPoints.SetPoint(mouseoverPoint.Point);
-            canvas.Children.Add(selectedPoints.SelectedPolygon);
+            canvas.Children.Add(selectedPoints.SelectedPolyline);
         }
 
         private void PointsRow_Click(object sender, EventArgs e)
@@ -195,9 +195,9 @@ namespace Yokumiyone
             }
             Landmarks selectedRow = (Landmarks)this.pointsGrid.SelectedItem;
 
-            canvas.Children.Remove(selectedPointsOnGrid.SelectedPolygon);
+            canvas.Children.Remove(selectedPointsOnGrid.SelectedPolyline);
             selectedPointsOnGrid.UpdateSelectedPoints(selectedRow);
-            canvas.Children.Add(selectedPointsOnGrid.SelectedPolygon);
+            canvas.Children.Add(selectedPointsOnGrid.SelectedPolyline);
         }
         private void StdPointsRow_Click(object sender, EventArgs e)
         {
@@ -207,9 +207,7 @@ namespace Yokumiyone
             }
             Landmarks selectedRow = (Landmarks)this.stdPointsGrid.SelectedItem;
 
-            canvas.Children.Remove(selectedPointsOnGrid.SelectedPolygon);
             selectedPointsOnGrid.UpdateSelectedPoints(selectedRow);
-            canvas.Children.Add(selectedPointsOnGrid.SelectedPolygon);
         }
         private void AppendButton_Click(object sender, EventArgs e)
         {
@@ -252,12 +250,12 @@ namespace Yokumiyone
                 selectedRow = (Landmarks)this.pointsGrid.SelectedItem;
             }
 
-            canvas.Children.Remove(selectedPoints.SelectedPolygon);
+            canvas.Children.Remove(selectedPoints.SelectedPolyline);
             selectedPoints.Clear();
 
-            canvas.Children.Remove(selectedPointsOnGrid.SelectedPolygon);
+            canvas.Children.Remove(selectedPointsOnGrid.SelectedPolyline);
             selectedPointsOnGrid.UpdateSelectedPoints(selectedRow);
-            canvas.Children.Add(selectedPointsOnGrid.SelectedPolygon);
+            canvas.Children.Add(selectedPointsOnGrid.SelectedPolyline);
         }
 
         // 右クリック操作

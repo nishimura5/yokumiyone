@@ -69,10 +69,27 @@ namespace Yokumiyone.landmark
             {
                 Points = pointCollection,
                 Fill = fill,
-                StrokeThickness = 1,
             };
             return polygon;
         }
+
+        public Polyline SetPolyline(Brush fill)
+        {
+            PointCollection pointCollection = new();
+            foreach(var point in landmarks)
+            {
+                pointCollection.Add(new Point(point.X, point.Y));
+            }
+            Polyline polyline = new()
+            {
+                Points = pointCollection,
+                Stroke = Brushes.DarkSlateGray,
+                Fill = fill,
+                StrokeThickness = 1,
+            };
+            return polyline;
+        }
+
 
         public LandPoint FindByName(string name)
         {
@@ -150,12 +167,13 @@ namespace Yokumiyone.landmark
     class SelectedPoints
     {
         private Landmarks selectedPoly = new();
-        private Polygon? selectedPolygon;
+        private Polyline? selectedPolyline;
         private readonly byte r;
         private readonly byte g;
         private readonly byte b;
 
-        public Polygon? SelectedPolygon { get { return selectedPolygon; } }
+        public Polyline? SelectedPolyline { get { return selectedPolyline; } }
+
         public List<LandPoint> Points { get { return selectedPoly.Points; } }
 
         public SelectedPoints(byte r, byte g, byte b)
@@ -168,23 +186,23 @@ namespace Yokumiyone.landmark
         public void UpdateSelectedPoints(Landmarks selectedPoly)
         {
             this.selectedPoly = selectedPoly;
-            var mediaColor = Color.FromArgb(127, r, g, b);
+            var mediaColor = Color.FromArgb(90, r, g, b);
             var brush = new SolidColorBrush(mediaColor);
-            selectedPolygon = selectedPoly.SetPolygon(brush);
+            selectedPolyline = selectedPoly.SetPolyline(brush);
         }
 
         public void SetPoint(LandPoint point)
         {
             selectedPoly.Add(point);
-            var mediaColor = Color.FromArgb(127, r, g, b);
+            var mediaColor = Color.FromArgb(90, r, g, b);
             var brush = new SolidColorBrush(mediaColor);
-            selectedPolygon = selectedPoly.SetPolygon(brush);
+            selectedPolyline = selectedPoly.SetPolyline(brush);
         }
 
         public void Clear()
         {
             selectedPoly = new Landmarks();
-            selectedPolygon = null;
+            selectedPolyline = null;
         }
     }
 
