@@ -145,21 +145,27 @@
             </StackPanel>
             <DockPanel>
                 <Button Name="CreateButton" DockPanel.Dock="Left" 
-                    Content="{materialDesign:PackIcon Kind=NotePlus}" 
+                    Content="{materialDesign:PackIcon Kind=Ticket}" 
         			VerticalAlignment="Center" Margin="4,8" Padding="1" Width="40"
                     Click="CreateButton_Click" Cursor="Hand"
                     >
+                    <ToolTipService.ToolTip>
+                        <ToolTip Content="新しい分析票を作成" ToolTipService.ShowOnDisabled="True"/>
+                    </ToolTipService.ToolTip>
                 </Button>
                 <ComboBox Name="ticketNames"
                           Style="{StaticResource MaterialDesignOutlinedComboBox}"
-                          Margin="4,8" Padding="8,10,10,6" Height="34" Width="150"
+                          Margin="4,8" Padding="8,10,10,6" Height="33" Width="150"
                           Foreground="White"
                           DisplayMemberPath="Name"/>
                 <Button Name="ImportButton"
-        			VerticalAlignment="Center" Margin="4,8" Width="90"
+                    Content="{materialDesign:PackIcon Kind=PlaylistPlus}" 
+        			VerticalAlignment="Center" Margin="4,8" Padding="2" Width="40"
                     Click="ImportButton_Click" Cursor="Hand"
                     >
-                    読み込み
+                    <ToolTipService.ToolTip>
+                        <ToolTip Content="分析票を読み込み(ランドマークリストに追加)" ToolTipService.ShowOnDisabled="True"/>
+                    </ToolTipService.ToolTip>
                 </Button>
                 <Button Name="SaveButton"
         			VerticalAlignment="Center" Margin="4,8" Padding="2" Width="70"
@@ -172,12 +178,18 @@
                     Click="RemoveButton_Click" Cursor="Hand"
                     >
                     削除
+                    <ToolTipService.ToolTip>
+                        <ToolTip Content="分析票を削除" ToolTipService.ShowOnDisabled="True"/>
+                    </ToolTipService.ToolTip>
                 </Button>
                 <Button Name="ClearButton" DockPanel.Dock="Right"
                     Content="{materialDesign:PackIcon Kind=Broom}" 
         			VerticalAlignment="Center" Padding="1" Width="40"
                     Click="ClearButton_Click" Cursor="Hand"
                     >
+                    <ToolTipService.ToolTip>
+                        <ToolTip Content="ランドマークリストをクリア" ToolTipService.ShowOnDisabled="True"/>
+                    </ToolTipService.ToolTip>
                 </Button>
             </DockPanel>
             <Button Name="ExecPython"
