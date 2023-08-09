@@ -96,7 +96,11 @@ namespace Yokumiyone
             bool res = TimeSpan.TryParseExact(hmmss, @"h\:mm\:ss\.fff", System.Globalization.CultureInfo.InvariantCulture, out dst);
             if (res == false)
             {
-                dst = TimeSpan.Parse("0:0");
+                res = TimeSpan.TryParseExact(hmmss, @"h\:mm\:ss", System.Globalization.CultureInfo.InvariantCulture, out dst);
+                if (res == false)
+                {
+                    dst = TimeSpan.Parse("0:0");
+                }
             }
             return dst;
         }
