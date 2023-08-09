@@ -62,6 +62,13 @@ namespace Yokumiyone.tables
             IEnumerable<string> uniqueList = landmarkTypes.Distinct();
             return uniqueList.ToList();
         }
+        public void Delete(string targetName)
+        {
+            List<SQLiteParameter> sql_params = new List<SQLiteParameter>() {
+                new SQLiteParameter("@name", targetName),
+            };
+            db.ExecNonQuery($"DELETE FROM landarea WHERE name == @name", sql_params);
+        }
 
         private void ExecReader(string stmt, List<SQLiteParameter> sql_params)
         {

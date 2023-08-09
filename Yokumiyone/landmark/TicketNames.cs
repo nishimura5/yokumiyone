@@ -39,6 +39,12 @@ namespace Yokumiyone.landmark
             }
         }
 
+        public void RemoveTicketName()
+        {
+            this.ticketNameCbx.Items.Remove(ticketNameCbx.SelectedItem);
+            this.ticketNameCbx.SelectedIndex = 0;
+        }
+
         // コンボボックスの中身
         public class TicketNameCbxItem
         {

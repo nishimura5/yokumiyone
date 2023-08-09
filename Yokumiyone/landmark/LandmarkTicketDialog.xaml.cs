@@ -207,7 +207,9 @@ namespace Yokumiyone
             }
             Landmarks selectedRow = (Landmarks)this.stdPointsGrid.SelectedItem;
 
+            canvas.Children.Remove(selectedPointsOnGrid.SelectedPolyline);
             selectedPointsOnGrid.UpdateSelectedPoints(selectedRow);
+            canvas.Children.Add(selectedPointsOnGrid.SelectedPolyline);
         }
         private void AppendButton_Click(object sender, EventArgs e)
         {
@@ -422,6 +424,14 @@ namespace Yokumiyone
             landareaTable.StandardLandarea = standardLandareaStr;
             landareaTable.TargetLandarea = targetLandareaStr;
             landareaTable.SetLandarea(currentTicketName);
+        }
+        private void RemoveButton_Click(object sender, EventArgs e)
+        {
+            _Bind.Points.Clear();
+            _Bind.StdPoints.Clear();
+            LandareaTable landarea = new();
+            landarea.Delete(currentTicketName);
+            ctrl.RemoveTicketName();
         }
         private void ClearButton_Click(object sender, EventArgs e)
         {

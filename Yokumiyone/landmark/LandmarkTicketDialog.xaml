@@ -167,6 +167,12 @@
                     >
                     保存
                 </Button>
+                <Button Name="RemoveButton"
+        			VerticalAlignment="Center" Margin="4,8" Padding="2" Width="70"
+                    Click="RemoveButton_Click" Cursor="Hand"
+                    >
+                    削除
+                </Button>
                 <Button Name="ClearButton" DockPanel.Dock="Right"
                     Content="{materialDesign:PackIcon Kind=Broom}" 
         			VerticalAlignment="Center" Padding="1" Width="40"
