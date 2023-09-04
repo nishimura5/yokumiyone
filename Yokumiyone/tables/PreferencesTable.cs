@@ -51,7 +51,7 @@ namespace Yokumiyone.tables
         public Dictionary<string, string> GetStringPreferences()
         {
             List<string> keys = new(){
-                "pythonPath"
+                "ffmpegPath"
             };
             List<SQLiteParameter> sql_params = new List<SQLiteParameter>() {
                 new SQLiteParameter("@keyName1", keys[0]),
@@ -81,9 +81,9 @@ namespace Yokumiyone.tables
         {
             Insert("enableLandpackDialog", enable.ToString());
         }
-        public void SetPythonPath(string pythonPath)
+        public void SetFfmpegPath(string ffmpegPath)
         {
-            Insert("pythonPath", pythonPath);
+            Insert("ffmpegPath", ffmpegPath);
         }
 
         private void Insert(string key, string value)

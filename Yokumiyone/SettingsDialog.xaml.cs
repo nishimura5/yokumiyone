@@ -76,7 +76,7 @@ namespace Yokumiyone
             _Bind.EnableSceneExport = pref["enableSceneExport"];
             _Bind.EnableLandpackDialog = pref["enableLandpackDialog"];
             var prefString = preferencesTable.GetStringPreferences();
-            pythonPathTextBox.Text = prefString["pythonPath"];
+            ffmpegPathTextBox.Text = prefString["ffmpegPath"];
         }
 
         private void RemoveCashButton_Click(object sender, RoutedEventArgs e)
@@ -104,7 +104,7 @@ namespace Yokumiyone
             this.DialogResult = false;
             preferencesTable.SetEnableSceneExport(_Bind.EnableSceneExport);
             preferencesTable.SetEnableLandpackDialog(_Bind.EnableLandpackDialog);
-            preferencesTable.SetPythonPath(pythonPathTextBox.Text);
+            preferencesTable.SetFfmpegPath(ffmpegPathTextBox.Text);
         }
     }
 }

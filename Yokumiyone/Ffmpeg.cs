@@ -1,19 +1,13 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using Yokumiyone.tables;
 
 namespace Yokumiyone
 {
     internal class Ffmpeg
     {
-        private string FfmpegPath
-        {
-            get
-            {
-                return System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "3rd", "ffmpeg.exe");
-            }
-        }
-
+        private string ffmpegPath;
         private readonly string targetVideoPath;
         private readonly string sceneTitle;
         private readonly string start;
@@ -21,6 +15,10 @@ namespace Yokumiyone
 
         public Ffmpeg(string targetVideoPath, string sceneTitle, string start, string duration)
         {
+            PreferencesTable preferencesTable = new();
+            var prefString = preferencesTable.GetStringPreferences();
+            ffmpegPath = prefString["ffmpegPath"];
+
             this.targetVideoPath = targetVideoPath;
             this.sceneTitle = sceneTitle;
             this.start = start;
@@ -38,7 +36,7 @@ namespace Yokumiyone
             string dstPath = Path.Combine(dstBaseDir, "%06d.png");
 
             var proc = new Process();
-            proc.StartInfo.FileName = this.FfmpegPath;
+            proc.StartInfo.FileName = ffmpegPath;
             proc.StartInfo.Arguments = $"-ss {start} -i \"{targetVideoPath}\" -t {duration} -r {frameRate} -vcodec png \"{dstPath}\"";
             proc.StartInfo.CreateNoWindow = false;
             proc.StartInfo.RedirectStandardOutput = true;

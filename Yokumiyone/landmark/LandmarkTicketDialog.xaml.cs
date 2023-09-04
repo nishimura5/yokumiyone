@@ -116,14 +116,14 @@ namespace Yokumiyone
         private void PutLandpack(string fileName, int radius)
         {
             canvas.Children.Clear();
-            string jsonText = File.ReadAllText(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "3rd", "landpack", fileName+".json"));
+            string jsonText = File.ReadAllText(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "3rd", "landmark", fileName+".json"));
             var options = new JsonSerializerOptions { WriteIndented = true };
             List<Point3d>? points = JsonSerializer.Deserialize<List<Point3d>>(jsonText, options);
             baseLandpack = new Landmarks(points);
 
             Image img = new();
             BitmapImage bmpImage = new BitmapImage();
-            using (FileStream stream = File.OpenRead(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "3rd", "landpack", fileName+".png")))
+            using (FileStream stream = File.OpenRead(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "3rd", "landmark", fileName+".png")))
             {
                 bmpImage.BeginInit();
                 bmpImage.StreamSource = stream;
@@ -438,28 +438,24 @@ namespace Yokumiyone
             _Bind.Points.Clear();
             _Bind.StdPoints.Clear();
         }
-        private void ExecPythonButton_Click(object sender, RoutedEventArgs e)
+        private void ExecGrapherButton_Click(object sender, RoutedEventArgs e)
         {
             // 設定の読み込み
             PreferencesTable preferencesTable = new();
             var prefString = preferencesTable.GetStringPreferences();
-            string pythonPath = prefString["pythonPath"];
             LandareaTable landareaTable = new();
 
+            string workingDirectory = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "3rd", "landmark");
+
             var proc = new Process();
-            proc.StartInfo.FileName = pythonPath;
+            proc.StartInfo.FileName = System.IO.Path.Combine(workingDirectory, "landmarks_grapher.exe");
             
-            string workingDirectory = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "3rd", "landpack", "landmark_detector");
-            proc.StartInfo.Arguments = $"landmarks_grapher.py --src_video_path \"{videoPath}\" --init_time_min \"{scene.StartTimeStr}\" --init_time_max \"{scene.EndTimeStr}\" --ticket_name \"{currentTicketName}\" --fps \"{fps}\" --db_path \"{landareaTable.DbPath}\"";
+            proc.StartInfo.Arguments = $"--src_video_path \"{videoPath}\" --init_time_min \"{scene.StartTimeStr}\" --init_time_max \"{scene.EndTimeStr}\" --ticket_name \"{currentTicketName}\" --fps \"{fps}\" --db_path \"{landareaTable.DbPath}\"";
             proc.StartInfo.CreateNoWindow = true;
             proc.StartInfo.RedirectStandardOutput = true;
             proc.StartInfo.UseShellExecute = false;
             proc.StartInfo.WorkingDirectory = workingDirectory;
             proc.Start();
-//            string rawResults = proc.StandardOutput.ReadToEnd();
-//            proc.WaitForExit();
-//            proc.Close();
-//            proc.Dispose();
         }
     }
 }

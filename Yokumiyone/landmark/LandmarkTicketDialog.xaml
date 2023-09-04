@@ -192,9 +192,9 @@
                     </ToolTipService.ToolTip>
                 </Button>
             </DockPanel>
-            <Button Name="ExecPython"
+            <Button Name="ExecGrapher"
         			VerticalAlignment="Center" Margin="4,8"
-                    Click="ExecPythonButton_Click" Cursor="Hand"
+                    Click="ExecGrapherButton_Click" Cursor="Hand"
                     >
                 計測ツールを起動
             </Button>

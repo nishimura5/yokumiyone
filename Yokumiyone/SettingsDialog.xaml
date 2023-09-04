@@ -28,8 +28,8 @@
                   <ColumnDefinition Width="Auto" />
                   <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="Pythonの場所" VerticalAlignment="Center" Foreground="White" Grid.Column="0"/>
-                <TextBox Name="pythonPathTextBox" Margin="5,0" HorizontalAlignment="Stretch" Style="{StaticResource MaterialDesignTextBox}" Foreground="White"  Grid.Column="1">
+                <TextBlock Text="FFmpegの場所" VerticalAlignment="Center" Foreground="White" Grid.Column="0"/>
+                <TextBox Name="ffmpegPathTextBox" Margin="5,0" HorizontalAlignment="Stretch" Style="{StaticResource MaterialDesignTextBox}" Foreground="White"  Grid.Column="1">
 
                 </TextBox>
               </Grid>
