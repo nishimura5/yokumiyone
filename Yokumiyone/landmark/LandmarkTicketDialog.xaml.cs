@@ -101,7 +101,7 @@ namespace Yokumiyone
             this.fps = fps;
             this.scene = scene;
 
-            PutLandpack("mediapipe_face_mesh_landmarks", 4);
+            PutLandpack("mediapipe_pose_landmarks", 4);
 
             LandareaTable landareatable = new();
             List<string> names = landareatable.GetNames();

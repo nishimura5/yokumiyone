@@ -15,6 +15,7 @@
                           Margin="4,8" Padding="8,10,10,6" Height="34"
                           Foreground="White"
                           DisplayMemberPath="Name"/>
+            <TextBlock Margin="4,14,4,2" Text="分析票名称" Foreground="White" />
             <TextBox Name="ticketNameTextBox"
                      Margin="4,8"
                      Style="{StaticResource MaterialDesignTextBox}"

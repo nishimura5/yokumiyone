@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data.SQLite;
 using System.IO;
 using System.Windows;
-
+using Yokumiyone.tables;
 
 namespace Common
 {
@@ -72,6 +72,8 @@ namespace Common
                 ExecNonQuery("CREATE TABLE \"video_prop\" (\"path\" TEXT, \"fps\" TEXT, \"duration\" TEXT, \"width\" INTEGER, \"height\"\tINTEGER, \"rotation\"\tINTEGER, \"compressor_id\" TEXT, \"modified\" TEXT,  \"scene_cnt\" TEXT, PRIMARY KEY(\"path\"))", sql_params);
                 ExecNonQuery("CREATE TABLE \"preferences\" (\"key\" TEXT, \"value\" TEXT, PRIMARY KEY(\"key\"))", sql_params);
                 ExecNonQuery("CREATE TABLE \"landarea\" (\"name\" TEXT, \"landmark_type\" TEXT, \"standard_landarea_json\" TEXT, \"target_landarea_json\" TEXT, PRIMARY KEY(\"name\"))", sql_params);
+                LandareaTable landareaTable = new();
+                landareaTable.SetSampleLandareas();
             }
         }
     }
